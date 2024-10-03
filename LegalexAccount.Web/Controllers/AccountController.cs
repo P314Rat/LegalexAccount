@@ -32,7 +32,7 @@ namespace LegalexAccount.Web.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return Redirect("_Login");
+            return Redirect("Login");
         }
 
         [HttpPost]
