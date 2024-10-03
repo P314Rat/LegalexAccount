@@ -23,7 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Static\**\*.*" />
+    <Content Include="Static\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  
+  <!--<ItemGroup>
+    <Folder Include="Static\" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
 </Project>
