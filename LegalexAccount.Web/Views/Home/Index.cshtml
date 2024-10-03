@@ -1,0 +1,38 @@
+﻿@using LegalexAccount.Utility.Extensions
+@model List<OrderViewModel>
+@{
+    var orders = Model;
+    ViewData["Title"] = "Заявки";
+    ViewData["Page"] = "Orders";
+}
+
+
+<div class="orders">
+    <h2>Заявки</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Тип клиента</th>
+                <th>Тип услуги</th>
+                <th>Имя</th>
+                <th>Контакт</th>
+                <th>Описание</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.ClientType.GetDisplayName()</td>
+                    <td>@order.Service.GetDisplayName()</td>
+                    <td>@order.Name</td>
+                    <td>@order.Contact</td>
+                    <td>@order.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
+</div>
+
+<link rel="stylesheet" href="~/Styles/Index.css">

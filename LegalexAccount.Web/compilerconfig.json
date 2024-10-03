@@ -1,0 +1,30 @@
+﻿[
+  {
+    "outputFile": "Static/Styles/_Header.css",
+    "inputFile": "Views/Shared/_Header.scss"
+  },
+  {
+    "outputFile": "Static/Styles/_FunctionalPanel.css",
+    "inputFile": "Views/Shared/_FunctionalPanel.scss"
+  },
+  {
+    "outputFile": "Static/Styles/_Login.css",
+    "inputFile": "Views/Account/_Login.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Index.css",
+    "inputFile": "Views/Home/Index.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Business.css",
+    "inputFile": "Views/Home/Business.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Calendar.css",
+    "inputFile": "Views/Home/Calendar.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Employees.css",
+    "inputFile": "Views/Home/Employees.scss"
+  }
+]

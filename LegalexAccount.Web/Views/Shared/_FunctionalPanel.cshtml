@@ -1,0 +1,32 @@
+﻿@model UserViewModel
+@{
+    var page = ViewData["Page"];
+}
+
+<div class="functional-panel">
+    <div class="profile-icon">
+        <img src="/images/profile.png" alt="profile" />
+        <div class="user-name">@Model.FirstName @Model.LastName</div>
+        <div class="user-email">@Model.Email</div>
+    </div>
+    <div class="button-container">
+        <a class="@(page == "Orders" ? "button active" : "button")" asp-controller="Home" asp-action="Index">Заявки</a>
+        <a class="@(page == "Business" ? "button active" : "button")" asp-controller="Home" asp-action="Business">Дела</a>
+        <a class="@(page == "Calendar" ? "button active" : "button")" asp-controller="Home" asp-action="Calendar">Календарь</a>
+        <a class="@(page == "Employees" ? "button active" : "button")" asp-controller="Home" asp-action="Employees">Сотрудники</a>
+        <a class="exit-button" asp-controller="Account" asp-action="Logout">Выход</a>
+    </div>
+</div>
+
+@* <script>
+    changeState = (element) => {
+        document.querySelectorAll('.button-container a').forEach((link) => {
+            if (link === element)
+                link.classList.add('active');
+            else
+                link.classList.remove('active');
+        });
+    }
+</script> *@
+
+<link rel="stylesheet" href="~/Styles/_FunctionalPanel.css">
