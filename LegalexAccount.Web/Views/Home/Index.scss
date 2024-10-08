@@ -27,6 +27,7 @@
             color: white;
             background-color: rgba(23, 103, 179, 0.8);
             border-top: 1px solid #ddd;
+            min-width: 12rem;
         }
 
         tr th:first-child, tr td:first-child {
@@ -47,6 +48,7 @@
 
         tbody tr {
             background-color: white;
+            height: 4rem;
 
             &:hover {
                 cursor: pointer;
@@ -57,7 +59,7 @@
         tbody td {
             text-align: left;
             border: none;
-            padding: 10px 15px;
+            padding: 1rem;
             font-size: 14px;
             vertical-align: top;
         }
@@ -72,6 +74,39 @@
 
         tbody tr:last-child td:last-child {
             border-radius: 0 0 12px 0; /* Закругление углов */
+        }
+    }
+
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+    .pagination {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        gap: .25rem;
+
+        a {
+            border-radius: 5px;
+        }
+
+        a {
+            &:hover:not(.active) {
+                background-color: #dbdbdb;
+            }
+        }
+
+        a.active {
+            background-color: rgba(23, 103, 179, 0.8);
+            color: white;
         }
     }
 

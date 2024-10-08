@@ -20,7 +20,7 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int currentPage = 1)
         {
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
@@ -42,9 +42,10 @@ namespace LegalexAccount.Web.Controllers
                                    Contact = order.Contact,
                                    Name = order.Name,
                                    Service = order.Service,
-                                   Description = order.Description
+                                   Description = order.Description,
                                }).ToList();
             ViewData["UserViewModel"] = _userModel;
+            ViewData["CurrentPage"] = currentPage;
 
             return View(ordersModel);
         }

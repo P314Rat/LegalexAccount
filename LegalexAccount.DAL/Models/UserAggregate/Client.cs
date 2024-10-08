@@ -5,10 +5,10 @@ namespace LegalexAccount.DAL.Models.UserAggregate
 {
     public enum ClientType
     {
-        [Display(Name = "Физическое лицо")]
-        Person,
         [Display(Name = "Юридическое лицо")]
-        Legal
+        Legal,
+        [Display(Name = "Физическое лицо")]
+        Person
     }
 
     public class Client : User
