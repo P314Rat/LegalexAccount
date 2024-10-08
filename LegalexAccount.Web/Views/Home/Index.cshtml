@@ -44,12 +44,16 @@
             }
         </tbody>
     </table>
-    <div class="pagination">
-        @for (var i = 0; i < pagesNumber; i++)
-        {
-            <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
-        }
-    </div>
+    @if (pagesNumber > 1)
+    {
+        <div class="pagination">
+
+            @for (var i = 0; i < pagesNumber; i++)
+            {
+                <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
+            }
+        </div>
+    }
     <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
 </div>
 
