@@ -42,7 +42,7 @@
                     <td>@currentModel.Contact</td>
                     <td>
                         @description
-                        <a class="panel" href="@Url.Action("OrderCard", "Home", currentModel)"></a>
+                        <a class="panel" asp-controller="Home" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
                     </td>
                 </tr>
             }

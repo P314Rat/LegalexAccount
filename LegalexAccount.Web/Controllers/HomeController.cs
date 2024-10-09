@@ -1,4 +1,5 @@
 ﻿using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,11 +39,12 @@ namespace LegalexAccount.Web.Controllers
             var ordersModel = (from order in orders
                                select new OrderViewModel
                                {
+                                   Id = order.Id,
                                    ClientType = order.ClientType,
                                    Contact = order.Contact,
                                    Name = order.Name,
                                    Service = order.Service,
-                                   Description = order.Description,
+                                   Description = order.Description
                                }).ToList();
             ViewData["UserViewModel"] = _userModel;
             ViewData["CurrentPage"] = currentPage;
@@ -51,11 +53,32 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult OrderCard(OrderViewModel model)
+        public IActionResult OrderCard(int id)
         {
+            Order order;
+
+            try
+            {
+                order = _unitOfWork.Orders.GetById(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            var orderModel = new OrderViewModel
+            {
+                Id = id,
+                ClientType = order.ClientType,
+                Contact = order.Contact,
+                Name = order.Name,
+                Service = order.Service,
+                Description = order.Description
+            };
+
             ViewData["UserViewModel"] = _userModel;
 
-            return View(model);
+            return View(orderModel);
         }
 
         [HttpGet]

@@ -35,8 +35,9 @@
 .header .container .info .notification a {
   position: relative;
   display: block;
-  height: 48px; /* Высота 2rem */
-  width: 48px; /* Ширина 2rem */
+  height: 48px;
+  width: 48px;
+  border-radius: 5px;
 }
 .header .container .info .notification a:hover {
   background-color: rgba(173, 216, 230, 0.3);

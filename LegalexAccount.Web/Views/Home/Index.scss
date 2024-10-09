@@ -63,10 +63,13 @@
                 position: absolute;
                 top: .75rem;
                 right: -4rem;
-                width: 2.5rem;
-                height: 2.5rem;
+                width: 3rem;
+                height: 3rem;
                 background-size: 2.5rem;
+                background-position: center;
+                background-repeat: no-repeat;
                 background-image: url('/Images/inspect.svg');
+                border-radius: 5px;
                 animation: appearing .5s;
 
                 &:hover {
