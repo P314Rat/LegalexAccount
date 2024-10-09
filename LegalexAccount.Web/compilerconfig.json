@@ -26,5 +26,9 @@
   {
     "outputFile": "Static/Styles/Employees.css",
     "inputFile": "Views/Home/Employees.scss"
+  },
+  {
+    "outputFile": "Static/Styles/OrderCard.css",
+    "inputFile": "Views/Home/OrderCard.scss"
   }
 ]

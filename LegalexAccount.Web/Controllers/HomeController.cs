@@ -51,6 +51,14 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult OrderCard()
+        {
+            ViewData["UserViewModel"] = _userModel;
+
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Business()
         {
             ViewData["UserViewModel"] = _userModel;

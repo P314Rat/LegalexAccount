@@ -34,12 +34,15 @@
 
                 var description = orders[orderIndex].Description.Length <= 20 ? orders[orderIndex].Description : orders[orderIndex].Description.Substring(0, 20) + "...";
 
-                <tr>
+                <tr class="with-management-panel" onclick="CallManagementPanel(this)">
                     <td>@orders[orderIndex].ClientType.GetDisplayName()</td>
                     <td>@orders[orderIndex].Service.GetDisplayName()</td>
                     <td>@orders[orderIndex].Name</td>
                     <td>@orders[orderIndex].Contact</td>
-                    <td>@description</td>
+                    <td>
+                        @description
+                        <a class="panel" asp-controller="Home" asp-action="OrderCard"></a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -58,3 +61,4 @@
 </div>
 
 <link rel="stylesheet" href="~/Styles/Index.css">
+<script src="~/Scripts/ManagementPanel.js"></script>

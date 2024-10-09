@@ -25,6 +25,10 @@
   <ItemGroup>
     <Content Include="Static\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Static\Scripts\ManagementPanel.js" />
+  </ItemGroup>
   
   <!--<ItemGroup>
     <Folder Include="Static\" />

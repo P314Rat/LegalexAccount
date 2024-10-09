@@ -49,6 +49,32 @@
   cursor: pointer;
   background-color: #dbdbdb;
 }
+.orders table tbody tr.m-panel td {
+  position: relative;
+}
+.orders table tbody tr.m-panel td .panel {
+  position: absolute;
+  top: 0.75rem;
+  right: -4rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-size: 2.5rem;
+  background-image: url("/Images/inspect.svg");
+  animation: appearing 0.5s;
+}
+.orders table tbody tr.m-panel td .panel:hover {
+  background-color: rgba(173, 216, 230, 0.3);
+}
+@keyframes appearing {
+  0% {
+    opacity: 0;
+    right: -2.5rem;
+  }
+  100% {
+    opacity: 1;
+    right: -4rem;
+  }
+}
 .orders table tbody td {
   text-align: left;
   border: none;
