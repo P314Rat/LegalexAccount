@@ -32,16 +32,17 @@
                 if (orderIndex == orders.Count)
                     break;
 
-                var description = orders[orderIndex].Description.Length <= 20 ? orders[orderIndex].Description : orders[orderIndex].Description.Substring(0, 20) + "...";
+                var currentModel = orders[orderIndex];
+                var description = currentModel.Description.Length <= 20 ? currentModel.Description : currentModel.Description.Substring(0, 20) + "...";
 
                 <tr class="with-management-panel" onclick="CallManagementPanel(this)">
-                    <td>@orders[orderIndex].ClientType.GetDisplayName()</td>
-                    <td>@orders[orderIndex].Service.GetDisplayName()</td>
-                    <td>@orders[orderIndex].Name</td>
-                    <td>@orders[orderIndex].Contact</td>
+                    <td>@currentModel.ClientType.GetDisplayName()</td>
+                    <td>@currentModel.Service.GetDisplayName()</td>
+                    <td>@currentModel.Name</td>
+                    <td>@currentModel.Contact</td>
                     <td>
                         @description
-                        <a class="panel" asp-controller="Home" asp-action="OrderCard"></a>
+                        <a class="panel" href="@Url.Action("OrderCard", "Home", currentModel)"></a>
                     </td>
                 </tr>
             }

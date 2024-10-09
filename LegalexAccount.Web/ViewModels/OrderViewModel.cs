@@ -1,6 +1,5 @@
 ﻿using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Models.UserAggregate;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace LegalexAccount.Web.ViewModels
