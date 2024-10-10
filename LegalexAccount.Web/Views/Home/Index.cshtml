@@ -58,18 +58,17 @@
     }
     <span class="hint">* Нажмите на заявку, чтобы узнать подробности.</span>
     @* <div class="loader">
-        <div class="loader-animation"></div>
+    <div class="loader-animation"></div>
     </div> *@
-
-    @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-    {
-        
-        <link rel="stylesheet" href="~/Styles/Index.css">
-    }
-    else
-    {
-        <link rel="stylesheet" href="~/Styles/Index.min.css">
-    }
 </div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Index.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Index.min.css?v=@DateTime.Now.Ticks">
+}
 
 <script src="~/Scripts/ManagementPanel.js"></script>
