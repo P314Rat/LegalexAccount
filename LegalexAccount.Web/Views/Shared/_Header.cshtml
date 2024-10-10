@@ -50,4 +50,12 @@
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="~/Styles/_Header.css">
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/_Header.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/_Header.min.css?v = @DateTime.Now.Ticks">
+}

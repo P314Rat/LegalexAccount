@@ -44,5 +44,13 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="~/Styles/_Login.css">
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/_Login.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/_Login.min.css?v = @DateTime.Now.Ticks">
+}
+
 @await Html.PartialAsync("_ModelValidation")

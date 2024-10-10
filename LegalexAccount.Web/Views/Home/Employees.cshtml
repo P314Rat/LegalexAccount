@@ -33,4 +33,11 @@
     <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
 </div>
 
-<link rel="stylesheet" href="~/Styles/Employees.css">
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Employees.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Employees.min.css?v = @DateTime.Now.Ticks">
+}
