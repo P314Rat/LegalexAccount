@@ -7,6 +7,7 @@ namespace LegalexAccount.Web.ViewModels
     public class OrderViewModel
     {
         public int Id { get; set; }
+        public DateTime CreatedAt { get; set; }
         public ClientType ClientType { get; set; }
         public Service Service { get; set; }
         public string Name { get; set; }

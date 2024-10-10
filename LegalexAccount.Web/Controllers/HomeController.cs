@@ -40,6 +40,7 @@ namespace LegalexAccount.Web.Controllers
                                select new OrderViewModel
                                {
                                    Id = order.Id,
+                                   CreatedAt = order.CreatedAt,
                                    ClientType = order.ClientType,
                                    Contact = order.Contact,
                                    Name = order.Name,
@@ -69,6 +70,7 @@ namespace LegalexAccount.Web.Controllers
             var orderModel = new OrderViewModel
             {
                 Id = id,
+                CreatedAt = order.CreatedAt,
                 ClientType = order.ClientType,
                 Contact = order.Contact,
                 Name = order.Name,

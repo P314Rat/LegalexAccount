@@ -7,7 +7,7 @@
 }
 
 <div class="order-card">
-    <h2>Заявка</h2>
+    <h2>Заявка от @order.CreatedAt.ToString("dd/MM/yyyy")</h2>
     <p class="sender-info">Имя отправителя: <span>@order.Name</span></p>
     <p class="sender-info">Тип отправителя: <span>@order.ClientType.GetDisplayName()</span></p>
     <p class="sender-info">Тип запрашиваемой услуги: <span>@order.Service.GetDisplayName()</span></p>
