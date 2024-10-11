@@ -27,6 +27,7 @@
             color: white;
             background-color: rgba(23, 103, 179, 0.8);
             border-top: 1px solid #ddd;
+            overflow: auto;
         }
 
         tr th:first-child, tr td:first-child {
@@ -47,6 +48,7 @@
 
         tbody tr {
             background-color: white;
+            max-height: 4rem;
 
             &:hover {
                 cursor: pointer;
@@ -54,10 +56,44 @@
             }
         }
 
+        tbody tr.m-panel td {
+            position: relative;
+
+            .panel {
+                position: absolute;
+                top: .75rem;
+                right: -4rem;
+                width: 3rem;
+                height: 3rem;
+                background-size: 2.5rem;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url('/Images/inspect.svg');
+                border-radius: 5px;
+                animation: appearing .5s;
+
+                &:hover {
+                    background-color: rgba(173, 216, 230, 0.3);
+                }
+            }
+
+            @keyframes appearing {
+                0% {
+                    opacity: 0;
+                    right: -2.5rem;
+                }
+
+                100% {
+                    opacity: 1;
+                    right: -4rem;
+                }
+            }
+        }
+
         tbody td {
             text-align: left;
             border: none;
-            padding: 10px 15px;
+            padding: 1rem;
             font-size: 14px;
             vertical-align: top;
         }
@@ -75,11 +111,80 @@
         }
     }
 
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+    .pagination {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        gap: .25rem;
+
+        a {
+            border-radius: 5px;
+        }
+
+        a {
+            &:hover:not(.active) {
+                background-color: #dbdbdb;
+            }
+        }
+
+        a.active {
+            background-color: rgba(23, 103, 179, 0.8);
+            color: white;
+        }
+    }
+
     .hint {
         display: block;
         position: absolute;
         bottom: 1rem;
         left: 1rem;
         font-weight: 600;
+    }
+
+    .loader {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(5px);
+
+
+        &-animation {
+            height: 6rem;
+            width: 6rem;
+            border-radius: 50%;
+            border-width: 8px;
+            border-style: solid;
+            border-color: #4282bf;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        }
     }
 }

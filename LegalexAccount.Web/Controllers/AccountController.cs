@@ -71,7 +71,7 @@ namespace LegalexAccount.Web.Controllers
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-                return PartialView(model);
+                return PartialView("_Login", model);
 
             var modelDTO = new UserDTO
             {
@@ -90,7 +90,7 @@ namespace LegalexAccount.Web.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Orders", "Home");
             }
             catch (Exception ex)
             {

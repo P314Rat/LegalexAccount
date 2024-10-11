@@ -9,15 +9,7 @@
   },
   {
     "outputFile": "Static/Styles/_Login.css",
-    "inputFile": "Views/Account/_Login.scss"
-  },
-  {
-    "outputFile": "Static/Styles/Index.css",
-    "inputFile": "Views/Home/Index.scss"
-  },
-  {
-    "outputFile": "Static/Styles/Business.css",
-    "inputFile": "Views/Home/Business.scss"
+    "inputFile": "Views/Shared/_Login.scss"
   },
   {
     "outputFile": "Static/Styles/Calendar.css",
@@ -29,6 +21,18 @@
   },
   {
     "outputFile": "Static/Styles/OrderCard.css",
-    "inputFile": "Views/Home/OrderCard.scss"
+    "inputFile": "Views/Order/OrderCard.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Cases.css",
+    "inputFile": "Views/Home/Cases.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Orders.css",
+    "inputFile": "Views/Home/Orders.scss"
+  },
+  {
+    "outputFile": "Static/Styles/CreateCase.css",
+    "inputFile": "Views/Case/CreateCase.scss"
   }
 ]

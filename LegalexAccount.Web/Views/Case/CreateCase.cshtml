@@ -1,0 +1,57 @@
+﻿@model StepViewModel
+@{
+    var stepNumber = (int)ViewData["StepNumber"] + 1;
+
+    ViewData["Title"] = "Новое дело";
+    ViewData["Page"] = "Cases";
+}
+
+
+<div class="create-case">
+    <h2>Новое дело</h2>
+
+    @switch (stepNumber)
+    {
+        case 1:
+            @await Html.PartialAsync("_StepOne")
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+    }
+
+    <div class="step-container">
+        <ol class="progress-container">
+            <li class="step" data-step="@stepNumber">
+                <div class="line"></div>
+                <a href="#" class="step-button">
+                    @* <span class="current-dot"></span> *@
+                </a>
+            </li>
+            <li class="step" data-step="@stepNumber">
+                <div class="line"></div>
+                <a href="#" class="step-button">
+                    @* <span class="check-icon">&#x2713</span> *@
+                </a>
+            </li>
+            <li class="step" data-step="@stepNumber">
+                <div class="line"></div>
+                <a href="#" class="step-button">
+                    @* <span class="upcoming-dot"></span> *@
+                </a>
+            </li>
+        </ol>
+    </div>
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/CreateCase.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/CreateCase.min.css?v = @DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/StepManagement.js"></script>

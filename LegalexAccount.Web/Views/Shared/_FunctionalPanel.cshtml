@@ -10,8 +10,8 @@
         <div class="user-email">@Model.Email</div>
     </div>
     <div class="button-container">
-        <a class="@(page == "Orders" ? "button active" : "button")" asp-controller="Home" asp-action="Index">Заявки</a>
-        <a class="@(page == "Business" ? "button active" : "button")" asp-controller="Home" asp-action="Business">Дела</a>
+        <a class="@(page == "Orders" ? "button active" : "button")" asp-controller="Home" asp-action="Orders">Заявки</a>
+        <a class="@(page == "Cases" ? "button active" : "button")" asp-controller="Home" asp-action="Cases">Дела</a>
         <a class="@(page == "Calendar" ? "button active" : "button")" asp-controller="Home" asp-action="Calendar">Календарь</a>
         <a class="@(page == "Employees" ? "button active" : "button")" asp-controller="Home" asp-action="Employees">Сотрудники</a>
         <a class="exit-button" asp-controller="Account" asp-action="Logout">Выход</a>

@@ -27,11 +27,12 @@
             color: white;
             background-color: rgba(23, 103, 179, 0.8);
             border-top: 1px solid #ddd;
+            overflow: auto;
         }
 
         thead {
             tr th:last-child {
-                width: 32rem;
+                width: 28rem;
             }
         }
 
@@ -53,7 +54,7 @@
 
         tbody tr {
             background-color: white;
-            height: 4rem;
+            max-height: 4rem;
 
             &:hover {
                 cursor: pointer;
@@ -66,7 +67,7 @@
 
             .panel {
                 position: absolute;
-                top: .75rem;
+                top: 0rem;
                 right: -4rem;
                 width: 3rem;
                 height: 3rem;

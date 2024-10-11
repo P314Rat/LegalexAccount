@@ -27,9 +27,10 @@
   color: white;
   background-color: rgba(23, 103, 179, 0.8);
   border-top: 1px solid #ddd;
+  overflow: auto;
 }
 .orders table thead tr th:last-child {
-  width: 32rem;
+  width: 28rem;
 }
 .orders table tr th:first-child, .orders table tr td:first-child {
   border-left: 1px solid #ddd;
@@ -45,7 +46,7 @@
 }
 .orders table tbody tr {
   background-color: white;
-  height: 4rem;
+  max-height: 4rem;
 }
 .orders table tbody tr:hover {
   cursor: pointer;
@@ -56,7 +57,7 @@
 }
 .orders table tbody tr.m-panel td .panel {
   position: absolute;
-  top: 0.75rem;
+  top: 0rem;
   right: -4rem;
   width: 3rem;
   height: 3rem;

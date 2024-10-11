@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <None Remove="Static\Scripts\ManagementPanel.js" />
+    <None Remove="Static\Scripts\StepManagement.js" />
   </ItemGroup>
   
   <!--<ItemGroup>

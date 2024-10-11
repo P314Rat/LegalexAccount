@@ -1,8 +1,8 @@
 ﻿@using LegalexAccount.Utility.Extensions
 @model List<OrderViewModel>
 @{
-    const int ordersNumber = 7;
     var orders = Model;
+    const int ordersNumber = 7;
     var pagesRemainder = orders.Count % ordersNumber > 0 ? 1 : 0;
     var pagesNumber = orders.Count / ordersNumber + pagesRemainder;
     var currentPage = (int)ViewData["CurrentPage"];
@@ -32,7 +32,7 @@
                     break;
 
                 var currentModel = orders[orderIndex];
-                var description = currentModel.Description.Length <= 96 ? currentModel.Description : currentModel.Description.Substring(0, 96) + "...";
+                var description = currentModel.Description.Length <= 80 ? currentModel.Description : currentModel.Description.Substring(0, 80) + "...";
 
                 <tr class="with-management-panel" onclick="CallManagementPanel(this)">
                     <td>@currentModel.CreatedAt.ToString("dd/MM/yyyy")</td>
@@ -40,7 +40,7 @@
                     <td>@currentModel.Contact</td>
                     <td>
                         @description
-                        <a class="panel" asp-controller="Home" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
+                        <a class="panel" asp-controller="Order" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
                     </td>
                 </tr>
             }
@@ -52,7 +52,7 @@
 
             @for (var i = 0; i < pagesNumber; i++)
             {
-                <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Index" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
+                <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Orders" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
             }
         </div>
     }
@@ -64,11 +64,11 @@
 
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
-    <link rel="stylesheet" href="~/Styles/Index.css">
+    <link rel="stylesheet" href="~/Styles/Orders.css">
 }
 else
 {
-    <link rel="stylesheet" href="~/Styles/Index.min.css?v=@DateTime.Now.Ticks">
+    <link rel="stylesheet" href="~/Styles/Orders.min.css?v=@DateTime.Now.Ticks">
 }
 
 <script src="~/Scripts/ManagementPanel.js"></script>

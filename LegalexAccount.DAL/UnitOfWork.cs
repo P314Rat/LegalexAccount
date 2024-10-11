@@ -61,7 +61,8 @@ namespace LegalexAccount.DAL
                     new Specialist
                     {
                         Status = SpecialistStatus.Free,
-                        Email = "support@LegalexAccount.by",
+                        Role = SpecialistRole.Technical,
+                        Email = "support@legalex.by",
                         PasswordHash = GenerateHash("1234dev!", salt),
                         PasswordSalt = salt,
                         FirstName = "Тимофей",
@@ -73,7 +74,8 @@ namespace LegalexAccount.DAL
                     new Specialist
                     {
                         Status = SpecialistStatus.Free,
-                        Email = "v.vlasenkov@LegalexAccount.by",
+                        Role = SpecialistRole.Director,
+                        Email = "vv95@bk.ru",
                         PasswordHash = GenerateHash("Peredovaya15!", salt),
                         PasswordSalt = salt,
                         FirstName = "Владислав",

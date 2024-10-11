@@ -3,6 +3,7 @@ using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Security.Claims;
 
 
@@ -21,7 +22,7 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int currentPage = 1)
+        public IActionResult Orders(int currentPage = 1)
         {
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
@@ -47,6 +48,7 @@ namespace LegalexAccount.Web.Controllers
                                    Service = order.Service,
                                    Description = order.Description
                                }).ToList();
+
             ViewData["UserViewModel"] = _userModel;
             ViewData["CurrentPage"] = currentPage;
 
@@ -54,37 +56,7 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult OrderCard(int id)
-        {
-            Order order;
-
-            try
-            {
-                order = _unitOfWork.Orders.GetById(id);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            var orderModel = new OrderViewModel
-            {
-                Id = id,
-                CreatedAt = order.CreatedAt,
-                ClientType = order.ClientType,
-                Contact = order.Contact,
-                Name = order.Name,
-                Service = order.Service,
-                Description = order.Description
-            };
-
-            ViewData["UserViewModel"] = _userModel;
-
-            return View(orderModel);
-        }
-
-        [HttpGet]
-        public IActionResult Business()
+        public IActionResult Cases()
         {
             ViewData["UserViewModel"] = _userModel;
 
@@ -106,11 +78,13 @@ namespace LegalexAccount.Web.Controllers
             var specialistsModel = (from specialist in specialists
                                     select new SpecialistViewModel
                                     {
+                                        Status = specialist.Status,
+                                        Role = specialist.Role,
                                         Email = specialist.Email ?? string.Empty,
                                         FirstName = specialist.FirstName,
                                         LastName = specialist.LastName,
-                                        Status = specialist.Status
                                     }).ToList();
+
             ViewData["UserViewModel"] = _userModel;
 
             return View(specialistsModel);

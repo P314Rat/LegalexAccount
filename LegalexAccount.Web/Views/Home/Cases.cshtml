@@ -1,0 +1,33 @@
+﻿@model CaseViewModel
+@{
+    var activeCase = Model;
+
+    ViewData["Title"] = "Дела";
+    ViewData["Page"] = "Cases";
+}
+
+
+<div class="cases">
+    <div class="header-panel">
+        <h2>Дела</h2>
+        <a class="create-case" asp-controller="Case" asp-action="CreateCase">Завести дело</a>
+    </div>
+
+    @if (activeCase == null)
+    {
+        <span class="empty-page">У вас нет дел.</span>
+    }
+    else
+    {
+
+    }
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Cases.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Cases.min.css?v = @DateTime.Now.Ticks">
+}
