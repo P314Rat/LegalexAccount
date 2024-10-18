@@ -7,13 +7,12 @@ namespace LegalexAccount.DAL.Models
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository<User> Users { get; }
-        ISpecialistRepository Specialists { get; }
+        IUserRepository Users { get; }
         IClientRepository Clients { get; }
+        ISpecialistRepository Specialists { get; }
+        IPersonRepository Individuals { get; }
+        ILegalRepository LegalEntities { get; }
         IOrderRepository Orders { get; }
         ICaseRepository Cases { get; }
-
-
-        void SaveChanges();
     }
 }

@@ -1,58 +1,40 @@
-﻿using LegalexAccount.DAL.Models.UserAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL.Models.UserAggregate;
 
 
 namespace LegalexAccount.DAL.Storage.Repositories
 {
     public class SpecialistRepository : ISpecialistRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IApplicationDbContextFactory _dbContextFactory;
 
 
-        public SpecialistRepository(ApplicationDbContext dbContext)
+        public SpecialistRepository(IApplicationDbContextFactory dbContextFactory)
         {
-            _dbContext = dbContext;
+            _dbContextFactory = dbContextFactory;
         }
 
-        public void Create(Specialist item)
-        {
-            var entry = _dbContext?.Specialists?.Add(item);
-
-            if (entry == null || entry.State != EntityState.Added)
-                throw new InvalidOperationException("Specialist was not created");
-        }
-
-        public Specialist GetById(string id)
+        public Task CreateAsync(Specialist item)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Specialist> GetAll()
-        {
-            var items = _dbContext?.Specialists.ToList();
-
-            if (items == null)
-                throw new InvalidOperationException("Specialists was not found");
-
-            return items;
-        }
-
-        public void Delete(Specialist item)
+        public Task DeleteByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteById(string id)
+        public Task<IEnumerable<Specialist>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteAll()
+        public Task<Specialist> GetByEmailAsync(string email)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Specialist item)
+        public Task UpdateAsync(Specialist item)
         {
             throw new NotImplementedException();
         }

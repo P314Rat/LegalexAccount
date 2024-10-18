@@ -4,6 +4,7 @@ using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Storage;
 using LegalexAccount.DAL.Storage.Repositories;
+using LegalexAccount.Utility.Types;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,26 +15,34 @@ namespace LegalexAccount.DAL
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _dbContext;
+
         private readonly UserRepository _userRepository;
         private readonly SpecialistRepository _specialistRepository;
         private readonly ClientRepository _clientRepository;
+        private readonly PersonRepository _personRepository;
+        private readonly LegalRepository _legalRepository;
         private readonly OrderRepository _orderRepository;
         private readonly CaseRepository _caseRepository;
-        public IUserRepository<User> Users { get => _userRepository; }
+
+        public IUserRepository Users { get => _userRepository; }
         public ISpecialistRepository Specialists { get => _specialistRepository; }
         public IClientRepository Clients { get => _clientRepository; }
+        public IPersonRepository Individuals { get => _personRepository; }
+        public ILegalRepository LegalEntities { get => _legalRepository; }
         public IOrderRepository Orders { get => _orderRepository; }
         public ICaseRepository Cases { get => _caseRepository; }
 
 
-        public UnitOfWork(ApplicationDbContext dbContext)
+        public UnitOfWork(IApplicationDbContextFactory dbFactory)
         {
-            _userRepository = new(dbContext);
-            _specialistRepository = new(dbContext);
-            _clientRepository = new(dbContext);
-            _orderRepository = new(dbContext);
-            _caseRepository = new(dbContext);
-            _dbContext = dbContext;
+            _userRepository = new(dbFactory);
+            _specialistRepository = new(dbFactory);
+            _clientRepository = new(dbFactory);
+            _personRepository = new(dbFactory);
+            _legalRepository = new(dbFactory);
+            _orderRepository = new(dbFactory);
+            _caseRepository = new(dbFactory);
+            _dbContext = dbFactory.CreateDbContext();
 
             InitialDatabase();
         }
@@ -44,10 +53,10 @@ namespace LegalexAccount.DAL
             _dbContext.Dispose();
         }
 
-        public void SaveChanges()
-        {
-            _dbContext.SaveChanges();
-        }
+        //public void SaveChanges()
+        //{
+        //    _dbContext.SaveChanges();
+        //}
 
         private void InitialDatabase()
         {

@@ -1,4 +1,5 @@
-﻿using LegalexAccount.DAL.Models.CaseAggregate;
+﻿using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL.Models.CaseAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -7,25 +8,25 @@ namespace LegalexAccount.DAL.Storage.Repositories
 {
     public class CaseRepository : ICaseRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IApplicationDbContextFactory _dbContextFactory;
 
 
-        public CaseRepository(ApplicationDbContext dbContext)
+        public CaseRepository(IApplicationDbContextFactory dbContextFactory)
         {
-            _dbContext = dbContext;
+            _dbContextFactory = dbContextFactory;
         }
 
-        public void Create(Case item)
+        public async Task CreateAsync(Case item)
         {
-            var entry = _dbContext?.Cases?.Add(item);
+            var entry = await _dbContextFactory.CreateDbContext()?.Cases?.AddAsync(item).AsTask();
 
             if (entry == null || entry.State != EntityState.Added)
                 throw new InvalidOperationException("Case was not created");
         }
 
-        public Case GetById(int id)
+        public async Task<Case> GetByIdAsync(int id)
         {
-            var item = _dbContext?.Cases?.FirstOrDefault(x => x.Id == id);
+            var item = await _dbContextFactory.CreateDbContext()?.Cases?.FirstOrDefaultAsync(x => x.Id == id);
 
             if (item == null)
                 throw new InvalidOperationException("Case was not found");
@@ -33,9 +34,9 @@ namespace LegalexAccount.DAL.Storage.Repositories
             return item;
         }
 
-        public IEnumerable<Case> GetAll()
+        public async Task<IEnumerable<Case>> GetAllAsync()
         {
-            var items = _dbContext?.Cases.ToList();
+            var items = await _dbContextFactory.CreateDbContext()?.Cases.ToListAsync();
 
             if (items == null)
                 throw new InvalidOperationException("Cases was not found");
@@ -43,32 +44,21 @@ namespace LegalexAccount.DAL.Storage.Repositories
             return items;
         }
 
-        public void Delete(Case item)
+        public async Task DeleteByIdAsync(int id)
         {
-            var entry = _dbContext?.Cases?.Remove(item);
+            var dbContext = _dbContextFactory.CreateDbContext();
 
-            if (entry == null || entry.State != EntityState.Deleted)
-                throw new InvalidOperationException("Case was not deleted");
-        }
-
-        public void DeleteById(int id)
-        {
-            var item = _dbContext?.Cases?.FirstOrDefault(x => x.Id == id);
+            var item = await dbContext?.Cases?.FirstOrDefaultAsync(x => x.Id == id);
             EntityEntry<Case>? entry = null;
 
             if (item != null)
-                entry = _dbContext?.Cases?.Remove(item);
+                entry = dbContext?.Cases?.Remove(item);
 
             if (entry == null || entry.State != EntityState.Deleted)
                 throw new InvalidOperationException("Case was not deleted");
         }
 
-        public void DeleteAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Case item)
+        public async Task UpdateAsync(Case item)
         {
             throw new NotImplementedException();
         }

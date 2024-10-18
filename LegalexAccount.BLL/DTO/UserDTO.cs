@@ -1,4 +1,4 @@
-﻿using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.Utility.Types;
 
 
 namespace LegalexAccount.BLL.DTO
@@ -6,7 +6,8 @@ namespace LegalexAccount.BLL.DTO
     public enum UserType
     {
         Specialist,
-        Client
+        Person,
+        Legal
     }
 
     public class UserDTO
@@ -19,6 +20,6 @@ namespace LegalexAccount.BLL.DTO
         public string? LastName { get; set; } = null;
         public string? SurName { get; set; } = null;
         public string? Password { get; set; } = null;
-        
+
     }
 }

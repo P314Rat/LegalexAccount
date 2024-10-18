@@ -1,5 +1,4 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.Authorization;
-using LegalexAccount.BLL.BusinessProcesses.Registration;
 using LegalexAccount.BLL.DTO;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
@@ -38,33 +37,7 @@ namespace LegalexAccount.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAsync(RegistrationViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var userDTO = new UserDTO
-            {
-                UserType = model.UserType,
-                ClientType = model.ClientType,
-                Email = model.Email,
-                Phone = model.Phone,
-                Password = model.Password,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                SurName = model.SurName
-            };
-
-            try
-            {
-                await _mediator.Send(new RegistrationCommand(userDTO));
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("Email", ex.Message);
-
-                return BadRequest(model);
-            }
-
-            return Redirect("Login");
+            return Redirect("Login"); // Сделать
         }
 
         [HttpPost]

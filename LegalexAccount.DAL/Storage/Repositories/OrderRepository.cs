@@ -1,4 +1,5 @@
-﻿using LegalexAccount.DAL.Models.OrderAggregate;
+﻿using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL.Models.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -7,17 +8,25 @@ namespace LegalexAccount.DAL.Storage.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IApplicationDbContextFactory _dbContextFactory;
 
 
-        public OrderRepository(ApplicationDbContext dbContext)
+        public OrderRepository(IApplicationDbContextFactory dbContextFactory)
         {
-            _dbContext = dbContext;
+            _dbContextFactory = dbContextFactory;
         }
 
-        public Order GetById(int id)
+        public async Task CreateAsync(Order item)
         {
-            var item = _dbContext?.Orders?.FirstOrDefault(x => x.Id == id);
+            var entry = await _dbContextFactory.CreateDbContext()?.Orders?.AddAsync(item).AsTask();
+
+            if (entry == null || entry.State != EntityState.Added)
+                throw new InvalidOperationException("Order was not created");
+        }
+
+        public async Task<Order> GetByIdAsync(int id)
+        {
+            var item = await _dbContextFactory.CreateDbContext().Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
 
             if (item == null)
                 throw new InvalidOperationException("Order was not found");
@@ -25,29 +34,30 @@ namespace LegalexAccount.DAL.Storage.Repositories
             return item;
         }
 
-        public IEnumerable<Order> GetAll()
+        public async Task<IEnumerable<Order>> GetAllAsync()
         {
-            var items = _dbContext?.Orders.ToList();
+            var items = await _dbContextFactory.CreateDbContext()?.Orders.ToListAsync();
 
-            if (items == null)
+            if (!items.Any())
                 throw new InvalidOperationException("Orders was not found");
 
             return items;
         }
 
-        public void DeleteById(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            var item = _dbContext?.Orders?.FirstOrDefault(x => x.Id == id);
+            var dbContext = _dbContextFactory.CreateDbContext();
+            var item = await dbContext?.Orders?.FirstOrDefaultAsync(x => x.Id == id);
             EntityEntry<Order>? entry = null;
 
             if (item != null)
-                entry = _dbContext?.Orders?.Remove(item);
+                entry = dbContext?.Orders?.Remove(item);
 
             if (entry == null || entry.State != EntityState.Deleted)
-                throw new InvalidOperationException("Order was not found");
+                throw new InvalidOperationException("Order was not deleted");
         }
 
-        public void Update(Order item)
+        public Task UpdateAsync(Order item)
         {
             throw new NotImplementedException();
         }

@@ -1,9 +1,6 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.BLL.Services;
+using LegalexAccount.DAL.Models;
 using MediatR;
-using System.Security.Cryptography;
-using System.Text;
-using LegalexAccount.BLL.Services;
 
 
 namespace LegalexAccount.BLL.BusinessProcesses.Authorization
@@ -20,11 +17,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization
 
         public async Task Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = _unitOfWork.Users.GetByEmail(request.Email);
-
-            if (user == null)
-                throw new InvalidOperationException("Email is not valid");
-
+            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
             var hashedPassword = GenerateDataService.GenerateHash(request.Password, user.PasswordSalt);
 
             if (user.PasswordHash != hashedPassword)

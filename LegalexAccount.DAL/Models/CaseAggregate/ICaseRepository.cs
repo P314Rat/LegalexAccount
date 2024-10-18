@@ -2,13 +2,10 @@
 {
     public interface ICaseRepository
     {
-        void Create(Case item);
-        Case GetById(int id);
-        IEnumerable<Case> GetAll();
-        void Delete(Case item);
-        void DeleteById(int id);
-        void DeleteAll();
-        void Update(Case item);
-
+        Task CreateAsync(Case item);
+        Task<Case> GetByIdAsync(int id);
+        Task<IEnumerable<Case>> GetAllAsync();
+        Task DeleteByIdAsync(int id);
+        Task UpdateAsync(Case item);
     }
 }

@@ -27,7 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Static\Scripts\ManagementPanel.js" />
+    <None Remove="Static\Scripts\DropdownManagement.js" />
+    <None Remove="Static\Scripts\OrderManagement.js" />
     <None Remove="Static\Scripts\StepManagement.js" />
   </ItemGroup>
   

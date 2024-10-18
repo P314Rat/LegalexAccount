@@ -1,9 +1,6 @@
-﻿using LegalexAccount.DAL.Models.UserAggregate;
-
-
-namespace LegalexAccount.Web.ViewModels
+﻿namespace LegalexAccount.Web.ViewModels
 {
-    public class ClientViewModel : UserViewModel
+    public class ClientViewModel : ProfileViewModel
     {
     }
 }

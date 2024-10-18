@@ -1,6 +1,6 @@
-﻿namespace LegalexAccount.Web.ViewModels
+﻿namespace LegalexAccount.BLL.DTO
 {
-    public class UserViewModel
+    public class ProfileDTO
     {
         public string Email { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;

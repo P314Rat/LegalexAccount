@@ -1,6 +1,7 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.OrderAggregate;
+﻿using LegalexAccount.BLL.BusinessProcesses.Identification;
+using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
 using LegalexAccount.Web.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -12,45 +13,37 @@ namespace LegalexAccount.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private static UserViewModel _userModel;
+        private readonly IMediator _mediator;
+        private static ProfileViewModel? _userModel;
 
 
-        public HomeController(IUnitOfWork unitOfWork)
+        public HomeController(IMediator mediator)
         {
-            _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult Orders(int currentPage = 1)
+        public async Task<IActionResult> Orders(int currentPage = 1)
         {
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             if (email == null)
-                return BadRequest();
+                return BadRequest("Authorization is wrong.");
 
-            var user = _unitOfWork.Users.GetByEmail(email);
-            _userModel = new UserViewModel
-            {
-                Email = user.Email ?? string.Empty,
-                FirstName = user.FirstName,
-                LastName = user.LastName
-            };
-            var orders = _unitOfWork.Orders.GetAll();
-            var ordersModel = (from order in orders
-                               select new OrderViewModel
-                               {
-                                   Id = order.Id,
-                                   CreatedAt = order.CreatedAt,
-                                   ClientType = order.ClientType,
-                                   Contact = order.Contact,
-                                   Name = order.Name,
-                                   Service = order.Service,
-                                   Description = order.Description
-                               }).ToList();
-
+            _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
             ViewData["UserViewModel"] = _userModel;
             ViewData["CurrentPage"] = currentPage;
+
+            List<OrderViewModel> ordersModel;
+
+            try
+            {
+                ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(x => x.ToViewModel()).ToList();
+            }
+            catch
+            {
+                return View(new List<OrderViewModel>());
+            }
 
             return View(ordersModel);
         }
@@ -74,20 +67,20 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public IActionResult Employees()
         {
-            var specialists = _unitOfWork.Specialists.GetAll()?.Where(x => x.Email != _userModel.Email);
-            var specialistsModel = (from specialist in specialists
-                                    select new SpecialistViewModel
-                                    {
-                                        Status = specialist.Status,
-                                        Role = specialist.Role,
-                                        Email = specialist.Email ?? string.Empty,
-                                        FirstName = specialist.FirstName,
-                                        LastName = specialist.LastName,
-                                    }).ToList();
+            //var specialists = _unitOfWork.Specialists.GetAll()?.Where(x => x.Email != _userModel.Email);
+            //var specialistsModel = (from specialist in specialists
+            //                        select new SpecialistViewModel
+            //                        {
+            //                            Status = specialist.Status,
+            //                            Role = specialist.Role,
+            //                            Email = specialist.Email ?? string.Empty,
+            //                            FirstName = specialist.FirstName,
+            //                            LastName = specialist.LastName,
+            //                        }).ToList();
 
             ViewData["UserViewModel"] = _userModel;
 
-            return View(specialistsModel);
+            return View(new List<SpecialistViewModel>());
         }
     }
 }

@@ -29,6 +29,10 @@ namespace LegalexAccount.Web
             //                .AllowAnyHeader();
             //        });
             //});
+            
+            services.AddApplicationDbContext(Configuration["ConnectionStrings:DefaultConnection"]);
+            services.AddUnitOfWork();
+            services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserDTO).Assembly));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
@@ -36,9 +40,6 @@ namespace LegalexAccount.Web
                 options.LogoutPath = "/Account/Logout";
                 options.ExpireTimeSpan = TimeSpan.FromHours(12);
             });
-            services.AddApplicationDbContext(Configuration["ConnectionStrings:DefaultConnection"]);
-            services.AddUnitOfWork();
-            services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserDTO).Assembly));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

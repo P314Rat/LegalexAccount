@@ -9,7 +9,8 @@ namespace LegalexAccount.DAL.Storage
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Specialist> Specialists { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<Person> Individuals { get; set; }
+        public DbSet<Legal> LegalEntities { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Case> Cases { get; set; }
 
@@ -20,6 +21,10 @@ namespace LegalexAccount.DAL.Storage
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Client>();
+            modelBuilder.Entity<Specialist>().ToTable("Specialists");
+            modelBuilder.Entity<Person>().ToTable("Individuals");
+            modelBuilder.Entity<Legal>().ToTable("LegalEntities");
         }
     }
 }

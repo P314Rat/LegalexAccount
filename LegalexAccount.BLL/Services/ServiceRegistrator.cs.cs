@@ -1,4 +1,5 @@
-﻿using LegalexAccount.DAL;
+﻿using LegalexAccount.BLL.DTO;
+using LegalexAccount.DAL;
 using LegalexAccount.DAL.Models;
 using LegalexAccount.DAL.Storage;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +15,14 @@ namespace LegalexAccount.BLL.Services
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
-            }, ServiceLifetime.Transient);
+            });
+
+            services.AddScoped<IApplicationDbContextFactory, ApplicationDbContextFactory>();
         }
 
         public static void AddUnitOfWork(this IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

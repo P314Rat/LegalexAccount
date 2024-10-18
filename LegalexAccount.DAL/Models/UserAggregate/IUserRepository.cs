@@ -1,12 +1,8 @@
-﻿using LegalexAccount.DAL.Models.CaseAggregate;
-
-namespace LegalexAccount.DAL.Models.UserAggregate
+﻿namespace LegalexAccount.DAL.Models.UserAggregate
 {
-    public interface IUserRepository<out T>
+    public interface IUserRepository
     {
-        T GetById(string id);
-        T GetByEmail(string email);
-        IEnumerable<T> GetAll();
+        Task<User> GetByEmailAsync(string email);
         bool IsExists(string email);
     }
 }
