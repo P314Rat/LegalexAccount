@@ -1,5 +1,5 @@
 @{
-    var UserModel = (ProfileViewModel)ViewBag.UserViewModel;
+    var userModel = (ProfileViewModel)ViewBag.UserViewModel;
 }
 
 
@@ -16,7 +16,7 @@
     <main>
         <div class="container">
             <div class="main-order">
-                @await Html.PartialAsync("_FunctionalPanel", UserModel)
+                @await Html.PartialAsync("_FunctionalPanel", userModel)
                 <div class="main-content">
                     @RenderBody()
                 </div>

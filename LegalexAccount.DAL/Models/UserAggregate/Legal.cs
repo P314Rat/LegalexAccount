@@ -9,8 +9,8 @@
         public string GroundsForAsk { get; set; } = string.Empty;       // Основания обращения
         public string LegalAddress { get; set; } = string.Empty;        // Юридический адрес
         public string? ActualAddress { get; set; } = null;              // Фактический адрес (если отличается от юридического) ?
-        public string? BankAccountNumber { get; set; } = null;          // Номер банковского счета ?
-        public string? BankName { get; set; } = null;                   // Название банка ?
-        public string? BankIdentificationCode { get; set; } = null;     // БИК (банковский идентификационный код) ?
+        public string BankAccountNumber { get; set; }                   // Номер банковского счета ?
+        public string BankName { get; set; }                            // Название банка ?
+        public string BankIdentificationCode { get; set; }              // БИК (банковский идентификационный код) ?
     }
 }

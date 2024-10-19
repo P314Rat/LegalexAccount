@@ -5,6 +5,7 @@ namespace LegalexAccount.DAL.Models
 {
     public interface IApplicationDbContextFactory
     {
-        ApplicationDbContext CreateDbContext();
+        ApplicationDbContext CreateDbContext(string repositoryName);
+        void Dispose(string repositoryName);
     }
 }

@@ -12,8 +12,9 @@ using System.Text;
 
 namespace LegalexAccount.DAL
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
+        private const string UNIT_OF_WORK_CONTEXT_NAME = "UnitOfWork";
         private readonly ApplicationDbContext _dbContext;
 
         private readonly UserRepository _userRepository;
@@ -42,21 +43,16 @@ namespace LegalexAccount.DAL
             _legalRepository = new(dbFactory);
             _orderRepository = new(dbFactory);
             _caseRepository = new(dbFactory);
-            _dbContext = dbFactory.CreateDbContext();
+            _dbContext = dbFactory.CreateDbContext(UNIT_OF_WORK_CONTEXT_NAME);
 
             InitialDatabase();
         }
 
         public void Dispose()
         {
-            GC.SuppressFinalize(this);
             _dbContext.Dispose();
+            GC.SuppressFinalize(this);
         }
-
-        //public void SaveChanges()
-        //{
-        //    _dbContext.SaveChanges();
-        //}
 
         private void InitialDatabase()
         {

@@ -5,7 +5,7 @@
         Task CreateAsync(Specialist item);
         Task<Specialist> GetByEmailAsync(string email);
         Task<IEnumerable<Specialist>> GetAllAsync();
-        Task DeleteByIdAsync(int id);
+        Task DeleteByIdAsync(string email);
         Task UpdateAsync(Specialist item);
     }
 }

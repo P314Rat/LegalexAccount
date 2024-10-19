@@ -1,11 +1,14 @@
 ﻿using LegalexAccount.DAL.Models;
 using LegalexAccount.DAL.Models.UserAggregate;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
 namespace LegalexAccount.DAL.Storage.Repositories
 {
     public class SpecialistRepository : ISpecialistRepository
     {
+        private const string REPOSITORY_NAME = "Specialist";
         private readonly IApplicationDbContextFactory _dbContextFactory;
 
 
@@ -14,24 +17,51 @@ namespace LegalexAccount.DAL.Storage.Repositories
             _dbContextFactory = dbContextFactory;
         }
 
-        public Task CreateAsync(Specialist item)
+        public async Task CreateAsync(Specialist item)
         {
-            throw new NotImplementedException();
+            var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Specialists?.AddAsync(item).AsTask();
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
+
+            if (entry == null || entry.State != EntityState.Added)
+                throw new InvalidOperationException("Specialist was not created");
         }
 
-        public Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(string email)
         {
-            throw new NotImplementedException();
+            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
+            var item = await dbContext?.Specialists?.FirstOrDefaultAsync(x => x.Email == email);
+
+            EntityEntry<Specialist>? entry = null;
+
+            if (item != null)
+                entry = dbContext?.Specialists?.Remove(item);
+
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
+
+            if (entry == null || entry.State != EntityState.Deleted)
+                throw new InvalidOperationException("Specialist was not deleted");
         }
 
-        public Task<IEnumerable<Specialist>> GetAllAsync()
+        public async Task<IEnumerable<Specialist>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var items = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Specialists.ToListAsync();
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
+
+            if (items == null)
+                throw new InvalidOperationException("Specialists was not found");
+
+            return items;
         }
 
-        public Task<Specialist> GetByEmailAsync(string email)
+        public async Task<Specialist> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var item = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Specialists?.FirstOrDefaultAsync(x => x.Email == email);
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
+
+            if (item == null)
+                throw new InvalidOperationException("Specialist was not found");
+
+            return item;
         }
 
         public Task UpdateAsync(Specialist item)

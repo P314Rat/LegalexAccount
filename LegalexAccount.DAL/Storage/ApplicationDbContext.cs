@@ -21,10 +21,8 @@ namespace LegalexAccount.DAL.Storage
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<User>();
             modelBuilder.Ignore<Client>();
-            modelBuilder.Entity<Specialist>().ToTable("Specialists");
-            modelBuilder.Entity<Person>().ToTable("Individuals");
-            modelBuilder.Entity<Legal>().ToTable("LegalEntities");
         }
     }
 }

@@ -8,6 +8,7 @@ namespace LegalexAccount.DAL.Storage.Repositories
 {
     public class CaseRepository : ICaseRepository
     {
+        private const string REPOSITORY_NAME = "Case";
         private readonly IApplicationDbContextFactory _dbContextFactory;
 
 
@@ -18,7 +19,8 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task CreateAsync(Case item)
         {
-            var entry = await _dbContextFactory.CreateDbContext()?.Cases?.AddAsync(item).AsTask();
+            var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Cases?.AddAsync(item).AsTask();
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             if (entry == null || entry.State != EntityState.Added)
                 throw new InvalidOperationException("Case was not created");
@@ -26,7 +28,8 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task<Case> GetByIdAsync(int id)
         {
-            var item = await _dbContextFactory.CreateDbContext()?.Cases?.FirstOrDefaultAsync(x => x.Id == id);
+            var item = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Cases?.FirstOrDefaultAsync(x => x.Id == id);
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             if (item == null)
                 throw new InvalidOperationException("Case was not found");
@@ -36,7 +39,8 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task<IEnumerable<Case>> GetAllAsync()
         {
-            var items = await _dbContextFactory.CreateDbContext()?.Cases.ToListAsync();
+            var items = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Cases.ToListAsync();
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             if (items == null)
                 throw new InvalidOperationException("Cases was not found");
@@ -46,7 +50,8 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task DeleteByIdAsync(int id)
         {
-            var dbContext = _dbContextFactory.CreateDbContext();
+            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             var item = await dbContext?.Cases?.FirstOrDefaultAsync(x => x.Id == id);
             EntityEntry<Case>? entry = null;

@@ -7,30 +7,41 @@ namespace LegalexAccount.DAL.Storage
     public class ApplicationDbContextFactory : IApplicationDbContextFactory
     {
         private readonly DbContextOptions<ApplicationDbContext> _options;
-        private List<ApplicationDbContext> _dbContexts = new();
+        private Dictionary<string, List<ApplicationDbContext>> _dbContextList;
 
 
         public ApplicationDbContextFactory(DbContextOptions<ApplicationDbContext> options)
         {
             _options = options;
+            _dbContextList = new();
         }
 
-        public ApplicationDbContext CreateDbContext()
+        public ApplicationDbContext CreateDbContext(string repositoryName)
         {
-            ApplicationDbContext dbContext = new(_options);
-            //_dbContexts.Add(dbContext);
+            ApplicationDbContext newDbContext = new(_options);
 
-            return dbContext;
+            if (_dbContextList.Keys.Contains(repositoryName))
+            {
+                var repositoryDbContextList = _dbContextList.GetValueOrDefault(repositoryName);
+                repositoryDbContextList?.Add(newDbContext);
+            }
+            else
+                _dbContextList.Add(repositoryName, new List<ApplicationDbContext>() { newDbContext });
+
+            return newDbContext;
         }
 
-        //public void Dispose()
-        //{
-        //    foreach (var dbContext in _dbContexts)
-        //    {
-        //        dbContext.Dispose();
-        //    }
+        public void Dispose(string repositoryName)
+        {
+            var list = _dbContextList.GetValueOrDefault(repositoryName);
 
-        //    GC.SuppressFinalize(this);
-        //}
+            list?.ForEach(context =>
+            {
+                context.Dispose();
+                GC.SuppressFinalize(context);
+            });
+
+            GC.SuppressFinalize(this);
+        }
     }
 }

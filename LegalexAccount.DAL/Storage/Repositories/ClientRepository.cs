@@ -7,6 +7,7 @@ namespace LegalexAccount.DAL.Storage.Repositories
 {
     public class ClientRepository : IClientRepository
     {
+        private const string REPOSITORY_NAME = "Client";
         private readonly IApplicationDbContextFactory _dbContextFactory;
 
 
@@ -17,16 +18,15 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task<Client> GetByEmailAsync(string email)
         {
-            var tasks = new Dictionary<Task, ApplicationDbContext>();
+            var tasks = new Dictionary<Task<Client>, ApplicationDbContext>();
 
             for (int i = 0; i < 3; i++)
             {
-                var dbContext = _dbContextFactory.CreateDbContext();
-
-                Task task = i switch
+                var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
+                Task<Client> task = i switch
                 {
-                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email),
-                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email),
+                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client)t.Result),
+                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client)t.Result),
                     _ => Task.FromResult<Client>(null)
                 };
 
@@ -38,16 +38,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 var pendingTasks = tasks.Keys.ToArray();
                 var completedTask = await Task.WhenAny(pendingTasks);
 
-                switch (completedTask)
+                if (await completedTask is Client client && client != null)
                 {
-                    case Task<Person> person:
-                        if (person.Result != null)
-                            return person.Result;
-                        break;
-                    case Task<Legal> legal:
-                        if (legal.Result != null)
-                            return legal.Result;
-                        break;
+                    _dbContextFactory.Dispose(REPOSITORY_NAME);
+
+                    return client;
                 }
 
                 tasks.GetValueOrDefault(completedTask)?.Dispose();
@@ -59,7 +54,8 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task<IEnumerable<Client>> GetAllAsync()
         {
-            var dbContext = _dbContextFactory.CreateDbContext();
+            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
+
             var items = await dbContext?
                 .Individuals.Select(x => new
                 {
@@ -74,9 +70,10 @@ namespace LegalexAccount.DAL.Storage.Repositories
                     x.LastName,
                     x.SurName
                 })).ToListAsync();
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             if (items == null)
-                throw new InvalidOperationException("Cases was not found");
+                throw new InvalidOperationException("Clients was not found");
 
             return items.Cast<Client>();
         }
