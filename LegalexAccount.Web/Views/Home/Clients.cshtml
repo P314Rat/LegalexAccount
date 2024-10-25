@@ -1,0 +1,52 @@
+﻿@using LegalexAccount.Utility.Extensions
+@{
+    var specialists = Model;
+
+    ViewData["Title"] = "Клиенты";
+    ViewData["Page"] = "Clients";
+}
+
+
+<div class="clients">
+    <h2>Клиенты</h2>
+    @if (specialists.Count == 0)
+    {
+        <span>У вас нет сотрудников.</span>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Роль</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Электронная почта</th>
+                    <th>Статус</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var specialist in specialists)
+                {
+                    <tr>
+                        <td>@specialist.Role.GetDisplayName()</td>
+                        <td>@specialist.FirstName</td>
+                        <td>@specialist.LastName</td>
+                        <td>@specialist.Email</td>
+                        <td>@specialist.Status.GetDisplayName()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
+    }
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Employees.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Employees.min.css?v = @DateTime.Now.Ticks">
+}

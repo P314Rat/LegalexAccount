@@ -19,7 +19,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.Identification
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
 
-            return user.ToDTO();
+            return user.ToProfileDTO();
         }
     }
 }

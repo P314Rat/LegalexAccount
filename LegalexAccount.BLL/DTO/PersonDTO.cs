@@ -1,6 +1,6 @@
-﻿namespace LegalexAccount.DAL.Models.UserAggregate
+﻿namespace LegalexAccount.BLL.DTO
 {
-    public class Person : Client
+    public class PersonDTO : UserDTO
     {
         public DateTime DateOfBirth { get; set; }                            // Дата рождения
         public string PassportNumber { get; set; } = string.Empty;           // Серия и номер документа удостоверяющего личность

@@ -1,25 +1,14 @@
-﻿using LegalexAccount.Utility.Types;
-
-
-namespace LegalexAccount.BLL.DTO
+﻿namespace LegalexAccount.BLL.DTO
 {
-    public enum UserType
+    public abstract class UserDTO
     {
-        Specialist,
-        Person,
-        Legal
-    }
-
-    public class UserDTO
-    {
-        public UserType UserType { get; set; }
-        public ClientType ClientType { get; set; }
-        public string? Email { get; set; } = null;
+        public Guid Id { get; set; }
+        public string Email { get; set; } = string.Empty;
         public string? Phone { get; set; } = null;
-        public string? FirstName { get; set; } = null;
-        public string? LastName { get; set; } = null;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public string? SurName { get; set; } = null;
-        public string? Password { get; set; } = null;
-
+        public string PasswordHash { get; set; } = string.Empty;
+        public string PasswordSalt { get; set; } = string.Empty;
     }
 }

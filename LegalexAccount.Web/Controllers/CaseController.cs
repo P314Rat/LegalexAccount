@@ -12,7 +12,7 @@ namespace LegalexAccount.Web.Controllers
     public class CaseController : Controller
     {
         private readonly IMediator _mediator;
-        private static ProfileViewModel _userModel;
+        private static ProfileViewModel? _userModel = null;
 
 
         public CaseController(IMediator mediator)
@@ -26,15 +26,22 @@ namespace LegalexAccount.Web.Controllers
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             if (email == null)
-                return BadRequest();
+                return BadRequest("Authorization is wrong.");
 
-            _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
+            try
+            {
+                _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
 
-            ViewData["UserViewModel"] = _userModel;
-            ViewData["StepNumber"] = 1;
-            ViewData["IsLegalProfile"] = isLegal;
+                ViewData["UserViewModel"] = _userModel;
+                ViewData["StepNumber"] = 1;
+                ViewData["IsLegalProfile"] = isLegal;
 
-            return View();
+                return View();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

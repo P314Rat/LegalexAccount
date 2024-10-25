@@ -4,6 +4,7 @@ using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -26,6 +27,7 @@ namespace LegalexAccount.Web.Controllers
             return PartialView("_Login");
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> LogoutAsync()
         {
@@ -34,8 +36,9 @@ namespace LegalexAccount.Web.Controllers
             return Redirect("Login");
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync(RegistrationViewModel model)
+        public async Task<IActionResult> RegisterAsync() 
         {
             return Redirect("Login"); // Сделать
         }
@@ -46,26 +49,27 @@ namespace LegalexAccount.Web.Controllers
             if (!ModelState.IsValid)
                 return PartialView("_Login", model);
 
-            var modelDTO = new UserDTO
-            {
-                Email = model.Email,
-                Password = model.Password
-            };
-
             try
             {
+                var modelDTO = new IdentityDTO
+                {
+                    Email = model.Email,
+                    Password = model.Password
+                };
+
                 await _mediator.Send(new LoginQuery(modelDTO));
 
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, modelDTO.Email),
                 };
+
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
                 return RedirectToAction("Orders", "Home");
             }
-            catch (Exception ex)
+            catch
             {
                 ModelState.AddModelError("Email", "Неверные данные для входа");
                 return PartialView(model);

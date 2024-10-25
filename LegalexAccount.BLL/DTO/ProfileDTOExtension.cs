@@ -5,7 +5,7 @@ namespace LegalexAccount.BLL.DTO
 {
     internal static class ProfileDTOExtension
     {
-        internal static ProfileDTO ToDTO(this User model)
+        internal static ProfileDTO ToProfileDTO(this User model)
         {
             var profileDTO = new ProfileDTO
             {

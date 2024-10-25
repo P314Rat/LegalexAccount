@@ -1,6 +1,5 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.Identification;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
-using LegalexAccount.BLL.DTO;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +13,7 @@ namespace LegalexAccount.Web.Controllers
     public class OrderController : Controller
     {
         private readonly IMediator _mediator;
-        private static ProfileViewModel _userModel;
+        private static ProfileViewModel? _userModel = null;
 
 
         public OrderController(IMediator mediator)
@@ -28,26 +27,22 @@ namespace LegalexAccount.Web.Controllers
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             if (email == null)
-                return BadRequest();
-
-            _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
-
-            OrderDTO? orderDTO;
+                return BadRequest("Authorization is wrong.");
 
             try
             {
-                orderDTO = (await _mediator.Send(new GetOrdersQuery(id))).FirstOrDefault();
+                var orderDTO = (await _mediator.Send(new GetOrdersQuery(id))).FirstOrDefault();
+                var orderModel = orderDTO?.ToViewModel();
+
+                _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
+                ViewData["UserViewModel"] = _userModel;
+
+                return View(orderModel);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-            var orderModel = orderDTO?.ToViewModel();
-
-            ViewData["UserViewModel"] = _userModel;
-
-            return View(orderModel);
         }
     }
 }

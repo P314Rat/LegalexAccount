@@ -17,16 +17,8 @@ namespace LegalexAccount.BLL.BusinessProcesses.Registration
         public string? SurName { get; set; } = null;
 
 
-        public RegistrationCommand(UserDTO model)
+        public RegistrationCommand()
         {
-            ClientType = model.ClientType;
-            UserType = model.UserType;
-            Email = model.Email ?? string.Empty;
-            Phone = model.Phone;
-            Password = model.Password ?? string.Empty;
-            FirstName = model.FirstName ?? string.Empty;
-            LastName = model.LastName ?? string.Empty;
-            SurName = model.SurName;
         }
     }
 }

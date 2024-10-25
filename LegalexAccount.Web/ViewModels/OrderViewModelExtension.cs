@@ -12,7 +12,23 @@ namespace LegalexAccount.Web.ViewModels
                 Id = model.Id,
                 CreatedAt = model.CreatedAt,
                 ClientType = model.ClientType,
-                Service = model.Service,
+                ServiceType = model.ServiceType,
+                Name = model.Name,
+                Contact = model.Contact,
+                Description = model.Description
+            };
+
+            return viewModel;
+        }
+
+        internal static OrderDTO ToDTO(this OrderViewModel model)
+        {
+            var viewModel = new OrderDTO
+            {
+                Id = model.Id,
+                CreatedAt = model.CreatedAt,
+                ClientType = model.ClientType,
+                ServiceType = model.ServiceType,
                 Name = model.Name,
                 Contact = model.Contact,
                 Description = model.Description

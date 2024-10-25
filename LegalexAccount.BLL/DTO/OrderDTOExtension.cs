@@ -5,13 +5,13 @@ namespace LegalexAccount.BLL.DTO
 {
     internal static class OrderDTOExtension
     {
-        internal static Order ToOrder(this OrderDTO model)
+        internal static Order ToModel(this OrderDTO model)
         {
             var order = new Order
             {
                 CreatedAt = model.CreatedAt,
                 ClientType = model.ClientType,
-                Service = model.Service,
+                Service = model.ServiceType,
                 Name = model.Name,
                 Contact = model.Contact,
                 Description = model.Description
@@ -27,7 +27,7 @@ namespace LegalexAccount.BLL.DTO
                 Id = model.Id,
                 CreatedAt = model.CreatedAt,
                 ClientType = model.ClientType,
-                Service = model.Service,
+                ServiceType = model.Service,
                 Name = model.Name,
                 Contact = model.Contact,
                 Description = model.Description
