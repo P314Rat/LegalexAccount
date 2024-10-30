@@ -51,8 +51,10 @@ namespace LegalexAccount.Web
             }
             else
             {
-                app.UseHsts();
-                app.UseExceptionHandler("/Error");
+                app.UseDeveloperExceptionPage();
+
+                //app.UseHsts();
+                //app.UseExceptionHandler("/Error");
             }
 
             app.UseHttpsRedirection();
