@@ -81,6 +81,9 @@ namespace LegalexAccount.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> StepTwo(UserViewModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("Wrong model");
+
             try
             {
                 const int stepNumber = 2;
