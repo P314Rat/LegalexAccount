@@ -1,5 +1,6 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.Identification;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
+using LegalexAccount.DAL.Models;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -10,13 +11,14 @@ using System.Security.Claims;
 namespace LegalexAccount.Web.Controllers
 {
     [Authorize]
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         private readonly IMediator _mediator;
         private static ProfileViewModel? _userModel = null;
 
 
-        public OrderController(IMediator mediator)
+        public OrderController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
+            : base(_dbContextFactory, httpContextAccessor)
         {
             _mediator = mediator;
         }
@@ -35,7 +37,7 @@ namespace LegalexAccount.Web.Controllers
                 var orderModel = orderDTO?.ToViewModel();
 
                 _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
-                ViewData["UserViewModel"] = _userModel;
+                ViewData["ProfileModel"] = _profileModel;
 
                 return View(orderModel);
             }

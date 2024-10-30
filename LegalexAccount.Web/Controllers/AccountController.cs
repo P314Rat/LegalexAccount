@@ -38,7 +38,7 @@ namespace LegalexAccount.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync() 
+        public async Task<IActionResult> RegisterAsync()
         {
             return Redirect("Login"); // Сделать
         }

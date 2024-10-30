@@ -1,24 +1,24 @@
-﻿using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
-using LegalexAccount.BLL.BusinessProcesses.Identification;
+﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
+using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
+using LegalexAccount.DAL.Models;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using System.Security.Claims;
 
 
 namespace LegalexAccount.Web.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IMediator _mediator;
-        private static ProfileViewModel? _userModel = null;
 
 
-        public HomeController(IMediator mediator)
+        public HomeController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
+            : base(_dbContextFactory, httpContextAccessor)
         {
             _mediator = mediator;
         }
@@ -26,19 +26,13 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Orders(int currentPage = 1)
         {
-            var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            if (email == null)
-                return BadRequest("Authorization is wrong.");
-
             try
             {
                 List<OrderViewModel> ordersModel;
                 ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(x => x.ToViewModel()).ToList();
 
-                _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
-                ViewData["UserViewModel"] = _userModel;
                 ViewData["CurrentPage"] = currentPage;
+                ViewData["ProfileModel"] = _profileModel;
 
                 return View(ordersModel);
             }
@@ -51,23 +45,24 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public IActionResult Cases()
         {
-            ViewData["UserViewModel"] = _userModel;
+            ViewData["ProfileModel"] = _profileModel;
 
             return View();
         }
 
         [HttpGet]
-        public IActionResult Clients()
+        public async Task<IActionResult> Clients()
         {
-            ViewData["UserViewModel"] = _userModel;
+            var clients = (await _mediator.Send(new GetClientsQuery())).Select(x => x.ToViewModel()).ToList();
+            ViewData["ProfileModel"] = _profileModel;
 
-            return View();
+            return View(clients);
         }
 
         [HttpGet]
         public IActionResult Calendar()
         {
-            ViewData["UserViewModel"] = _userModel;
+            ViewData["ProfileModel"] = _profileModel;
 
             return View();
         }
@@ -77,12 +72,12 @@ namespace LegalexAccount.Web.Controllers
         {
             try
             {
-                if (_userModel == null)
+                if (_profileModel == null)
                     return BadRequest("Authorization is wrong.");
 
-                var specialists = await _mediator.Send(new GetEmployeesQuery(_userModel.Email));
+                var specialists = await _mediator.Send(new GetEmployeesQuery(_profileModel.Email));
                 var specialistsModel = specialists.Select(x => x.ToViewModel()).ToList();
-                ViewData["UserViewModel"] = _userModel;
+                ViewData["ProfileModel"] = _profileModel;
 
                 return View(specialistsModel);
             }

@@ -6,26 +6,26 @@
     if (ViewData["IsCreateFormActive"] != null)
         isCreateFormActive = (bool)ViewData["IsCreateFormActive"];
 
-    ViewData["Page"] = "Cases";
+    ViewData["Page"] = "Clients";
 }
 
 
-<div class="create-case">
-    <h2>Новое дело</h2>
+<div class="create-client">
+    <h2>Новый клиент</h2>
 
     @switch (stepNumber)
     {
         case 1:
-            ViewData["Title"] = "Новое дело | Шаг 1";
-            @await Html.PartialAsync("_StepOne")
+            ViewData["Title"] = "Новый клиент | Шаг 1";
+            @await Html.PartialAsync("_StepOne", new UserViewModel())
             break;
         case 2:
-            ViewData["Title"] = "Новое дело | Шаг 2";
+            ViewData["Title"] = "Новый клиент | Шаг 2";
             @await Html.PartialAsync("_StepTwo")
             break;
         case 3:
-            ViewData["Title"] = "Новое дело | Шаг 3";
-            @await Html.PartialAsync("_StepThree")
+            ViewData["Title"] = "Новый клиент | Шаг 3";
+            @await Html.PartialAsync("_StepThree", new CaseViewModel())
             break;
         default:
             throw new Exception("Wrong step");
@@ -73,11 +73,11 @@
 
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
-    <link rel="stylesheet" href="~/Styles/CreateCase.css">
+    <link rel="stylesheet" href="~/Styles/CreateClient.css">
 }
 else
 {
-    <link rel="stylesheet" href="~/Styles/CreateCase.min.css?v = @DateTime.Now.Ticks">
+    <link rel="stylesheet" href="~/Styles/CreateClient.min.css?v = @DateTime.Now.Ticks">
 }
 
 @await Html.PartialAsync("_ModelValidation")

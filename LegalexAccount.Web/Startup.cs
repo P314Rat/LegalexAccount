@@ -29,7 +29,8 @@ namespace LegalexAccount.Web
             //                .AllowAnyHeader();
             //        });
             //});
-            
+            services.AddHttpContextAccessor(); // Регистрируем IHttpContextAccessor
+            services.AddControllersWithViews();
             services.AddApplicationDbContext(Configuration["ConnectionStrings:DefaultConnection"]);
             services.AddUnitOfWork();
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserDTO).Assembly));

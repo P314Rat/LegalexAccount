@@ -1,104 +1,37 @@
-﻿@model ProfileViewModel
-@{
-    var isLegalProfile = (bool)ViewData["IsLegalProfile"];
-}
+﻿@model CaseViewModel
 
 
-<form asp-controller="Case" asp-action="CreateCase" method="post">
-    <div class="type-tab-container">
-        <div class="type-tab">
-            <a class="@(isLegalProfile ? "rect active" : "rect")" asp-controller="Case" asp-action="CreateCase" asp-route-isLegal="@true">Юридическое лицо</a>
-            <div class="@(isLegalProfile ? "trian active" : "trian")"></div>
-        </div>
-        <div class="type-tab">
-            <a class="@(isLegalProfile ? "rect" : "rect active")" asp-controller="Case" asp-action="CreateCase" asp-route-isLegal="@false">Физическое лицо</a>
-            <div class="@(isLegalProfile ? "trian" : "trian active")"></div>
+<h1>Создание дела</h1>
+<form id="creation-form" asp-controller="Client" asp-action="SaveClient" method="post">
+    <div class="form-container" style="border: none;">
+        <div class="form-grid">
+            <div class="item-container">
+                <label for="estimatedDaysToEnd">Предположительная дата окончания</label>
+                <div class="input-container">
+                    <input id="estimatedDaysToEnd" name="EstimatedDaysToEnd" type="estimatedDaysToEnd" autocomplete="off" asp-for=EstimatedDaysToEnd>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="customer">Заказчик</label>
+                <div class="input-container">
+                    <input id="customer" name="Customer" type="customer" autocomplete="off" asp-for=Customer>
+                    <span class="text-validation" asp-validation-for="Customer"></span>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="assignee">Исполнитель</label>
+                <div class="input-container">
+                    <input id="assignee" name="Assignee" type="assignee" autocomplete="off" asp-for=Assignee>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="description">Описание</label>
+                <div class="input-container">
+                    <input id="description" name="Description" type="description" autocomplete="off" asp-for=Description>
+                    <span class="text-validation" asp-validation-for="Description"></span>
+                </div>
+            </div>
         </div>
     </div>
-    @if (isLegalProfile)
-    {
-        <div class="form-container">
-            @* <div class="client-type">
-        <button class="dropdown-button" type="button" onclick="CallDropdownManagement(this)">Тип клиента</button>
-        <div id="dropdown-content" class="dropdown-content">
-        <a href="#">Опция 1</a>
-        <a href="#">Опция 2</a>
-        </div>
-        </div> *@
-            <div class="form-grid">
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="form-container">
-            <div class="client-type">
-                <button class="dropdown-button" type="button" onclick="CallDropdownManagement(this)">Тип клиента</button>
-                <div id="dropdown-content" class="dropdown-content">
-                    <a href="#">Опция 1</a>
-                    <a href="#">Опция 2</a>
-                </div>
-            </div>
-            <div class="form-grid">
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-                <div class="client-name">
-                    <label for="name" class="name-label">Имя клиента</label>
-                    <div class="name">
-                        <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
-                        <span class="text-validation" asp-validation-for="FirstName"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
 </form>
-
 <script src="~/Scripts/DropdownManagement.js"></script>

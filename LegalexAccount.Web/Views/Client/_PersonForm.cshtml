@@ -1,0 +1,56 @@
+﻿@model PersonViewModel
+
+
+<div class="form-container">
+    <div class="form-grid">
+        <div class="item-container">
+            <label for="organizationName" class="organization-label">Дата рождения</label>
+            <div class="input-container">
+                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=DateOfBirth>
+                <span class="text-validation" asp-validation-for="DateOfBirth"></span>
+            </div>
+        </div>
+        <div class="item-container">
+            <label for="name" class="organization-label">Серия и номер документа удостоверяющего личность</label>
+            <div class="input-container">
+                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=PassportNumber>
+                <span class="text-validation" asp-validation-for="PassportNumber"></span>
+            </div>
+        </div>
+        <div class="item-container">
+            <label for="name" class="organization-label">Кем выдан (если отличается от юридического)</label>
+            <div class="input-container">
+                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=IssuingAuthority>
+                <span class="text-validation" asp-validation-for="IssuingAuthority"></span>
+            </div>
+        </div>
+        <div class="item-container">
+            <label for="name" class="organization-label">Дата выдачи</label>
+            <div class="input-container">
+                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=IssueDate>
+                <span class="text-validation" asp-validation-for="IssueDate"></span>
+            </div>
+        </div>
+        <div class="item-container">
+            <label for="name" class="organization-label">Идентификационный номер (при наличии)</label>
+            <div class="input-container">
+                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=TaxIdentificationNumber>
+                <span class="text-validation" asp-validation-for="TaxIdentificationNumber"></span>
+            </div>
+        </div>
+        <div class="item-container">
+            <label for="name" class="organization-label">Адрес регистрации</label>
+            <div class="input-container">
+                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=RegistrationAddress>
+                <span class="text-validation" asp-validation-for="RegistrationAddress"></span>
+            </div>
+        </div>
+        <div class="item-container">
+            <label for="name" class="organization-label">Адрес проживания (если отличается от адреса регистрации)</label>
+            <div class="input-container">
+                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=ResidentialAddress>
+                <span class="text-validation" asp-validation-for="ResidentialAddress"></span>
+            </div>
+        </div>
+    </div>
+</div>

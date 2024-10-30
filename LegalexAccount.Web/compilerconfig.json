@@ -34,5 +34,13 @@
   {
     "outputFile": "Static/Styles/CreateCase.css",
     "inputFile": "Views/Case/CreateCase.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Clients.css",
+    "inputFile": "Views/Home/Clients.scss"
+  },
+  {
+    "outputFile": "Static/Styles/CreateClient.css",
+    "inputFile": "Views/Client/CreateClient.scss"
   }
 ]

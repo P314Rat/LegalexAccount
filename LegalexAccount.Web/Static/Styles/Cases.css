@@ -4,13 +4,13 @@
   height: 100%;
   padding: 1rem 0;
 }
-.cases h2 {
-  font-weight: 600;
-}
 .cases .header-panel {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
+}
+.cases .header-panel h2 {
+  font-weight: 600;
 }
 .cases .header-panel .create-case {
   padding: 0.5rem 2rem;

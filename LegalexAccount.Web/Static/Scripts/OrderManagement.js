@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     elementsWithManagementPanel = document.getElementsByClassName("with-management-panel");
 });
 
-const CallManagementPanel = (currentEement) => {
+const CallManagementPanel = (currentElement) => {
     Array.from(elementsWithManagementPanel).forEach((element) => element.classList.remove("m-panel"));
-    currentEement.classList.add("m-panel");
+    currentElement.classList.add("m-panel");
 }

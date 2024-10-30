@@ -27,9 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Case\_StepTwo.cshtml" />
+    <Content Remove="Views\Client\_StepTwo.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Static\Scripts\DropdownManagement.js" />
     <None Remove="Static\Scripts\OrderManagement.js" />
     <None Remove="Static\Scripts\StepManagement.js" />
+    <None Remove="Static\Scripts\SubmitValidationManager.js" />
   </ItemGroup>
   
   <!--<ItemGroup>
@@ -38,6 +44,27 @@
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="Views\Case\_StepTwo.cshtml" />
+    <None Include="Views\Client\_StepTwo.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Client\_PersonForm.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Client\_StepThree.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Client\_StepTwo.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Client\_StepTwo.cshtml" />
   </ItemGroup>
 
 </Project>

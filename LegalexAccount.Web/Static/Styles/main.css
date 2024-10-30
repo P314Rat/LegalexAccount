@@ -9,6 +9,14 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+button {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    border: none;
+    cursor: pointer;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -23,7 +31,7 @@ body {
 
 .main-content {
     width: 100%;
-    height: auto;
+    max-height: 45rem;
     margin-left: 1rem;
     /*background-color: white;*/
 }

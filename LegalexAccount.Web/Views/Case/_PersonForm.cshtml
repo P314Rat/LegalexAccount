@@ -1,0 +1,42 @@
+﻿@model PersonViewModel
+
+
+<div class="form-container">
+    <div class="client-type">
+        <button class="dropdown-button" type="button" onclick="CallDropdownManagement(this)">Тип клиента</button>
+        <div id="dropdown-content" class="dropdown-content">
+            <a href="#">Опция 1</a>
+            <a href="#">Опция 2</a>
+        </div>
+    </div>
+    <div class="form-grid">
+        <div class="client-name">
+            <label for="name" class="name-label">Имя клиента</label>
+            <div class="name">
+                <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
+                <span class="text-validation" asp-validation-for="FirstName"></span>
+            </div>
+        </div>
+        <div class="client-name">
+            <label for="name" class="name-label">Имя клиента</label>
+            <div class="name">
+                <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
+                <span class="text-validation" asp-validation-for="FirstName"></span>
+            </div>
+        </div>
+        <div class="client-name">
+            <label for="name" class="name-label">Имя клиента</label>
+            <div class="name">
+                <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
+                <span class="text-validation" asp-validation-for="FirstName"></span>
+            </div>
+        </div>
+        <div class="client-name">
+            <label for="name" class="name-label">Имя клиента</label>
+            <div class="name">
+                <input id="name" name="Name" type="text" autocomplete="on" asp-for=FirstName>
+                <span class="text-validation" asp-validation-for="FirstName"></span>
+            </div>
+        </div>
+    </div>
+</div>

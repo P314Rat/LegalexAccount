@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="password">
-                        <input id="password" name="password" type="password" autocomplete="current-password" asp-for=Password>
+                        <input id="password" name="Password" type="password" autocomplete="current-password" asp-for=Password>
                         <span class="text-validation" asp-validation-for="Password"></span>
                     </div>
                 </div>
@@ -44,6 +44,8 @@
     </div>
 </div>
 
+@await Html.PartialAsync("_ModelValidation")
+
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
     <link rel="stylesheet" href="~/Styles/_Login.css">
@@ -52,5 +54,3 @@ else
 {
     <link rel="stylesheet" href="~/Styles/_Login.min.css?v = @DateTime.Now.Ticks">
 }
-
-@await Html.PartialAsync("_ModelValidation")

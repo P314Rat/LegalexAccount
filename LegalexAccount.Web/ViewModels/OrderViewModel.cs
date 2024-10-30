@@ -3,7 +3,7 @@
 
 namespace LegalexAccount.Web.ViewModels
 {
-    public class OrderViewModel
+    public class OrderViewModel : ProfileViewModel
     {
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;

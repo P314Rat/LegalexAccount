@@ -1,6 +1,7 @@
 ﻿@using LegalexAccount.Utility.Extensions
+@model List<ProfileViewModel>
 @{
-    var specialists = Model;
+    var profiles = Model;
 
     ViewData["Title"] = "Клиенты";
     ViewData["Page"] = "Clients";
@@ -8,32 +9,31 @@
 
 
 <div class="clients">
-    <h2>Клиенты</h2>
-    @if (specialists.Count == 0)
+    <div class="header-panel">
+        <h2>Клиенты</h2>
+        <a class="create-client" asp-controller="Client" asp-action="CreateClient">Создать клиента</a>
+    </div>
+    @if (profiles.Count == 0)
     {
-        <span>У вас нет сотрудников.</span>
+        <span>У вас нет клиентов.</span>
     }
     else
     {
         <table>
             <thead>
                 <tr>
-                    <th>Роль</th>
+                    <th>Электронная почта</th>
                     <th>Имя</th>
                     <th>Фамилия</th>
-                    <th>Электронная почта</th>
-                    <th>Статус</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var specialist in specialists)
+                @foreach (var profile in profiles)
                 {
                     <tr>
-                        <td>@specialist.Role.GetDisplayName()</td>
-                        <td>@specialist.FirstName</td>
-                        <td>@specialist.LastName</td>
-                        <td>@specialist.Email</td>
-                        <td>@specialist.Status.GetDisplayName()</td>
+                        <td>@profile.Email</td>
+                        <td>@profile.FirstName</td>
+                        <td>@profile.LastName</td>
                     </tr>
                 }
             </tbody>
@@ -44,9 +44,9 @@
 
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
-    <link rel="stylesheet" href="~/Styles/Employees.css">
+    <link rel="stylesheet" href="~/Styles/Clients.css">
 }
 else
 {
-    <link rel="stylesheet" href="~/Styles/Employees.min.css?v = @DateTime.Now.Ticks">
+    <link rel="stylesheet" href="~/Styles/Clients.min.css?v = @DateTime.Now.Ticks">
 }

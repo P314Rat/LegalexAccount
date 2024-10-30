@@ -1,4 +1,4 @@
-﻿using LegalexAccount.BLL.Services;
+﻿using LegalexAccount.Utility.Services;
 using LegalexAccount.DAL.Models;
 using MediatR;
 

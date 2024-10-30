@@ -1,0 +1,28 @@
+﻿@{
+    bool isLegalProfile = true;
+
+    if (ViewData["IsLegalProfile"] != null)
+        isLegalProfile = (bool)ViewData["IsLegalProfile"];
+}
+
+
+<form id="creation-form" asp-controller="Client" asp-action="LegalCreate" method="post">
+    <div class="type-tab-container">
+        <div class="type-tab">
+            <a class="@(isLegalProfile ? "rect active" : "rect")" asp-controller="Client" asp-action="StepTwo" asp-route-isLegal="@true">Юридическое лицо</a>
+            <div class="@(isLegalProfile ? "trian active" : "trian")"></div>
+        </div>
+        <div class="type-tab">
+            <a class="@(isLegalProfile ? "rect" : "rect active")" asp-controller="Client" asp-action="StepTwo" asp-route-isLegal="@false">Физическое лицо</a>
+            <div class="@(isLegalProfile ? "trian" : "trian active")"></div>
+        </div>
+    </div>
+    @if (isLegalProfile)
+    {
+        @await Html.PartialAsync("_LegalForm", new LegalViewModel())
+    }
+    else
+    {
+        @await Html.PartialAsync("_PersonForm", new PersonViewModel())
+    }
+</form>

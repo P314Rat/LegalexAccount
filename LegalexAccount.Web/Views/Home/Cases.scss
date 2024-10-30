@@ -4,14 +4,16 @@
     height: 100%;
     padding: 1rem 0;
 
-    h2 {
-        font-weight: 600;
-    }
+
 
     .header-panel {
         display: flex;
         justify-content: space-between;
         margin-bottom: 2rem;
+
+        h2 {
+            font-weight: 600;
+        }
 
         .create-case {
             padding: .5rem 2rem;

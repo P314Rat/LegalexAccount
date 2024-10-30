@@ -1,0 +1,49 @@
+﻿@model UserViewModel
+
+
+<form id="creation-form" asp-controller="Client" asp-action="StepTwo" method="post">
+    <div class="form-container" style="border: none;">
+        <div class="form-grid">
+            <div class="item-container">
+                <label for="email">Электронная почта*</label>
+                <div class="input-container">
+                    <input id="email" name="Email" type="email" autocomplete="off" asp-for=Email>
+                    <span class="text-validation" asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="phone">Телефонный номер</label>
+                <div class="input-container">
+                    <input id="phone" name="Phone" type="phone" autocomplete="off" asp-for=Phone>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="email">Имя*</label>
+                <div class="input-container">
+                    <input id="firstName" name="FirstName" type="firstName" autocomplete="off" asp-for=FirstName>
+                    <span class="text-validation" asp-validation-for="FirstName"></span>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="lastName">Фамилия*</label>
+                <div class="input-container">
+                    <input id="lastName" name="lastName" type="lastName" autocomplete="off" asp-for=LastName>
+                    <span class="text-validation" asp-validation-for="LastName"></span>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="surName">Отчество</label>
+                <div class="input-container">
+                    <input id="surName" name="surName" type="surName" autocomplete="off" asp-for=SurName>
+                </div>
+            </div>
+            <div class="item-container">
+                <label for="lastName">Начальный пароль*</label>
+                <div class="input-container">
+                    <input id="password" name="password" type="text" value=@(GenerateDataService.GenerateInitialPassword(12)) autocomplete="off" asp-for=Password>
+                    <span class="text-validation" asp-validation-for="Password"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
