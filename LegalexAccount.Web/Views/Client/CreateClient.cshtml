@@ -17,15 +17,15 @@
     {
         case 1:
             ViewData["Title"] = "Новый клиент | Шаг 1";
-            @await Html.PartialAsync("_StepOne", model: null)
+            await Html.RenderPartialAsync("_StepOne", model: null);
             break;
         case 2:
             ViewData["Title"] = "Новый клиент | Шаг 2";
-            @await Html.PartialAsync("_StepTwo", model: null)
+            await Html.RenderPartialAsync("_StepTwo", model: null);
             break;
         case 3:
             ViewData["Title"] = "Новый клиент | Шаг 3";
-            @await Html.PartialAsync("_StepThree", model: null)
+            await Html.RenderPartialAsync("_StepThree", model: null);
             break;
         default:
             throw new Exception("Wrong step");
