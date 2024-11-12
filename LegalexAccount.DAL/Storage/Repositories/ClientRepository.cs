@@ -18,16 +18,16 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task<Client> GetByEmailAsync(string email)
         {
-            var tasks = new Dictionary<Task<Client>, ApplicationDbContext>();
+            var tasks = new Dictionary<Task<Client?>, ApplicationDbContext>();
 
             for (int i = 0; i < 3; i++)
             {
                 var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-                Task<Client> task = i switch
+                var task = i switch
                 {
-                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client)t.Result),
-                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client)t.Result),
-                    _ => Task.FromResult<Client>(null)
+                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client?)t.Result),
+                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client?)t.Result),
+                    _ => Task.FromResult<Client?>(null)
                 };
 
                 tasks.Add(task, dbContext);
@@ -44,38 +44,52 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
                     return client;
                 }
-
-                tasks.GetValueOrDefault(completedTask)?.Dispose();
-                tasks.Remove(completedTask);
+                else
+                {
+                    tasks.Remove(completedTask);
+                }
             }
 
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
             throw new InvalidOperationException("Client was not found");
         }
 
         public async Task<IEnumerable<Client>> GetAllAsync()
         {
-            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
+            var tasks = new Dictionary<Task<IEnumerable<Client>>, ApplicationDbContext>();
 
-            var items = await dbContext?
-                .Individuals.Select(x => new
+            for (int i = 0; i < 3; i++)
+            {
+                var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
+                var task = i switch
                 {
-                    x.Email,
-                    x.FirstName,
-                    x.LastName,
-                    x.SurName
-                }).Union(dbContext.LegalEntities.Select(x => new
+                    0 => dbContext.Individuals.Select(x => (Client)x).ToListAsync().ContinueWith(x => (IEnumerable<Client>)x.Result),
+                    1 => dbContext.LegalEntities.Select(x => (Client)x).ToListAsync().ContinueWith(x => (IEnumerable<Client>)x.Result),
+                    _ => Task.FromResult(Enumerable.Empty<Client>())
+                };
+
+                tasks.Add(task, dbContext);
+            }
+
+            while (tasks.Any())
+            {
+                var pendingTasks = tasks.Keys.ToArray();
+                var completedTask = await Task.WhenAny(pendingTasks);
+
+                if (await completedTask is IEnumerable<Client> clients && clients.Any())
                 {
-                    x.Email,
-                    x.FirstName,
-                    x.LastName,
-                    x.SurName
-                })).ToListAsync();
+                    _dbContextFactory.Dispose(REPOSITORY_NAME);
+
+                    return clients;
+                }
+                else
+                {
+                    tasks.Remove(completedTask);
+                }
+            }
+
             _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-            if (items == null)
-                throw new InvalidOperationException("Clients was not found");
-
-            return items.Cast<Client>();
+            throw new Exception("Clients was not found");
         }
     }
 }

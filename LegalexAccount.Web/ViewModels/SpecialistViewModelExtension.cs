@@ -26,8 +26,8 @@ namespace LegalexAccount.Web.ViewModels
                 Email = model.Email ?? string.Empty,
                 FirstName = model.FirstName ?? string.Empty,
                 LastName = model.LastName ?? string.Empty,
-                Role = model.Role,
-                Status = model.Status
+                Role = model.Role ?? Utility.Types.SpecialistRole.Employee,
+                Status = model.Status ?? Utility.Types.SpecialistStatus.Free
             };
 
             return specialistViewModel;

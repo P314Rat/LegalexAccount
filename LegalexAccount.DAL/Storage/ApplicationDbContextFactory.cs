@@ -37,6 +37,7 @@ namespace LegalexAccount.DAL.Storage
 
             list?.ForEach(context =>
             {
+                context.SaveChanges();
                 context.Dispose();
                 GC.SuppressFinalize(context);
             });

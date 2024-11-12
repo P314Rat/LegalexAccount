@@ -9,7 +9,7 @@
         public string BankAccountNumber { get; set; } = string.Empty;       // Расчётный счёт 
         public string BankName { get; set; } = string.Empty;                // Название банка 
         public string BankAddress { get; set; } = string.Empty;             // Адрес банка 
-        public string BankIdentificationCode { get; set; } = string.Empty;  // БИК (банковский идентификационный код)
+        public string BankIdenticationCode { get; set; } = string.Empty;    // БИК (банковский идентификационный код)
         public string PositionHeld { get; set; } = string.Empty;            // Занимаемая должность
         public string Powers { get; set; } = string.Empty;                  // На основании чего действует
     }

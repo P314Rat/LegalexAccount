@@ -72,7 +72,8 @@ namespace LegalexAccount.Web.Controllers
             catch
             {
                 ModelState.AddModelError("Email", "Неверные данные для входа");
-                return PartialView(model);
+
+                return PartialView("_Login", model);
             }
         }
     }

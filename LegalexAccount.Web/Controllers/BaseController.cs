@@ -1,9 +1,6 @@
 ﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.UserAggregate;
-using LegalexAccount.DAL.Storage;
 using LegalexAccount.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Security.Claims;
 
 
@@ -26,7 +23,7 @@ namespace LegalexAccount.Web.Controllers
             var profile = dbContext.Specialists.Select(x => new { x.Email, x.FirstName, x.LastName })
                 .Union(dbContext.LegalEntities.Select(x => new { x.Email, x.FirstName, x.LastName })
                 .Union(dbContext.Individuals.Select(x => new { x.Email, x.FirstName, x.LastName })))
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.Email == email);
 
             if (profile != null)
             {

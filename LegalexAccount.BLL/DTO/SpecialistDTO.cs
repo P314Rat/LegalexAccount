@@ -5,7 +5,7 @@ namespace LegalexAccount.BLL.DTO
 {
     public class SpecialistDTO : UserDTO
     {
-        public SpecialistRole Role { get; set; }
-        public SpecialistStatus Status { get; set; }
+        public SpecialistRole? Role { get; set; } = null;
+        public SpecialistStatus? Status { get; set; } = null;
     }
 }

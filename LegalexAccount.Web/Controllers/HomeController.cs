@@ -28,8 +28,7 @@ namespace LegalexAccount.Web.Controllers
         {
             try
             {
-                List<OrderViewModel> ordersModel;
-                ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(x => x.ToViewModel()).ToList();
+                var ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(x => x.ToViewModel()).ToList();
 
                 ViewData["CurrentPage"] = currentPage;
                 ViewData["ProfileModel"] = _profileModel;
@@ -53,10 +52,17 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Clients()
         {
-            var clients = (await _mediator.Send(new GetClientsQuery())).Select(x => x.ToViewModel()).ToList();
-            ViewData["ProfileModel"] = _profileModel;
+            try
+            {
+                var clients = (await _mediator.Send(new GetClientsQuery())).Select(x => x.ToViewModel()).ToList();
+                ViewData["ProfileModel"] = _profileModel;
 
-            return View(clients);
+                return View(clients);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]

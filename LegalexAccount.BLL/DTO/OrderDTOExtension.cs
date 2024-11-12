@@ -7,22 +7,22 @@ namespace LegalexAccount.BLL.DTO
     {
         internal static Order ToModel(this OrderDTO model)
         {
-            var order = new Order
+            var resultModel = new Order
             {
-                CreatedAt = model.CreatedAt,
-                ClientType = model.ClientType,
-                Service = model.ServiceType,
-                Name = model.Name,
-                Contact = model.Contact,
-                Description = model.Description
+                CreatedAt = model.CreatedAt ?? DateTime.Now,
+                ClientType = model.ClientType ?? Utility.Types.ClientType.Legal,
+                Service = model.ServiceType ?? Utility.Types.ServiceType.NonSelected,
+                Name = model.Name ?? string.Empty,
+                Contact = model.Contact ?? string.Empty,
+                Description = model.Description ?? string.Empty
             };
 
-            return order;
+            return resultModel;
         }
 
         internal static OrderDTO ToDTO(this Order model)
         {
-            var orderDTO = new OrderDTO
+            var resultModel = new OrderDTO
             {
                 Id = model.Id,
                 CreatedAt = model.CreatedAt,
@@ -33,7 +33,7 @@ namespace LegalexAccount.BLL.DTO
                 Description = model.Description
             };
 
-            return orderDTO;
+            return resultModel;
         }
     }
 }

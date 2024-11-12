@@ -39,6 +39,7 @@ namespace LegalexAccount.Web
             {
                 options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
+                options.SlidingExpiration = false;
                 options.ExpireTimeSpan = TimeSpan.FromHours(12);
             });
         }
@@ -51,10 +52,8 @@ namespace LegalexAccount.Web
             }
             else
             {
-                app.UseDeveloperExceptionPage();
-
-                //app.UseHsts();
-                //app.UseExceptionHandler("/Error");
+                app.UseHsts();
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseHttpsRedirection();

@@ -46,11 +46,14 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
                     return user;
                 }
-
-                tasks.GetValueOrDefault(completedTask)?.Dispose();
-                tasks.Remove(completedTask);
+                else
+                {
+                    //tasks.GetValueOrDefault(completedTask)?.Dispose();
+                    tasks.Remove(completedTask);
+                }
             }
 
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
             throw new InvalidOperationException("User was not found");
         }
 

@@ -1,27 +1,20 @@
-﻿using LegalexAccount.DAL.Models.UserAggregate;
-using LegalexAccount.Utility.Services;
+﻿using LegalexAccount.BLL.DTO;
+using System.ComponentModel.DataAnnotations;
 
-
-namespace LegalexAccount.BLL.DTO
+namespace LegalexAccount.Web.ViewModels
 {
-    internal static class LegalDTOExtension
+    internal static class LegalViewModelExtension
     {
-        internal static Legal ToModel(this LegalDTO model)
+        internal static LegalViewModel ToViewModel(this LegalDTO model)
         {
-            const int SALT_SIZE = 32;
-            var salt = GenerateDataService.CreateSalt(SALT_SIZE);
-
-            var resultModel = new Legal
+            var viewModel = new LegalViewModel
             {
                 Email = model.Email ?? string.Empty,
                 Phone = model.Phone,
                 FirstName = model.FirstName ?? string.Empty,
                 LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,
-                PasswordHash = model.Password != null
-                    ? GenerateDataService.GenerateHash(model.Password, salt)
-                    : throw new Exception("Password is empty"),
-                PasswordSalt = salt,
+                Password = model.Password ?? string.Empty,
                 OrganizationName = model.OrganizationName ?? string.Empty,
                 LegalAddress = model.LegalAddress ?? string.Empty,
                 PostalAddress = model.PostalAddress,
@@ -34,18 +27,19 @@ namespace LegalexAccount.BLL.DTO
                 Powers = model.Powers ?? string.Empty
             };
 
-            return resultModel;
+            return viewModel;
         }
 
-        internal static LegalDTO ToDTO(this Legal model)
+        internal static LegalDTO ToDTO(this LegalViewModel model)
         {
-            var resultModel = new LegalDTO
+            var modelDTO = new LegalDTO
             {
                 Email = model.Email,
                 Phone = model.Phone,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 SurName = model.SurName,
+                Password = model.Password,
                 OrganizationName = model.OrganizationName,
                 LegalAddress = model.LegalAddress,
                 PostalAddress = model.PostalAddress,
@@ -58,7 +52,7 @@ namespace LegalexAccount.BLL.DTO
                 Powers = model.Powers
             };
 
-            return resultModel;
+            return modelDTO;
         }
     }
 }

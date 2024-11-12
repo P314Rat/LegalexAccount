@@ -23,6 +23,7 @@ namespace LegalexAccount.Web.Controllers
         {
             try
             {
+                ViewData["ProfileModel"] = _profileModel;
                 ViewData["StepNumber"] = 1;
 
                 return View();

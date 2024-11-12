@@ -1,4 +1,6 @@
 ﻿using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.Utility.Services;
+
 
 namespace LegalexAccount.BLL.DTO
 {
@@ -6,40 +8,41 @@ namespace LegalexAccount.BLL.DTO
     {
         internal static Person ToModel(this PersonDTO model)
         {
-            var personModel = new Person
+            const int SALT_SIZE = 32;
+            var salt = GenerateDataService.CreateSalt(SALT_SIZE);
+
+            var resultModel = new Person
             {
-                Id = model.Id,
-                Email = model.Email,
+                Email = model.Email ?? string.Empty,
                 Phone = model.Phone,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                FirstName = model.FirstName ?? string.Empty,
+                LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,
-                PasswordHash = model.PasswordHash,
-                PasswordSalt = model.PasswordSalt,
-                DateOfBirth = model.DateOfBirth,
-                PassportNumber = model.PassportNumber,
-                IssuingAuthority = model.IssuingAuthority,
-                IssueDate = model.IssueDate,
+                PasswordHash = model.Password != null
+                    ? GenerateDataService.GenerateHash(model.Password, salt)
+                    : throw new Exception("Password is empty"),
+                PasswordSalt = salt,
+                DateOfBirth = model.DateOfBirth ?? DateTime.Now,
+                PassportNumber = model.PassportNumber ?? string.Empty,
+                IssuingAuthority = model.IssuingAuthority ?? string.Empty,
+                IssueDate = model.IssueDate ?? DateTime.Now,
                 TaxIdentificationNumber = model.TaxIdentificationNumber,
-                RegistrationAddress = model.RegistrationAddress,
+                RegistrationAddress = model.RegistrationAddress ?? string.Empty,
                 ResidentialAddress = model.ResidentialAddress
             };
 
-            return personModel;
+            return resultModel;
         }
 
         internal static PersonDTO ToDTO(this Person model)
         {
-            var personDTO = new PersonDTO
+            var resultModel = new PersonDTO
             {
-                Id = model.Id,
                 Email = model.Email,
                 Phone = model.Phone,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 SurName = model.SurName,
-                PasswordHash = model.PasswordHash,
-                PasswordSalt = model.PasswordSalt,
                 DateOfBirth = model.DateOfBirth,
                 PassportNumber = model.PassportNumber,
                 IssuingAuthority = model.IssuingAuthority,
@@ -49,7 +52,7 @@ namespace LegalexAccount.BLL.DTO
                 ResidentialAddress = model.ResidentialAddress
             };
 
-            return personDTO;
+            return resultModel;
         }
     }
 }

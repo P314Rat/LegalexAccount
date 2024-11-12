@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+
 namespace LegalexAccount.Web.ViewModels
 {
     public class UserViewModel

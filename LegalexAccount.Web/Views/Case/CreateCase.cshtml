@@ -1,6 +1,6 @@
 ﻿@model int
 @{
-    var stepNumber = Model;
+    int stepNumber = (int)ViewData["StepNumber"];
     var isCreateFormActive = false;
 
     if (ViewData["IsCreateFormActive"] != null)

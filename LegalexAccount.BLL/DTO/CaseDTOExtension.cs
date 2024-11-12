@@ -7,21 +7,21 @@ namespace LegalexAccount.BLL.DTO
     {
         internal static Case ToModel(this CaseDTO model)
         {
-            var caseModel = new Case
+            var resultModel = new Case
             {
-                StartDate = model.StartDate,
+                StartDate = model.StartDate ?? DateTime.Now,
                 EstimatedDaysToEnd = model.EstimatedDaysToEnd,
                 Assignee = model.Assignee,
-                Customer = model.Customer,
-                Description = model.Description
+                Customer = model.Customer ?? throw new Exception("Wrong customer"),
+                Description = model.Description ?? string.Empty
             };
 
-            return caseModel;
+            return resultModel;
         }
 
         internal static CaseDTO ToDTO(this Case model)
         {
-            var orderDTO = new CaseDTO
+            var resultModel = new CaseDTO
             {
                 Id = model.Id,
                 StartDate = model.StartDate,
@@ -31,7 +31,7 @@ namespace LegalexAccount.BLL.DTO
                 Description = model.Description
             };
 
-            return orderDTO;
+            return resultModel;
         }
     }
 }

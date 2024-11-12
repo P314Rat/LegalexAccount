@@ -1,4 +1,5 @@
-﻿using LegalexAccount.DAL.Models;
+﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
+using LegalexAccount.DAL.Models;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -112,6 +113,7 @@ namespace LegalexAccount.Web.Controllers
             _legalModel.LastName = _userModel.LastName;
             _legalModel.SurName = _userModel.SurName;
             _legalModel.Password = _userModel.Password;
+            //Добавить перегрузку для преобразования ViewModel
 
             return Redirect("StepThree");
         }
@@ -119,13 +121,27 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> SaveClient()
         {
+            try
+            {
+                if (_legalModel != null)
+                    await _mediator.Send(new CreateLegalCommand(_legalModel.ToDTO()));
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             return RedirectToAction("Clients", "Home");
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveClient(CaseViewModel? model)
         {
-            return RedirectToAction("Home", "Clients");
+            if (_legalModel != null)
+                await _mediator.Send(new CreateLegalCommand(_legalModel.ToDTO()));
+
+            return RedirectToAction("Clients", "Home");
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using LegalexAccount.DAL.Models.OrderAggregate;
-using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.Utility.Services;
 
 
 namespace LegalexAccount.BLL.DTO
@@ -8,40 +8,41 @@ namespace LegalexAccount.BLL.DTO
     {
         internal static Specialist ToModel(this SpecialistDTO model)
         {
-            var specialist = new Specialist
+            const int SALT_SIZE = 32;
+            var salt = GenerateDataService.CreateSalt(SALT_SIZE);
+
+            var resultModel = new Specialist
             {
-                Id = model.Id,
-                Email = model.Email,
+                Email = model.Email ?? string.Empty,
                 Phone = model.Phone,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
+                FirstName = model.FirstName ?? string.Empty,
+                LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,
-                PasswordHash = model.PasswordHash,
-                PasswordSalt = model.PasswordSalt,
-                Role = model.Role,
-                Status = model.Status
+                PasswordHash = model.Password != null
+                    ? GenerateDataService.GenerateHash(model.Password, salt)
+                    : throw new Exception("Password is empty"),
+                PasswordSalt = salt,
+                Role = model.Role ?? Utility.Types.SpecialistRole.Employee,
+                Status = model.Status ?? Utility.Types.SpecialistStatus.Free
             };
 
-            return specialist;
+            return resultModel;
         }
 
         internal static SpecialistDTO ToDTO(this Specialist model)
         {
-            var specialistDTO = new SpecialistDTO
+            var resultModel = new SpecialistDTO
             {
-                Id = model.Id,
                 Email = model.Email,
                 Phone = model.Phone,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 SurName = model.SurName,
-                PasswordHash = model.PasswordHash,
-                PasswordSalt = model.PasswordSalt,
                 Role = model.Role,
                 Status = model.Status
             };
 
-            return specialistDTO;
+            return resultModel;
         }
     }
 }

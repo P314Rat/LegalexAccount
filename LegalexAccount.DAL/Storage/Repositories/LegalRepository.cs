@@ -20,10 +20,18 @@ namespace LegalexAccount.DAL.Storage.Repositories
         public async Task CreateAsync(Legal item)
         {
             var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.LegalEntities?.AddAsync(item).AsTask();
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
+
 
             if (entry == null || entry.State != EntityState.Added)
+            {
+                _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Legal was not created");
+            }
+            else
+            {
+                _dbContextFactory.Dispose(REPOSITORY_NAME);
+            }
+
         }
 
         public async Task DeleteByEmailAsync(string email)
