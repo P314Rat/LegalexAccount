@@ -1,13 +1,13 @@
 ﻿using LegalexAccount.DAL.Models.CaseAggregate;
 
 
-namespace LegalexAccount.BLL.DTO
+namespace LegalexAccount.BLL.DTO.Case
 {
     internal static class CaseDTOExtension
     {
-        internal static Case ToModel(this CaseDTO model)
+        internal static DAL.Models.CaseAggregate.Case ToModel(this CaseDTO model)
         {
-            var resultModel = new Case
+            var resultModel = new DAL.Models.CaseAggregate.Case
             {
                 StartDate = model.StartDate ?? DateTime.Now,
                 EstimatedDaysToEnd = model.EstimatedDaysToEnd,
@@ -19,7 +19,7 @@ namespace LegalexAccount.BLL.DTO
             return resultModel;
         }
 
-        internal static CaseDTO ToDTO(this Case model)
+        internal static CaseDTO ToDTO(this DAL.Models.CaseAggregate.Case model)
         {
             var resultModel = new CaseDTO
             {

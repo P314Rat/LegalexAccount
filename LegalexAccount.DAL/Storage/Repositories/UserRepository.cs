@@ -23,7 +23,6 @@ namespace LegalexAccount.DAL.Storage.Repositories
             for (int i = 0; i < 3; i++)
             {
                 var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-
                 Task<User> task = i switch
                 {
                     0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (User)t.Result),
@@ -48,7 +47,6 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 }
                 else
                 {
-                    //tasks.GetValueOrDefault(completedTask)?.Dispose();
                     tasks.Remove(completedTask);
                 }
             }

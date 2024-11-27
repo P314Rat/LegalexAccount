@@ -24,6 +24,19 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> ClientCard(string email)
+        {
+            try
+            {
+                return View(new ProfileViewModel());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CreateClient()
         {
             try
@@ -38,6 +51,19 @@ namespace LegalexAccount.Web.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet]
+        public async Task<List<ProfileViewModel>> GetClients()
+        {
+            var clients = (await _mediator.Send(new GetClientsQuery())).Select(x => new ProfileViewModel
+            {
+                Email = x.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName
+            }).ToList();
+
+            return clients;
         }
 
         [HttpGet]
@@ -118,6 +144,21 @@ namespace LegalexAccount.Web.Controllers
             return Redirect("StepThree");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> PersonCreate(PersonViewModel model)
+        {
+            _personModel = model;
+            _personModel.Email = _userModel.Email;
+            _personModel.Phone = _userModel.Phone;
+            _personModel.FirstName = _userModel.FirstName;
+            _personModel.LastName = _userModel.LastName;
+            _personModel.SurName = _userModel.SurName;
+            _personModel.Password = _userModel.Password;
+            //Добавить перегрузку для преобразования ViewModel
+
+            return Redirect("StepThree");
+        }
+
         [HttpGet]
         public async Task<IActionResult> SaveClient()
         {
@@ -125,9 +166,15 @@ namespace LegalexAccount.Web.Controllers
             {
                 if (_legalModel != null)
                     await _mediator.Send(new CreateLegalCommand(_legalModel.ToDTO()));
+                else if (_personModel != null)
+                {
+                    await _mediator.Send(new CreatePersonCommand(_personModel.ToDTO()));
+                }
+                else
+                    throw new Exception("Something went wrong with client creation");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

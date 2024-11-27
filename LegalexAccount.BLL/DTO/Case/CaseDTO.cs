@@ -1,7 +1,7 @@
 ﻿using LegalexAccount.DAL.Models.UserAggregate;
 
 
-namespace LegalexAccount.BLL.DTO
+namespace LegalexAccount.BLL.DTO.Case
 {
     public class CaseDTO
     {

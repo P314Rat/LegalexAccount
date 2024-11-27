@@ -11,7 +11,8 @@ namespace LegalexAccount.Web.ViewModels
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                UserType = model.UserType
             };
 
             return profileViewModel;

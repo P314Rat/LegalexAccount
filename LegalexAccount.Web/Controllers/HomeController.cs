@@ -1,7 +1,9 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
 using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
+using LegalexAccount.BLL.DTO;
 using LegalexAccount.DAL.Models;
+using LegalexAccount.Utility.Types;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -26,12 +28,12 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Orders(int currentPage = 1)
         {
+            ViewData["ProfileModel"] = _profileModel;
+
             try
             {
                 var ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(x => x.ToViewModel()).ToList();
-
                 ViewData["CurrentPage"] = currentPage;
-                ViewData["ProfileModel"] = _profileModel;
 
                 return View(ordersModel);
             }
@@ -50,18 +52,37 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Clients()
+        public async Task<IActionResult> Clients(int currentPage = 1)
         {
+            ViewData["ProfileModel"] = _profileModel;
+
             try
             {
-                var clients = (await _mediator.Send(new GetClientsQuery())).Select(x => x.ToViewModel()).ToList();
-                ViewData["ProfileModel"] = _profileModel;
+                var clients = (await _mediator.Send(new GetClientsQuery())).Select(user =>
+                {
+                    UserType userType = user switch
+                    {
+                        LegalDTO => UserType.Legal,
+                        PersonDTO => UserType.Person,
+                        _ => throw new Exception($"Unknown UserDTO type: {user.GetType()}")
+                    };
+
+                    return new ProfileDTO
+                    {
+                        Email = user.Email ?? string.Empty,
+                        FirstName = user.FirstName ?? string.Empty,
+                        LastName = user.LastName ?? string.Empty,
+                        UserType = userType
+                    };
+                }).Select(x => x.ToViewModel()).ToList();
+
+                ViewData["CurrentPage"] = currentPage;
 
                 return View(clients);
             }
-            catch (Exception ex)
+            catch
             {
-                return BadRequest(ex.Message);
+                return View(new List<ProfileViewModel>());
             }
         }
 

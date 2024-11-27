@@ -4,52 +4,49 @@
 <div class="form-container">
     <div class="form-grid">
         <div class="item-container">
-            <label for="organizationName" class="organization-label">Дата рождения</label>
+            <label for="dateOfBirth" class="dateOfBirth-label">Дата рождения</label>
             <div class="input-container">
-                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=DateOfBirth>
-                <span class="text-validation" asp-validation-for="DateOfBirth"></span>
+                <input id="dateOfBirth" name="DateOfBirth" type="date" autocomplete="off" asp-for=DateOfBirth>
             </div>
         </div>
         <div class="item-container">
-            <label for="name" class="organization-label">Серия и номер документа удостоверяющего личность</label>
+            <label for="passportNumber" class="passportNumber-label">Серия и номер документа удостоверяющего личность*</label>
             <div class="input-container">
-                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=PassportNumber>
+                <input id="passportNumber" name="PassportNumber" type="text" autocomplete="off" asp-for=PassportNumber>
                 <span class="text-validation" asp-validation-for="PassportNumber"></span>
             </div>
         </div>
         <div class="item-container">
-            <label for="name" class="organization-label">Кем выдан (если отличается от юридического)</label>
+            <label for="issuingAuthority" class="issuingAuthority-label">Кем выдан*</label>
             <div class="input-container">
-                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=IssuingAuthority>
+                <input id="issuingAuthority" name="IssuingAuthority" type="text" autocomplete="off" asp-for=IssuingAuthority>
                 <span class="text-validation" asp-validation-for="IssuingAuthority"></span>
             </div>
         </div>
         <div class="item-container">
-            <label for="name" class="organization-label">Дата выдачи</label>
+            <label for="issueDate" class="issueDate-label">Дата выдачи</label>
             <div class="input-container">
-                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=IssueDate>
-                <span class="text-validation" asp-validation-for="IssueDate"></span>
+                <input id="issueDate" name="IssueDate" type="date" autocomplete="off" asp-for=IssueDate>
             </div>
         </div>
         <div class="item-container">
-            <label for="name" class="organization-label">Идентификационный номер (при наличии)</label>
+            <label for="taxIdentificationNumber" class="taxIdentificationNumber-label">Идентификационный номер (при наличии)</label>
             <div class="input-container">
-                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=TaxIdentificationNumber>
+                <input id="taxIdentificationNumber" name="TaxIdentificationNumber" type="text" autocomplete="off" asp-for=TaxIdentificationNumber>
                 <span class="text-validation" asp-validation-for="TaxIdentificationNumber"></span>
             </div>
         </div>
         <div class="item-container">
-            <label for="name" class="organization-label">Адрес регистрации</label>
+            <label for="registrationAddress" class="registrationAddress-label">Адрес регистрации*</label>
             <div class="input-container">
-                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=RegistrationAddress>
+                <input id="registrationAddress" name="RegistrationAddress" type="text" autocomplete="off" asp-for=RegistrationAddress>
                 <span class="text-validation" asp-validation-for="RegistrationAddress"></span>
             </div>
         </div>
         <div class="item-container">
-            <label for="name" class="organization-label">Адрес проживания (если отличается от адреса регистрации)</label>
+            <label for="residentialAddress" class="residentialAddress-label">Адрес проживания (если отличается от адреса регистрации)</label>
             <div class="input-container">
-                <input id="organizationName" name="OrganizationName" type="text" autocomplete="off" asp-for=ResidentialAddress>
-                <span class="text-validation" asp-validation-for="ResidentialAddress"></span>
+                <input id="residentialAddress" name="ResidentialAddress" type="text" autocomplete="off" asp-for=ResidentialAddress>
             </div>
         </div>
     </div>

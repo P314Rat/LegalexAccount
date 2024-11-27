@@ -6,7 +6,7 @@
 }
 
 
-<form id="creation-form" asp-controller="Client" asp-action="LegalCreate" method="post">
+<form id="creation-form" asp-controller="Client" asp-action="@(isLegalProfile ? "LegalCreate" : "PersonCreate")" method="post">
     <div class="type-tab-container">
         <div class="type-tab">
             <a class="@(isLegalProfile ? "rect active" : "rect")" asp-controller="Client" asp-action="StepTwo" asp-route-isLegal="@true">Юридическое лицо</a>

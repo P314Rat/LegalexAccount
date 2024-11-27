@@ -1,28 +1,41 @@
 ﻿@model CaseViewModel
 
 
-<h1>Создание дела</h1>
 <form id="creation-form" asp-controller="Client" asp-action="SaveClient" method="post">
     <div class="form-container" style="border: none;">
         <div class="form-grid">
             <div class="item-container">
-                <label for="estimatedDaysToEnd">Предположительная дата окончания</label>
+                <label for="estimatedDaysToEnd">Предположительное количество дней до завершения</label>
                 <div class="input-container">
-                    <input id="estimatedDaysToEnd" name="EstimatedDaysToEnd" type="estimatedDaysToEnd" autocomplete="off" asp-for=EstimatedDaysToEnd>
+                    <input id="estimatedDaysToEnd" name="EstimatedDaysToEnd" type="number" autocomplete="off" asp-for=EstimatedDaysToEnd>
                 </div>
             </div>
             <div class="item-container">
-                <label for="customer">Заказчик</label>
-                <div class="input-container">
-                    <input id="customer" name="Customer" type="customer" autocomplete="off" asp-for=Customer>
-                    <span class="text-validation" asp-validation-for="Customer"></span>
+                <label for="customer">Заказчик</label><div class="client-type">
+                    <div class="input-container">
+                        <button class="dropdown-button" type="button" onclick="CallDropdownManagement(this, )">></button>
+                        <div id="dropdown-content" class="dropdown-content">
+                        </div>
+                        <input id="customer" name="Customer" type="text" autocomplete="off" disabled asp-for=Customer>
+                        <span class="text-validation" asp-validation-for="Customer"></span>
+                    </div>
+
                 </div>
+
             </div>
             <div class="item-container">
                 <label for="assignee">Исполнитель</label>
-                <div class="input-container">
-                    <input id="assignee" name="Assignee" type="assignee" autocomplete="off" asp-for=Assignee>
+                <div class="client-type">
+                    <button class="dropdown-button" type="button" onclick="CallDropdownManagement(this)"><</button>
+                    <div id="dropdown-content" class="dropdown-content">
+                        <a href="#">Опция 1</a>
+                        <a href="#">Опция 2</a>
+                    </div>
+                    <div class="input-container">
+                        <input id="assignee" name="Assignee" type="search" autocomplete="off" asp-for=Assignee>
+                    </div>
                 </div>
+
             </div>
             <div class="item-container">
                 <label for="description">Описание</label>

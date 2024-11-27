@@ -14,7 +14,6 @@ namespace LegalexAccount.Web.Controllers
     public class OrderController : BaseController
     {
         private readonly IMediator _mediator;
-        private static ProfileViewModel? _userModel = null;
 
 
         public OrderController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
@@ -26,17 +25,11 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> OrderCard(int id)
         {
-            var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-            if (email == null)
-                return BadRequest("Authorization is wrong.");
-
             try
             {
                 var orderDTO = (await _mediator.Send(new GetOrdersQuery(id))).FirstOrDefault();
                 var orderModel = orderDTO?.ToViewModel();
 
-                _userModel = (await _mediator.Send(new IdentificationQuery(email))).ToViewModel();
                 ViewData["ProfileModel"] = _profileModel;
 
                 return View(orderModel);

@@ -20,10 +20,14 @@ namespace LegalexAccount.DAL.Storage.Repositories
         public async Task CreateAsync(Order item)
         {
             var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Orders?.AddAsync(item).AsTask();
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             if (entry == null || entry.State != EntityState.Added)
+            {
+                _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Order was not created");
+            }
+
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
         }
 
         public async Task<Order> GetByIdAsync(int id)

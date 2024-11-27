@@ -23,7 +23,12 @@ namespace LegalexAccount.DAL.Storage.Repositories
             _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             if (entry == null || entry.State != EntityState.Added)
+            {
+                _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Specialist was not created");
+            }
+
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
         }
 
         public async Task DeleteByIdAsync(string email)

@@ -56,16 +56,17 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task<IEnumerable<Client>> GetAllAsync()
         {
-            var tasks = new Dictionary<Task<IEnumerable<Client>>, ApplicationDbContext>();
+            var tasks = new Dictionary<Task<List<Client>>, ApplicationDbContext>();
+            var resultList = new List<Client>();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-                var task = i switch
+                Task<List<Client>> task = i switch
                 {
-                    0 => dbContext.Individuals.Select(x => (Client)x).ToListAsync().ContinueWith(x => (IEnumerable<Client>)x.Result),
-                    1 => dbContext.LegalEntities.Select(x => (Client)x).ToListAsync().ContinueWith(x => (IEnumerable<Client>)x.Result),
-                    _ => Task.FromResult(Enumerable.Empty<Client>())
+                    0 => dbContext.Individuals.Select(x => (Client)x).ToListAsync(),
+                    1 => dbContext.LegalEntities.Select(x => (Client)x).ToListAsync(),
+                    _ => Task.FromResult(new List<Client>())
                 };
 
                 tasks.Add(task, dbContext);
@@ -76,20 +77,16 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 var pendingTasks = tasks.Keys.ToArray();
                 var completedTask = await Task.WhenAny(pendingTasks);
 
-                if (await completedTask is IEnumerable<Client> clients && clients.Any())
+                if (await completedTask is List<Client> clients)
                 {
-                    _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-                    return clients;
-                }
-                else
-                {
+                    resultList.AddRange(clients);
                     tasks.Remove(completedTask);
                 }
             }
 
             _dbContextFactory.Dispose(REPOSITORY_NAME);
-            throw new Exception("Clients was not found");
+
+            return resultList;
         }
     }
 }

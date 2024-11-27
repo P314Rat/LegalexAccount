@@ -21,16 +21,13 @@ namespace LegalexAccount.DAL.Storage.Repositories
         {
             var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.LegalEntities?.AddAsync(item).AsTask();
 
-
             if (entry == null || entry.State != EntityState.Added)
             {
                 _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Legal was not created");
             }
-            else
-            {
-                _dbContextFactory.Dispose(REPOSITORY_NAME);
-            }
+
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
         }
 

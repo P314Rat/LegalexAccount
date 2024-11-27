@@ -14,6 +14,7 @@
 
 <div class="orders">
     <h2>Заявки</h2>
+
     @if (orders.Count == 0)
     {
         <span>У вас нет заявок.</span>
@@ -52,6 +53,7 @@
                 }
             </tbody>
         </table>
+
         @if (pagesNumber > 1)
         {
             <div class="pagination">
@@ -62,6 +64,7 @@
                 }
             </div>
         }
+
         <span class="hint">* Нажмите на заявку, чтобы узнать подробности.</span>
         @* <div class="loader">
     <div class="loader-animation"></div>

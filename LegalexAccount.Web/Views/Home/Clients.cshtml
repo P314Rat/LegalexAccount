@@ -2,6 +2,10 @@
 @model List<ProfileViewModel>
 @{
     var profiles = Model;
+    const int profilesNumber = 7;
+    var pagesRemainder = profiles.Count % profilesNumber > 0 ? 1 : 0;
+    var pagesNumber = profiles.Count / profilesNumber + pagesRemainder;
+    var currentPage = (int)ViewData["CurrentPage"];
 
     ViewData["Title"] = "Клиенты";
     ViewData["Page"] = "Clients";
@@ -13,6 +17,7 @@
         <h2>Клиенты</h2>
         <a class="create-client" asp-controller="Client" asp-action="CreateClient">Создать клиента</a>
     </div>
+
     @if (profiles.Count == 0)
     {
         <span>У вас нет клиентов.</span>
@@ -25,19 +30,43 @@
                     <th>Электронная почта</th>
                     <th>Имя</th>
                     <th>Фамилия</th>
+                    <th>Тип клиента</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var profile in profiles)
+                @for (var i = 0; i < profilesNumber; i++)
                 {
-                    <tr>
-                        <td>@profile.Email</td>
-                        <td>@profile.FirstName</td>
-                        <td>@profile.LastName</td>
+                    var profileIndex = profilesNumber * (currentPage - 1) + i;
+
+                    if (profileIndex == profiles.Count)
+                        break;
+
+                    var currentModel = profiles[profileIndex];
+
+                    <tr class="with-management-panel" onclick="CallManagementPanel(this)">
+                        <td>@currentModel.Email</td>
+                        <td>@currentModel.FirstName</td>
+                        <td>@currentModel.LastName</td>
+                        <td>
+                            @currentModel.UserType.GetDisplayName()
+                            <a class="panel" asp-controller="Client" asp-action="ClientCard" asp-route-email="@currentModel.Email"></a>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
+
+        @if (pagesNumber > 1)
+        {
+            <div class="pagination">
+
+                @for (var i = 0; i < pagesNumber; i++)
+                {
+                    <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Orders" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
+                }
+            </div>
+        }
+
         <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
     }
 </div>
@@ -50,3 +79,5 @@ else
 {
     <link rel="stylesheet" href="~/Styles/Clients.min.css?v = @DateTime.Now.Ticks">
 }
+
+<script src="~/Scripts/OrderManagement.js"></script>

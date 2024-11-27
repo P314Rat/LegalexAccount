@@ -20,10 +20,14 @@ namespace LegalexAccount.DAL.Storage.Repositories
         public async Task CreateAsync(Case item)
         {
             var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Cases?.AddAsync(item).AsTask();
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             if (entry == null || entry.State != EntityState.Added)
+            {
+                _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Case was not created");
+            }
+
+            _dbContextFactory.Dispose(REPOSITORY_NAME);
         }
 
         public async Task<Case> GetByIdAsync(int id)
