@@ -1,9 +1,8 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.CaseAggregate;
+﻿using LegalexAccount.DAL.Models.CaseAggregate;
 using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Models.UserAggregate;
-using LegalexAccount.DAL.Storage;
-using LegalexAccount.DAL.Storage.Repositories;
+using LegalexAccount.DAL.Repositories;
+using LegalexAccount.DAL.Repositories.Contracts;
 using LegalexAccount.Utility.Types;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -15,8 +14,8 @@ namespace LegalexAccount.DAL
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private const string UNIT_OF_WORK_CONTEXT_NAME = "UnitOfWork";
-        private readonly ApplicationDbContext _dbContext;
 
+        private readonly ApplicationDbContext _dbContext;
         private readonly UserRepository _userRepository;
         private readonly SpecialistRepository _specialistRepository;
         private readonly ClientRepository _clientRepository;
@@ -26,12 +25,12 @@ namespace LegalexAccount.DAL
         private readonly CaseRepository _caseRepository;
 
         public IUserRepository Users { get => _userRepository; }
-        public ISpecialistRepository Specialists { get => _specialistRepository; }
-        public IClientRepository Clients { get => _clientRepository; }
-        public IPersonRepository Individuals { get => _personRepository; }
-        public ILegalRepository LegalEntities { get => _legalRepository; }
-        public IOrderRepository Orders { get => _orderRepository; }
-        public ICaseRepository Cases { get => _caseRepository; }
+        public IRepository<Specialist, Guid> Specialists { get => _specialistRepository; }
+        public IRepository<Client, Guid> Clients { get => _clientRepository; }
+        public IRepository<Person, Guid> Individuals { get => _personRepository; }
+        public IRepository<Legal, Guid> LegalEntities { get => _legalRepository; }
+        public IRepository<Order, int> Orders { get => _orderRepository; }
+        public IRepository<Case, int> Cases { get => _caseRepository; }
 
 
         public UnitOfWork(IApplicationDbContextFactory dbFactory)

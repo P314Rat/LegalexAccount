@@ -1,6 +1,8 @@
 ﻿using LegalexAccount.BLL.DTO;
-using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL;
+using LegalexAccount.DAL.Models.UserAggregate;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses
@@ -15,12 +17,15 @@ namespace LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<SpecialistDTO>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
+        public Task<List<SpecialistDTO>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
         {
-            var specialists = (await _unitOfWork.Specialists.GetAllAsync()).Where(x => x.Email != request.Email);
-            var specialistModels = specialists.Select(x => x.ToDTO()).ToList();
+            var specialistsQuery = _unitOfWork.Specialists.AsQueryable();
 
-            return specialistModels;
+            if (request.Email != null)
+                specialistsQuery = specialistsQuery.Where(x => x.Email == request.Email);
+
+
+            return specialistsQuery.Select(x => x.ToDTO()).ToListAsync();
         }
     }
 }

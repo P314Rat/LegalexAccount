@@ -1,12 +1,12 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.CaseAggregate;
+﻿using LegalexAccount.DAL.Models.CaseAggregate;
+using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
-namespace LegalexAccount.DAL.Storage.Repositories
+namespace LegalexAccount.DAL.Repositories
 {
-    public class CaseRepository : ICaseRepository
+    public class CaseRepository : IRepository<Case, int>
     {
         private const string REPOSITORY_NAME = "Case";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -68,6 +68,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
         }
 
         public async Task UpdateAsync(Case item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Case> AsQueryable()
         {
             throw new NotImplementedException();
         }

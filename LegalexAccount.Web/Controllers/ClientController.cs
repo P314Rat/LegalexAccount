@@ -1,5 +1,5 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
-using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -54,16 +54,16 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<List<ProfileViewModel>> GetClients()
+        public async Task<JsonResult> GetClients()
         {
             var clients = (await _mediator.Send(new GetClientsQuery())).Select(x => new ProfileViewModel
             {
                 Email = x.Email,
                 FirstName = x.FirstName,
                 LastName = x.LastName
-            }).ToList();
+            }).ToArray();
 
-            return clients;
+            return Json(clients);
         }
 
         [HttpGet]

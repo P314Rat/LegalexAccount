@@ -1,12 +1,12 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
-namespace LegalexAccount.DAL.Storage.Repositories
+namespace LegalexAccount.DAL.Repositories
 {
-    public class SpecialistRepository : ISpecialistRepository
+    public class SpecialistRepository : IRepository<Specialist, Guid>
     {
         private const string REPOSITORY_NAME = "Specialist";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -15,6 +15,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
         public SpecialistRepository(IApplicationDbContextFactory dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
+        }
+
+        public IQueryable<Specialist> AsQueryable()
+        {
+            return _dbContextFactory.CreateDbContext(REPOSITORY_NAME).Specialists.AsQueryable();
         }
 
         public async Task CreateAsync(Specialist item)
@@ -47,6 +52,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 throw new InvalidOperationException("Specialist was not deleted");
         }
 
+        public Task DeleteByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Specialist>> GetAllAsync()
         {
             var items = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Specialists.ToListAsync();
@@ -60,6 +70,7 @@ namespace LegalexAccount.DAL.Storage.Repositories
 
         public async Task<Specialist> GetByEmailAsync(string email)
         {
+            var qe = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
             var item = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Specialists?.FirstOrDefaultAsync(x => x.Email == email);
             _dbContextFactory.Dispose(REPOSITORY_NAME);
 
@@ -67,6 +78,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 throw new InvalidOperationException("Specialist was not found");
 
             return item;
+        }
+
+        public Task<Specialist> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task UpdateAsync(Specialist item)

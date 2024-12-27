@@ -2,7 +2,7 @@
 using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
 using LegalexAccount.BLL.DTO;
-using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL;
 using LegalexAccount.Utility.Types;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
@@ -46,7 +46,7 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public IActionResult Cases()
         {
-            ViewData["ProfileModel"] = _profileModel;
+            ViewData["ProfileModel"] = _profileModel; //Vanya
 
             return View();
         }
@@ -55,6 +55,7 @@ namespace LegalexAccount.Web.Controllers
         public async Task<IActionResult> Clients(int currentPage = 1)
         {
             ViewData["ProfileModel"] = _profileModel;
+            ViewData["CurrentPage"] = currentPage;
 
             try
             {
@@ -76,12 +77,11 @@ namespace LegalexAccount.Web.Controllers
                     };
                 }).Select(x => x.ToViewModel()).ToList();
 
-                ViewData["CurrentPage"] = currentPage;
-
                 return View(clients);
             }
-            catch
+            catch (Exception ex)
             {
+                //Лог
                 return View(new List<ProfileViewModel>());
             }
         }
@@ -102,8 +102,8 @@ namespace LegalexAccount.Web.Controllers
                 if (_profileModel == null)
                     return BadRequest("Authorization is wrong.");
 
-                var specialists = await _mediator.Send(new GetEmployeesQuery(_profileModel.Email));
-                var specialistsModel = specialists.Select(x => x.ToViewModel()).ToList();
+                var specialists = await _mediator.Send(new GetEmployeesQuery());
+                var specialistsModel = specialists.Where(x => x.Email != _profileModel.Email).Select(x => x.ToViewModel()).ToList();
                 ViewData["ProfileModel"] = _profileModel;
 
                 return View(specialistsModel);

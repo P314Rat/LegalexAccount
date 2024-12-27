@@ -1,6 +1,6 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.Identification;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
-using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

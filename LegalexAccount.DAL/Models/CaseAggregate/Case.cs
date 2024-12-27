@@ -3,9 +3,8 @@
 
 namespace LegalexAccount.DAL.Models.CaseAggregate
 {
-    public class Case
+    public class Case : BaseEntity<int>
     {
-        public int Id { get; set; }
         public DateTime StartDate { get; set; } = DateTime.Now;
         public int? EstimatedDaysToEnd { get; set; } = null;
         public Client Customer { get; set; }

@@ -1,5 +1,5 @@
 ﻿using LegalexAccount.BLL.DTO;
-using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL;
 using LegalexAccount.DAL.Models.UserAggregate;
 using MediatR;
 
@@ -18,8 +18,30 @@ namespace LegalexAccount.BLL.BusinessProcesses.ClientsProcesses
 
         public async Task<List<UserDTO>> Handle(GetClientsQuery request, CancellationToken cancellationToken)
         {
+            var clientsQuery = _unitOfWork.Clients.AsQueryable();
 
-            if (request.Email == null)
+            if (request.Email != null)
+            {
+                var client = clientsQuery.Where(x => x.Email == request.Email).FirstOrDefault();
+
+                if (client != null)
+                {
+                    UserDTO? userDTO = client switch
+                    {
+                        Legal legalClient => legalClient.ToDTO(),
+                        Person person => person.ToDTO(),
+                        _ => null
+                    };
+
+                    var result = userDTO == null ? new List<UserDTO>() : new List<UserDTO>() { userDTO };
+
+                    return result;
+                }
+                else
+                    throw new Exception("Client is not exists");
+
+            }
+            else
             {
                 var clients = await _unitOfWork.Clients.GetAllAsync();
                 var legalDTOs = clients.Where(x => x != null && x is Legal).Select(x => ((Legal)x).ToDTO());
@@ -27,17 +49,6 @@ namespace LegalexAccount.BLL.BusinessProcesses.ClientsProcesses
                 var userDTOs = legalDTOs.Cast<UserDTO>().Union(personDTOs.Cast<UserDTO>()).ToList();
 
                 return userDTOs;
-            }
-            else
-            {
-                var client = await _unitOfWork.Clients.GetByEmailAsync(request.Email);
-
-                if (client is Legal l)
-                    return new List<UserDTO> { l.ToDTO() };
-                else if (client is Person p)
-                    return new List<UserDTO> { p.ToDTO() };
-                else
-                    throw new Exception("Something went wrong with getting client");
             }
         }
     }

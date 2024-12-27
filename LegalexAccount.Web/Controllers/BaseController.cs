@@ -1,4 +1,4 @@
-﻿using LegalexAccount.DAL.Models;
+﻿using LegalexAccount.DAL;
 using LegalexAccount.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

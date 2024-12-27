@@ -1,8 +1,7 @@
 ﻿namespace LegalexAccount.DAL.Models.UserAggregate
 {
-    public abstract class User
+    public abstract class User : BaseEntity<Guid>
     {
-        public Guid Id { get; set; }
         public string Email { get; set; } = string.Empty;
         public string? Phone { get; set; } = null;
         public string FirstName { get; set; } = string.Empty;

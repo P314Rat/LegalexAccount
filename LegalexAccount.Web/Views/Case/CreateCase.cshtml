@@ -1,6 +1,6 @@
 ﻿@model int
 @{
-    int stepNumber = (int)ViewData["StepNumber"];
+    int stepNumber = Model;
     var isCreateFormActive = false;
 
     if (ViewData["IsCreateFormActive"] != null)
@@ -17,7 +17,7 @@
     {
         case 1:
             ViewData["Title"] = "Новое дело | Шаг 1";
-            @await Html.PartialAsync("_StepOne")
+            @await Html.PartialAsync("_StepOne", model: null)
             break;
         case 2:
             ViewData["Title"] = "Новое дело | Шаг 2";

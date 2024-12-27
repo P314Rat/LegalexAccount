@@ -1,11 +1,11 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace LegalexAccount.DAL.Storage.Repositories
+namespace LegalexAccount.DAL.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IRepository<User, Guid>, IUserRepository
     {
         private const string REPOSITORY_NAME = "Specialist";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -14,6 +14,26 @@ namespace LegalexAccount.DAL.Storage.Repositories
         public UserRepository(IApplicationDbContextFactory dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
+        }
+
+        public IQueryable<User> AsQueryable()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateAsync(User item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<User>> GetAllAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<User> GetByEmailAsync(string email)
@@ -55,7 +75,12 @@ namespace LegalexAccount.DAL.Storage.Repositories
             throw new InvalidOperationException("User was not found");
         }
 
-        public bool IsExists(string email)
+        public Task<User> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> IsExistsAsync(string email)
         {
             var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
             var isLoginExists = dbContext.Specialists
@@ -66,6 +91,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
             _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             return isLoginExists;
+        }
+
+        public Task UpdateAsync(User item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

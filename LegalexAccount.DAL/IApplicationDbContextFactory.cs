@@ -1,7 +1,4 @@
-﻿using LegalexAccount.DAL.Storage;
-
-
-namespace LegalexAccount.DAL.Models
+﻿namespace LegalexAccount.DAL
 {
     public interface IApplicationDbContextFactory
     {

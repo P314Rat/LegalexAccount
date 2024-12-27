@@ -1,11 +1,10 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-
-namespace LegalexAccount.DAL.Storage.Repositories
+namespace LegalexAccount.DAL.Repositories
 {
-    public class ClientRepository : IClientRepository
+    public class ClientRepository : IRepository<Client, Guid>
     {
         private const string REPOSITORY_NAME = "Client";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -87,6 +86,35 @@ namespace LegalexAccount.DAL.Storage.Repositories
             _dbContextFactory.Dispose(REPOSITORY_NAME);
 
             return resultList;
+        }
+
+        public Task CreateAsync(Client item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Client> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Client item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<Client> AsQueryable()
+        {
+            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
+            var resultQuery = dbContext.Specialists.Cast<Client>()
+                .Union(dbContext.Individuals.Cast<Client>());
+
+            return resultQuery;
         }
     }
 }

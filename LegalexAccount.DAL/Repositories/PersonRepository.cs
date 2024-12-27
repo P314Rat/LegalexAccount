@@ -1,12 +1,12 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
-namespace LegalexAccount.DAL.Storage.Repositories
+namespace LegalexAccount.DAL.Repositories
 {
-    public class PersonRepository : IPersonRepository
+    public class PersonRepository : IRepository<Person, Guid>
     {
         private const string REPOSITORY_NAME = "Person";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -15,6 +15,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
         public PersonRepository(IApplicationDbContextFactory dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
+        }
+
+        public IQueryable<Person> AsQueryable()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task CreateAsync(Person item)
@@ -46,6 +51,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 throw new InvalidOperationException("Person was not deleted");
         }
 
+        public Task DeleteByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
             var items = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Individuals.ToListAsync();
@@ -66,6 +76,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 throw new InvalidOperationException("Person was not found");
 
             return item;
+        }
+
+        public Task<Person> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task UpdateAsync(Person item)

@@ -84,18 +84,19 @@
   position: absolute;
   top: 110%;
   background-color: #f9f9f9;
-  min-width: 10rem;
-  border-radius: 5px;
+  min-width: 20rem;
+  max-height: 8.25rem;
+  overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
-.create-case .client-type .dropdown-content a {
+.create-case .client-type .dropdown-content div {
   color: black;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   text-decoration: none;
-  display: block;
 }
-.create-case .client-type .dropdown-content a:hover {
+.create-case .client-type .dropdown-content div:hover {
+  cursor: pointer;
   background-color: #dbdbdb;
 }
 .create-case .client-type .show-block {

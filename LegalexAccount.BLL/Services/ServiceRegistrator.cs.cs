@@ -1,6 +1,4 @@
 ﻿using LegalexAccount.DAL;
-using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

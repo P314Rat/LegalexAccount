@@ -1,10 +1,10 @@
-﻿using LegalexAccount.DAL.Models.OrderAggregate;
-using LegalexAccount.DAL.Models.CaseAggregate;
+﻿using LegalexAccount.DAL.Models.CaseAggregate;
+using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Models.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace LegalexAccount.DAL.Storage
+namespace LegalexAccount.DAL
 {
     public class ApplicationDbContext : DbContext
     {
@@ -21,7 +21,7 @@ namespace LegalexAccount.DAL.Storage
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Ignore<User>();
+            //modelBuilder.Ignore<User>();
             modelBuilder.Ignore<Client>();
         }
     }

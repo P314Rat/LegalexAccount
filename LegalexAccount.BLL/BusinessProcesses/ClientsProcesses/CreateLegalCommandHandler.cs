@@ -1,5 +1,5 @@
 ﻿using LegalexAccount.BLL.DTO;
-using LegalexAccount.DAL.Models;
+using LegalexAccount.DAL;
 using MediatR;
 
 

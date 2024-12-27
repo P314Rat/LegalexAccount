@@ -1,8 +1,7 @@
-﻿using LegalexAccount.DAL.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 
-namespace LegalexAccount.DAL.Storage
+namespace LegalexAccount.DAL
 {
     public class ApplicationDbContextFactory : IApplicationDbContextFactory
     {

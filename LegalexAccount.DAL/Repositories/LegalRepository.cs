@@ -1,12 +1,11 @@
-﻿using LegalexAccount.DAL.Models;
-using LegalexAccount.DAL.Models.UserAggregate;
+﻿using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-
-namespace LegalexAccount.DAL.Storage.Repositories
+namespace LegalexAccount.DAL.Repositories
 {
-    public class LegalRepository : ILegalRepository
+    public class LegalRepository : IRepository<Legal, Guid>
     {
         private const string REPOSITORY_NAME = "Legal";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -15,6 +14,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
         public LegalRepository(IApplicationDbContextFactory dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
+        }
+
+        public IQueryable<Legal> AsQueryable()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task CreateAsync(Legal item)
@@ -47,6 +51,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 throw new InvalidOperationException("Legal was not deleted");
         }
 
+        public Task DeleteByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Legal>> GetAllAsync()
         {
             var items = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.LegalEntities.ToListAsync();
@@ -67,6 +76,11 @@ namespace LegalexAccount.DAL.Storage.Repositories
                 throw new InvalidOperationException("Legal was not found");
 
             return item;
+        }
+
+        public Task<Legal> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task UpdateAsync(Legal item)

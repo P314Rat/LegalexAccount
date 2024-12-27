@@ -1,4 +1,5 @@
-﻿using LegalexAccount.DAL.Models;
+﻿using LegalexAccount.DAL;
+using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,15 +24,32 @@ namespace LegalexAccount.Web.Controllers
         {
             try
             {
+                const int stepNumber = 1;
                 ViewData["ProfileModel"] = _profileModel;
-                ViewData["StepNumber"] = 1;
 
-                return View();
+                return View(stepNumber);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> StepTwo(CaseViewModel model)
+        {
+            try
+            {
+                const int stepNumber = 2;
+                ViewData["ProfileModel"] = _profileModel;
+
+                return View("CreateCase", stepNumber);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

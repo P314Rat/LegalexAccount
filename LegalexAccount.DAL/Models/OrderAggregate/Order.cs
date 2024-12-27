@@ -3,9 +3,8 @@
 
 namespace LegalexAccount.DAL.Models.OrderAggregate
 {
-    public class Order
+    public class Order : BaseEntity<int>
     {
-        public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public ClientType ClientType { get; set; }
         public ServiceType Service { get; set; }

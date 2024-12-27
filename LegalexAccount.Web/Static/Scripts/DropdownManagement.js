@@ -4,15 +4,23 @@ document.addEventListener("DOMContentLoaded", () => {
     element = document.getElementById("dropdown-content");
 });
 
-const CallDropdownManagement = (e, baseUrl) => {
-    const parent = e.parentNode;
-    const dropdown = parent.querySelector(".dropdown-content");
-
-    console.log(baseUrl);
+const CallDropdownManagement = async (e, baseUrl, prop) => {
+    const dropdown = e.parentNode.querySelector(".dropdown-content");
 
     if (dropdown) {
-        fetch();
+        if (!dropdown.classList.contains("show-block")) {
+            const response = await fetch(baseUrl);
+            const data = await response.json();
 
-        dropdown.classList.toggle("show-block");
+            data.forEach(x => {
+                const element = document.createElement("div");
+                element.innerHTML = x[prop];
+                dropdown.appendChild(element);
+            });
+        } else {
+            dropdown.innerHTML = '';
+        }
     }
+
+    dropdown.classList.toggle("show-block");
 }
