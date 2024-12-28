@@ -1,4 +1,7 @@
-﻿using LegalexAccount.DAL;
+﻿using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
+using LegalexAccount.DAL;
+using LegalexAccount.Web.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -6,13 +9,26 @@ namespace LegalexAccount.Web.Controllers
 {
     public class SpecialistController : BaseController
     {
-        public SpecialistController(IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor) : base(_dbContextFactory, httpContextAccessor)
+        private readonly IMediator _mediator;
+
+
+        public SpecialistController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory,
+            IHttpContextAccessor httpContextAccessor) : base(_dbContextFactory, httpContextAccessor)
         {
+            _mediator = mediator;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<JsonResult> GetEmployees()
         {
-            return View();
+            var clients = (await _mediator.Send(new GetEmployeesQuery())).Select(x => new ProfileViewModel
+            {
+                Email = x.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName
+            }).ToArray();
+
+            return Json(clients);
         }
     }
 }
