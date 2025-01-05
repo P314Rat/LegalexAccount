@@ -4,6 +4,7 @@ using LegalexAccount.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LegalexAccount.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250104124751_changEefStrategy8")]
+    partial class changEefStrategy8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace LegalexAccount.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid?>("AssigneeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -47,8 +46,6 @@ namespace LegalexAccount.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssigneeId");
 
                     b.HasIndex("CustomerId");
 
@@ -123,7 +120,7 @@ namespace LegalexAccount.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Specialist", b =>
@@ -131,6 +128,9 @@ namespace LegalexAccount.DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CaseId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -165,6 +165,8 @@ namespace LegalexAccount.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CaseId");
 
                     b.ToTable("Specialists");
                 });
@@ -248,19 +250,20 @@ namespace LegalexAccount.DAL.Migrations
 
             modelBuilder.Entity("LegalexAccount.DAL.Models.CaseAggregate.Case", b =>
                 {
-                    b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Specialist", "Assignee")
-                        .WithMany()
-                        .HasForeignKey("AssigneeId");
-
                     b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Client", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Assignee");
-
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Specialist", b =>
+                {
+                    b.HasOne("LegalexAccount.DAL.Models.CaseAggregate.Case", null)
+                        .WithMany("Assignee")
+                        .HasForeignKey("CaseId");
                 });
 
             modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Legal", b =>
@@ -279,6 +282,11 @@ namespace LegalexAccount.DAL.Migrations
                         .HasForeignKey("LegalexAccount.DAL.Models.UserAggregate.Person", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LegalexAccount.DAL.Models.CaseAggregate.Case", b =>
+                {
+                    b.Navigation("Assignee");
                 });
 #pragma warning restore 612, 618
         }

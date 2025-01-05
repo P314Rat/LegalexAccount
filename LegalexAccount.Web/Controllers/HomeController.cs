@@ -29,11 +29,11 @@ namespace LegalexAccount.Web.Controllers
         public async Task<IActionResult> Orders(int currentPage = 1)
         {
             ViewData["ProfileModel"] = _profileModel;
+            ViewData["CurrentPage"] = currentPage;
 
             try
             {
                 var ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(x => x.ToViewModel()).ToList();
-                ViewData["CurrentPage"] = currentPage;
 
                 return View(ordersModel);
             }
@@ -68,8 +68,11 @@ namespace LegalexAccount.Web.Controllers
                         _ => throw new Exception($"Unknown UserDTO type: {user.GetType()}")
                     };
 
+                    var organizationName = user is LegalDTO ? ((LegalDTO)user).OrganizationName : null;
+
                     return new ProfileDTO
                     {
+                        OrganizationName = organizationName,
                         Email = user.Email ?? string.Empty,
                         FirstName = user.FirstName ?? string.Empty,
                         LastName = user.LastName ?? string.Empty,

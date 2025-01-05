@@ -1,19 +1,10 @@
 ﻿@using LegalexAccount.Utility.Extensions
-@model OrderViewModel
+@model ProfileViewModel
 @{
     var order = Model;
 
-    ViewData["Title"] = "Заявка";
+    ViewData["Title"] = "Профиль";
 }
-
-<div class="order-card">
-    <h2>Заявка от @order.CreatedAt.ToString("dd/MM/yyyy")</h2>
-    <p class="sender-info">Имя отправителя: <span>@order.Name</span></p>
-    <p class="sender-info">Тип отправителя: <span>@order.ClientType.GetDisplayName()</span></p>
-    <p class="sender-info">Тип запрашиваемой услуги: <span>@order.ServiceType.GetDisplayName()</span></p>
-    <p class="sender-info">Контакт отправителя: <span>@order.Contact</span></p>
-    <p class="sender-info">Описание заказа: <span>@order.Description</span></p>
-</div>
 
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {

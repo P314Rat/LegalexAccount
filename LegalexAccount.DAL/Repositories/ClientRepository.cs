@@ -111,10 +111,14 @@ namespace LegalexAccount.DAL.Repositories
         public IQueryable<Client> AsQueryable()
         {
             var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-            var resultQuery = dbContext.Specialists.Cast<Client>()
-                .Union(dbContext.Individuals.Cast<Client>());
+
+            var legalQuery = dbContext.LegalEntities.OfType<Client>();
+            var personQuery = dbContext.Individuals.OfType<Client>();
+
+            var resultQuery = legalQuery.Union(personQuery);
 
             return resultQuery;
         }
+
     }
 }

@@ -9,7 +9,7 @@ namespace LegalexAccount.BLL.DTO.Case
         public DateTime? StartDate { get; set; } = null;
         public int? EstimatedDaysToEnd { get; set; } = null;
         public Client? Customer { get; set; } = null;
-        public List<Specialist>? Assignee { get; set; } = null;
+        public Specialist? Assignee { get; set; } = null;
         public string? Description { get; set; } = null;
     }
 }

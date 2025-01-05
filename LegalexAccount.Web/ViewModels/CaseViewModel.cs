@@ -9,7 +9,7 @@ namespace LegalexAccount.Web.ViewModels
         public int? EstimatedDaysToEnd { get; set; } = null;
         [Required(ErrorMessage = "Это необходимое поле")]
         public Client Customer { get; set; }
-        public List<Specialist>? Assignee { get; set; } = null;
+        public Specialist Assignee { get; set; }
         [Required(ErrorMessage = "Это необходимое поле")]
         public string Description { get; set; } = string.Empty;
     }

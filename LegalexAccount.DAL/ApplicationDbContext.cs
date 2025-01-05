@@ -22,7 +22,17 @@ namespace LegalexAccount.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Ignore<User>();
-            modelBuilder.Ignore<Client>();
+            //modelBuilder.Ignore<Client>();
+
+            //modelBuilder.Entity<Client>()
+            //    .HasDiscriminator<string>("Discriminator")
+            //    .HasValue<Client>("Client")
+            //    .HasValue<Person>("Person")
+            //    .HasValue<Legal>("Legal");
+
+            modelBuilder.Entity<Client>().ToTable("Clients");
+            modelBuilder.Entity<Person>().ToTable("Individuals");
+            modelBuilder.Entity<Legal>().ToTable("LegalEntities");
         }
     }
 }

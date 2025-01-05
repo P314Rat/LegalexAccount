@@ -4,6 +4,7 @@ using LegalexAccount.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LegalexAccount.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250104123649_changEefStrategy6")]
+    partial class changEefStrategy6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace LegalexAccount.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid?>("AssigneeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -47,8 +46,6 @@ namespace LegalexAccount.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssigneeId");
 
                     b.HasIndex("CustomerId");
 
@@ -95,6 +92,10 @@ namespace LegalexAccount.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,7 +124,9 @@ namespace LegalexAccount.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Client");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Client");
                 });
 
             modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Specialist", b =>
@@ -131,6 +134,9 @@ namespace LegalexAccount.DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("CaseId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -165,6 +171,8 @@ namespace LegalexAccount.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CaseId");
 
                     b.ToTable("Specialists");
                 });
@@ -212,7 +220,7 @@ namespace LegalexAccount.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("LegalEntities", (string)null);
+                    b.HasDiscriminator().HasValue("Legal");
                 });
 
             modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Person", b =>
@@ -243,42 +251,30 @@ namespace LegalexAccount.DAL.Migrations
                     b.Property<string>("TaxIdentificationNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Individuals", (string)null);
+                    b.HasDiscriminator().HasValue("Person");
                 });
 
             modelBuilder.Entity("LegalexAccount.DAL.Models.CaseAggregate.Case", b =>
                 {
-                    b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Specialist", "Assignee")
-                        .WithMany()
-                        .HasForeignKey("AssigneeId");
-
                     b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Client", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Assignee");
-
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Legal", b =>
+            modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Specialist", b =>
                 {
-                    b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Client", null)
-                        .WithOne()
-                        .HasForeignKey("LegalexAccount.DAL.Models.UserAggregate.Legal", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                    b.HasOne("LegalexAccount.DAL.Models.CaseAggregate.Case", null)
+                        .WithMany("Assignee")
+                        .HasForeignKey("CaseId");
                 });
 
-            modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Person", b =>
+            modelBuilder.Entity("LegalexAccount.DAL.Models.CaseAggregate.Case", b =>
                 {
-                    b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Client", null)
-                        .WithOne()
-                        .HasForeignKey("LegalexAccount.DAL.Models.UserAggregate.Person", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                    b.Navigation("Assignee");
                 });
 #pragma warning restore 612, 618
         }

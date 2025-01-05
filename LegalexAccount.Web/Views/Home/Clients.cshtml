@@ -27,7 +27,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Электронная почта</th>
+                    <th>Наименование</th>
                     <th>Имя</th>
                     <th>Фамилия</th>
                     <th>Тип клиента</th>
@@ -44,7 +44,7 @@
                     var currentModel = profiles[profileIndex];
 
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
-                        <td>@currentModel.Email</td>
+                        <td>@(currentModel.OrganizationName ?? string.Empty) </td>
                         <td>@currentModel.FirstName</td>
                         <td>@currentModel.LastName</td>
                         <td>

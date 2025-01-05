@@ -26,6 +26,8 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientCard(string email)
         {
+            ViewData["ProfileModel"] = _profileModel;
+
             try
             {
                 return View(new ProfileViewModel());
