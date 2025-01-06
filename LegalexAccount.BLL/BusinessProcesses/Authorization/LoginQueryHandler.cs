@@ -1,7 +1,6 @@
-﻿using LegalexAccount.Utility.Services;
+﻿using LegalexAccount.DAL;
+using LegalexAccount.Utility.Services;
 using MediatR;
-using LegalexAccount.DAL.Models.UserAggregate;
-using LegalexAccount.DAL;
 
 
 namespace LegalexAccount.BLL.BusinessProcesses.Authorization

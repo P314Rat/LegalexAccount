@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace LegalexAccount.DAL.Repositories
 {
-    public class SpecialistRepository : IRepository<Specialist, Guid>
+    public class SpecialistRepository : IRepository<Specialist, Guid>, IUserRepository
     {
         private const string REPOSITORY_NAME = "Specialist";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -68,7 +68,7 @@ namespace LegalexAccount.DAL.Repositories
             return items;
         }
 
-        public async Task<Specialist> GetByEmailAsync(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
             var qe = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
             var item = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Specialists?.FirstOrDefaultAsync(x => x.Email == email);
@@ -81,6 +81,16 @@ namespace LegalexAccount.DAL.Repositories
         }
 
         public Task<Specialist> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetByNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsExistsAsync(string email)
         {
             throw new NotImplementedException();
         }

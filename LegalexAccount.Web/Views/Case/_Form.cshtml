@@ -5,7 +5,7 @@
 }
 
 
-<form id="creation-form" asp-controller="Case" asp-action="SaveClient" method="post" asp-antiforgery="true">
+<form id="creation-form" asp-controller="Case" asp-action="SaveCase" method="post" asp-antiforgery="true">
     <div class="form-container" style="border: none;">
         <div class="form-grid">
             <div class="item-container">
@@ -18,8 +18,8 @@
                 <label for="customer">Заказчик</label>
                 <div class="client-type">
                     <div class="input-container">
-                        <select id="customer" name="Customer" asp-for=Customer asp-items="clients"></select>
-                        <span class="text-validation" asp-validation-for="Customer"></span>
+                        <select id="customer" name="CustomerEmail" asp-for=CustomerEmail asp-items="clients"></select>
+                        <span class="text-validation" asp-validation-for="CustomerEmail"></span>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 <label for="assignee">Исполнитель</label>
                 <div class="client-type">
                     <div class="input-container">
-                        <select id="assignee" name="Assignee" asp-for=Assignee asp-items="assignee"></select>
+                        <select id="assignee" name="AssigneeEmail" asp-for=AssigneeEmail asp-items="assignee"></select>
                     </div>
                 </div>
             </div>

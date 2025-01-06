@@ -2,9 +2,10 @@
 using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace LegalexAccount.DAL.Repositories
 {
-    public class ClientRepository : IRepository<Client, Guid>
+    public class ClientRepository : IRepository<Client, Guid>, IUserRepository
     {
         private const string REPOSITORY_NAME = "Client";
         private readonly IApplicationDbContextFactory _dbContextFactory;
@@ -15,18 +16,18 @@ namespace LegalexAccount.DAL.Repositories
             _dbContextFactory = dbContextFactory;
         }
 
-        public async Task<Client> GetByEmailAsync(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
-            var tasks = new Dictionary<Task<Client?>, ApplicationDbContext>();
+            var tasks = new Dictionary<Task<User?>, ApplicationDbContext>();
 
             for (int i = 0; i < 3; i++)
             {
                 var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
                 var task = i switch
                 {
-                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client?)t.Result),
-                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (Client?)t.Result),
-                    _ => Task.FromResult<Client?>(null)
+                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (User?)t.Result),
+                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (User?)t.Result),
+                    _ => Task.FromResult<User?>(null)
                 };
 
                 tasks.Add(task, dbContext);
@@ -120,5 +121,14 @@ namespace LegalexAccount.DAL.Repositories
             return resultQuery;
         }
 
+        public Task<User> GetByNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsExistsAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

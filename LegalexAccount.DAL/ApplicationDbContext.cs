@@ -21,18 +21,24 @@ namespace LegalexAccount.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Ignore<User>();
-            //modelBuilder.Ignore<Client>();
-
-            //modelBuilder.Entity<Client>()
-            //    .HasDiscriminator<string>("Discriminator")
-            //    .HasValue<Client>("Client")
-            //    .HasValue<Person>("Person")
-            //    .HasValue<Legal>("Legal");
-
+            modelBuilder.Entity<Specialist>().ToTable("Specialists");
             modelBuilder.Entity<Client>().ToTable("Clients");
             modelBuilder.Entity<Person>().ToTable("Individuals");
             modelBuilder.Entity<Legal>().ToTable("LegalEntities");
+
+            // Связь с заказчиком: Заказчик обязательно должен быть, нельзя удалить заказчика, пока он привязан к делу
+            modelBuilder.Entity<Case>()
+                .HasOne(c => c.Customer)
+                .WithMany()
+                .HasForeignKey(c => c.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict); // Не разрешаем удалять заказчика, если он связан с делом
+
+            // Связь с исполнителем: Исполнитель также обязательно должен быть, но может быть изменён или удалён
+            modelBuilder.Entity<Case>()
+                .HasOne(c => c.Assignee)
+                .WithMany()
+                .HasForeignKey(c => c.AssigneeId)
+                .OnDelete(DeleteBehavior.Restrict); // Не разрешаем удалять исполнителя, если он связан с делом
         }
     }
 }
