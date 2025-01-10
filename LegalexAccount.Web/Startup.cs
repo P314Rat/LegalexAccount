@@ -74,15 +74,16 @@ namespace LegalexAccount.Web
                 // Инициализация данных (например, добавление специалистов)
                 if (!dbContext.Specialists.Any())
                 {
-                    var salt = GenerateDataService.CreateSalt(32);
+                    var salt1 = GenerateDataService.CreateSalt(32);
+                    var salt2 = GenerateDataService.CreateSalt(32);
                     dbContext.Specialists.AddRange(
                         new Specialist
                         {
                             Status = SpecialistStatus.Free,
                             Role = SpecialistRole.Technical,
                             Email = "support@legalex.by",
-                            PasswordHash = GenerateDataService.GenerateHash("1234dev!", salt),
-                            PasswordSalt = salt,
+                            PasswordHash = GenerateDataService.GenerateHash("1234dev!", salt1),
+                            PasswordSalt = salt1,
                             FirstName = "Тимофей",
                             LastName = "Липницкий",
                         },
@@ -91,8 +92,8 @@ namespace LegalexAccount.Web
                             Status = SpecialistStatus.Free,
                             Role = SpecialistRole.Director,
                             Email = "vv95@bk.ru",
-                            PasswordHash = GenerateDataService.GenerateHash("Peredovaya15!", salt),
-                            PasswordSalt = salt,
+                            PasswordHash = GenerateDataService.GenerateHash("Peredovaya15!", salt2),
+                            PasswordSalt = salt2,
                             FirstName = "Владислав",
                             LastName = "Власенков",
                         }

@@ -102,14 +102,13 @@ namespace LegalexAccount.Web.Controllers
         {
             try
             {
-                if (_profileModel == null)
-                    return BadRequest("Authorization is wrong.");
-
-                var specialists = await _mediator.Send(new GetEmployeesQuery());
-                var specialistsModel = specialists.Where(x => x.Email != _profileModel.Email).Select(x => x.ToViewModel()).ToList();
+                var specialists = (await _mediator.Send(new GetEmployeesQuery()))
+                    .Where(x => x.Email != _profileModel?.Email)
+                    .Select(x => x.ToViewModel())
+                    .ToList();
                 ViewData["ProfileModel"] = _profileModel;
 
-                return View(specialistsModel);
+                return View(specialists);
             }
             catch (Exception ex)
             {
