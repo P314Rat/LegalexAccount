@@ -102,13 +102,14 @@ namespace LegalexAccount.Web.Controllers
         {
             try
             {
-                var specialists = (await _mediator.Send(new GetEmployeesQuery()))
+                var result = (await _mediator.Send(new GetEmployeesQuery()))
                     .Where(x => x.Email != _profileModel?.Email)
                     .Select(x => x.ToViewModel())
                     .ToList();
-                ViewData["ProfileModel"] = _profileModel;
 
-                return View(specialists);
+                ViewData["ProfileModel"] = _profileModel; //Создать общую ViewModel
+
+                return View(result);
             }
             catch (Exception ex)
             {
