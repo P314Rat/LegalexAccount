@@ -80,6 +80,11 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<User> GetByNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> IsExistsAsync(string email)
         {
             var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);

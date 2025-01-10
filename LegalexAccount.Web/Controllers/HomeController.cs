@@ -29,11 +29,11 @@ namespace LegalexAccount.Web.Controllers
         public async Task<IActionResult> Orders(int currentPage = 1)
         {
             ViewData["ProfileModel"] = _profileModel;
+            ViewData["CurrentPage"] = currentPage;
 
             try
             {
                 var ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(x => x.ToViewModel()).ToList();
-                ViewData["CurrentPage"] = currentPage;
 
                 return View(ordersModel);
             }
@@ -68,8 +68,11 @@ namespace LegalexAccount.Web.Controllers
                         _ => throw new Exception($"Unknown UserDTO type: {user.GetType()}")
                     };
 
+                    var organizationName = user is LegalDTO ? ((LegalDTO)user).OrganizationName : null;
+
                     return new ProfileDTO
                     {
+                        OrganizationName = organizationName,
                         Email = user.Email ?? string.Empty,
                         FirstName = user.FirstName ?? string.Empty,
                         LastName = user.LastName ?? string.Empty,
@@ -99,14 +102,14 @@ namespace LegalexAccount.Web.Controllers
         {
             try
             {
-                if (_profileModel == null)
-                    return BadRequest("Authorization is wrong.");
+                var result = (await _mediator.Send(new GetEmployeesQuery()))
+                    .Where(x => x.Email != _profileModel?.Email)
+                    .Select(x => x.ToViewModel())
+                    .ToList();
 
-                var specialists = await _mediator.Send(new GetEmployeesQuery());
-                var specialistsModel = specialists.Where(x => x.Email != _profileModel.Email).Select(x => x.ToViewModel()).ToList();
-                ViewData["ProfileModel"] = _profileModel;
+                ViewData["ProfileModel"] = _profileModel; //Создать общую ViewModel
 
-                return View(specialistsModel);
+                return View(result);
             }
             catch (Exception ex)
             {

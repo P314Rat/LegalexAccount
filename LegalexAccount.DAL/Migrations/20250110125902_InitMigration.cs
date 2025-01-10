@@ -5,50 +5,33 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LegalexAccount.DAL.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Individuals",
+                name: "Clients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PassportNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IssuingAuthority = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TaxIdentificationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ResidentialAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegistrationAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SurName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Individuals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LegalEntities",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    OrganizationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LegalForm = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PayerAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PositionHeld = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GroundsForAsk = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LegalAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ActualAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrganizationName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LegalAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PostalAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LegalID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BankAccountNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BankName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BankIdentificationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankIdenticationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PositionHeld = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Powers = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PassportNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IssuingAuthority = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IssueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TaxIdentificationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResidentialAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -59,7 +42,7 @@ namespace LegalexAccount.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LegalEntities", x => x.Id);
+                    table.PrimaryKey("PK_Clients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,24 +89,62 @@ namespace LegalexAccount.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EstimatedDaysToEnd = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AssigneeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsArchived = table.Column<bool>(type: "bit", nullable: false),
+                    ArchivedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SpecialistId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cases", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Cases_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Cases_Clients_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Cases_Specialists_AssigneeId",
                         column: x => x.AssigneeId,
                         principalTable: "Specialists",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cases_Specialists_SpecialistId",
+                        column: x => x.SpecialistId,
+                        principalTable: "Specialists",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cases_AssigneeId",
                 table: "Cases",
                 column: "AssigneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_ClientId",
+                table: "Cases",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_CustomerId",
+                table: "Cases",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cases_SpecialistId",
+                table: "Cases",
+                column: "SpecialistId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -132,13 +153,10 @@ namespace LegalexAccount.DAL.Migrations
                 name: "Cases");
 
             migrationBuilder.DropTable(
-                name: "Individuals");
-
-            migrationBuilder.DropTable(
-                name: "LegalEntities");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Specialists");

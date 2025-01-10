@@ -1,6 +1,11 @@
 ﻿using LegalexAccount.BLL.DTO;
 using LegalexAccount.BLL.Services;
+using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.DAL;
+using LegalexAccount.Utility.Services;
+using LegalexAccount.Utility.Types;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LegalexAccount.Web
@@ -17,7 +22,6 @@ namespace LegalexAccount.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //services.AddCors(options =>
             //{
             //    options.AddPolicy("AllowAll",
@@ -29,10 +33,10 @@ namespace LegalexAccount.Web
             //                .AllowAnyHeader();
             //        });
             //});
-            services.AddHttpContextAccessor(); // Регистрируем IHttpContextAccessor
-            services.AddControllersWithViews();
             services.AddApplicationDbContext(Configuration["ConnectionStrings:DefaultConnection"]);
             services.AddUnitOfWork();
+            services.AddHttpContextAccessor(); // Регистрируем IHttpContextAccessor
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserDTO).Assembly));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
@@ -54,6 +58,49 @@ namespace LegalexAccount.Web
             {
                 app.UseHsts();
                 app.UseExceptionHandler("/Error");
+            }
+
+            // Применяем миграции и инициализируем данные
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                // Применяем миграции, если есть
+                if (dbContext.Database.GetPendingMigrations().Any())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                // Инициализация данных (например, добавление специалистов)
+                if (!dbContext.Specialists.Any())
+                {
+                    var salt1 = GenerateDataService.CreateSalt(32);
+                    var salt2 = GenerateDataService.CreateSalt(32);
+                    dbContext.Specialists.AddRange(
+                        new Specialist
+                        {
+                            Status = SpecialistStatus.Free,
+                            Role = SpecialistRole.Technical,
+                            Email = "support@legalex.by",
+                            PasswordHash = GenerateDataService.GenerateHash("1234dev!", salt1),
+                            PasswordSalt = salt1,
+                            FirstName = "Тимофей",
+                            LastName = "Липницкий",
+                        },
+                        new Specialist
+                        {
+                            Status = SpecialistStatus.Free,
+                            Role = SpecialistRole.Director,
+                            Email = "vv95@bk.ru",
+                            PasswordHash = GenerateDataService.GenerateHash("Peredovaya15!", salt2),
+                            PasswordSalt = salt2,
+                            FirstName = "Владислав",
+                            LastName = "Власенков",
+                        }
+                    );
+
+                    dbContext.SaveChanges();
+                }
             }
 
             app.UseHttpsRedirection();

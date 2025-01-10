@@ -6,6 +6,7 @@
     if (ViewData["IsCreateFormActive"] != null)
         isCreateFormActive = (bool)ViewData["IsCreateFormActive"];
 
+    ViewData["Title"] = "Новое дело";
     ViewData["Page"] = "Cases";
 }
 
@@ -13,62 +14,9 @@
 <div class="create-case">
     <h2>Новое дело</h2>
 
-    @switch (stepNumber)
-    {
-        case 1:
-            ViewData["Title"] = "Новое дело | Шаг 1";
-            @await Html.PartialAsync("_StepOne", model: null)
-            break;
-        case 2:
-            ViewData["Title"] = "Новое дело | Шаг 2";
-            @await Html.PartialAsync("_StepTwo")
-            break;
-        case 3:
-            ViewData["Title"] = "Новое дело | Шаг 3";
-            @await Html.PartialAsync("_StepThree")
-            break;
-        default:
-            throw new Exception("Wrong step");
-    }
+    @await Html.PartialAsync("_Form", model: null)
 
-    <div class="step-container">
-        <ol class="progress-container">
-            <li class="step" data-step="@stepNumber">
-                <div class="line"></div>
-                <a href="#" class="step-button">
-                    @* <span class="current-dot"></span> *@
-                </a>
-            </li>
-            <li class="step" data-step="@stepNumber">
-                <div class="line"></div>
-                <a href="#" class="step-button">
-                    @* <span class="check-icon">&#x2713</span> *@
-                </a>
-            </li>
-            <li class="step" data-step="@stepNumber">
-                <div class="line"></div>
-                <a href="#" class="step-button">
-                    @* <span class="upcoming-dot"></span> *@
-                </a>
-            </li>
-        </ol>
-
-        @if (stepNumber != 3)
-        {
-            <button class="next-step" type="submit" form="creation-form" disabled>Следующий шаг</button>
-        }
-        else
-        {
-            @if (isCreateFormActive)
-            {
-                <button class="next-step" type="submit" form="creation-form">Создать</button>
-            }
-            else
-            {
-                <a class="next-step" asp-controller="Client" asp-action="SaveClient">Создать</a>
-            }
-        }
-    </div>
+    <button class="next-step" type="submit" form="creation-form">Создать</button>
 </div>
 
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")

@@ -1,5 +1,5 @@
 ﻿using LegalexAccount.BLL.DTO;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace LegalexAccount.Web.ViewModels
 {

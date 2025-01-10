@@ -35,7 +35,6 @@
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
-    <None Include="Views\Case\_StepTwo.cshtml" />
     <None Include="Views\Client\_StepTwo.cshtml" />
   </ItemGroup>
 

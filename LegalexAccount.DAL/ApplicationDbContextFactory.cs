@@ -3,7 +3,7 @@
 
 namespace LegalexAccount.DAL
 {
-    public class ApplicationDbContextFactory : IApplicationDbContextFactory
+    public class ApplicationDbContextFactory : IApplicationDbContextFactory, IDisposable
     {
         private readonly DbContextOptions<ApplicationDbContext> _options;
         private Dictionary<string, List<ApplicationDbContext>> _dbContextList;
@@ -41,6 +41,11 @@ namespace LegalexAccount.DAL
                 GC.SuppressFinalize(context);
             });
 
+            GC.SuppressFinalize(this);
+        }
+
+        public void Dispose()
+        {
             GC.SuppressFinalize(this);
         }
     }

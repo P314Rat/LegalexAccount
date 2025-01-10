@@ -26,6 +26,8 @@ namespace LegalexAccount.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ClientCard(string email)
         {
+            ViewData["ProfileModel"] = _profileModel;
+
             try
             {
                 return View(new ProfileViewModel());
@@ -130,7 +132,7 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LegalCreate(LegalViewModel model)
+        public async Task<IActionResult> CreateLegal(LegalViewModel model)
         {
             _legalModel = model;
             _legalModel.Email = _userModel.Email;
@@ -145,7 +147,7 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PersonCreate(PersonViewModel model)
+        public async Task<IActionResult> CreatePerson(PersonViewModel model)
         {
             _personModel = model;
             _personModel.Email = _userModel.Email;

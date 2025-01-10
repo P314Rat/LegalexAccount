@@ -43,12 +43,33 @@ namespace LegalexAccount.BLL.BusinessProcesses.ClientsProcesses
             }
             else
             {
-                var clients = await _unitOfWork.Clients.GetAllAsync();
-                var legalDTOs = clients.Where(x => x != null && x is Legal).Select(x => ((Legal)x).ToDTO());
-                var personDTOs = clients.Where(x => x != null && x is Person).Select(x => ((Person)x).ToDTO());
-                var userDTOs = legalDTOs.Cast<UserDTO>().Union(personDTOs.Cast<UserDTO>()).ToList();
+                var legalEntities = _unitOfWork.LegalEntities.AsQueryable()
+                    .Cast<Legal>()
+                    .Select(x => x.ToDTO())
+                    .ToList();
 
-                return userDTOs;
+                var individuals = _unitOfWork.Individuals.AsQueryable()
+                    .Cast<Person>()
+                    .Select(x => x.ToDTO())
+                    .ToList();
+
+                var result = legalEntities.Cast<UserDTO>().Concat(individuals.Cast<UserDTO>()).ToList();
+
+                //if
+                //    .Select(x => (Legal)x)
+                //    .Select(x => x.ToDTO())
+                //    .ToList();
+
+                //var personDTOs = clientsQuery
+                //    .Where(x => x != null && x is Person)
+                //    .Select(x => (Person)x)
+                //    .Select(x => x.ToDTO())
+                //    .ToList();
+                //var personDTOs = clientsQuery.Where(x => x != null && x is Person)
+                //    .Select(x => ((Person)x).ToDTO())
+                //    .Cast<UserDTO>();
+
+                return result;
             }
         }
     }

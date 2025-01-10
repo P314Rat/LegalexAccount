@@ -6,12 +6,12 @@ namespace LegalexAccount.BLL.BusinessProcesses.ClientsProcesses
 {
     public class CreateLegalCommand : IRequest
     {
-        public LegalDTO _model { get; set; }
+        public LegalDTO model { get; set; }
 
 
         public CreateLegalCommand(LegalDTO model)
         {
-            _model = model;
+            this.model = model;
         }
     }
 }

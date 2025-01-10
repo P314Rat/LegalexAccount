@@ -13,9 +13,6 @@ namespace LegalexAccount.DAL
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private const string UNIT_OF_WORK_CONTEXT_NAME = "UnitOfWork";
-
-        private readonly ApplicationDbContext _dbContext;
         private readonly UserRepository _userRepository;
         private readonly SpecialistRepository _specialistRepository;
         private readonly ClientRepository _clientRepository;
@@ -42,70 +39,11 @@ namespace LegalexAccount.DAL
             _legalRepository = new(dbFactory);
             _orderRepository = new(dbFactory);
             _caseRepository = new(dbFactory);
-            _dbContext = dbFactory.CreateDbContext(UNIT_OF_WORK_CONTEXT_NAME);
-
-            InitialDatabase();
         }
 
         public void Dispose()
         {
-            _dbContext.Dispose();
             GC.SuppressFinalize(this);
-        }
-
-        private void InitialDatabase()
-        {
-            if (_dbContext.Database.GetPendingMigrations().Any())
-                _dbContext.Database.Migrate();
-
-            if (!_dbContext.Specialists.Any())
-            {
-                var salt = CreateSalt(32);
-                _dbContext.Specialists.AddRange(
-                    new Specialist
-                    {
-                        Status = SpecialistStatus.Free,
-                        Role = SpecialistRole.Technical,
-                        Email = "support@legalex.by",
-                        PasswordHash = GenerateHash("1234dev!", salt),
-                        PasswordSalt = salt,
-                        FirstName = "Тимофей",
-                        LastName = "Липницкий",
-                    });
-
-                salt = CreateSalt(32);
-                _dbContext.Specialists.AddRange(
-                    new Specialist
-                    {
-                        Status = SpecialistStatus.Free,
-                        Role = SpecialistRole.Director,
-                        Email = "vv95@bk.ru",
-                        PasswordHash = GenerateHash("Peredovaya15!", salt),
-                        PasswordSalt = salt,
-                        FirstName = "Владислав",
-                        LastName = "Власенков",
-                    });
-            }
-
-            _dbContext.SaveChanges();
-        }
-
-        private string CreateSalt(int size)
-        {
-            var rng = new RNGCryptoServiceProvider();
-            var buffer = new byte[size];
-            rng.GetBytes(buffer);
-
-            return Convert.ToBase64String(buffer);
-        }
-        private string GenerateHash(string input, string salt)
-        {
-            using (var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(salt)))
-            {
-                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                return Convert.ToBase64String(hash);
-            }
         }
     }
 }

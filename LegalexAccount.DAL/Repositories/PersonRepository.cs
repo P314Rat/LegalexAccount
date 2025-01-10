@@ -19,7 +19,7 @@ namespace LegalexAccount.DAL.Repositories
 
         public IQueryable<Person> AsQueryable()
         {
-            throw new NotImplementedException();
+            return _dbContextFactory.CreateDbContext(REPOSITORY_NAME).Individuals.AsQueryable();
         }
 
         public async Task CreateAsync(Person item)
