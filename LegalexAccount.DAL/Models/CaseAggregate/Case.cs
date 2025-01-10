@@ -9,10 +9,10 @@ namespace LegalexAccount.DAL.Models.CaseAggregate
         public int? EstimatedDaysToEnd { get; set; } = null;
 
         public Guid CustomerId { get; set; }
-        public User Customer { get; set; }
+        public Client Customer { get; set; }
 
-        public Guid AssigneeId { get; set; } // Всегда ненулевое
-        public User Assignee { get; set; }
+        public Guid AssigneeId { get; set; }
+        public Specialist Assignee { get; set; }
 
         public string Description { get; set; } = string.Empty;
 
