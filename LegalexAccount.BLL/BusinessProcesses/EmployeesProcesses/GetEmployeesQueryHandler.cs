@@ -19,27 +19,9 @@ namespace LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses
         public async Task<IEnumerable<SpecialistDTO>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
         {
             var specialistsQuery = _unitOfWork.Specialists.AsQueryable();
+            var result = await specialistsQuery.AsQueryable().Select(x => x.ToDTO()).ToListAsync();
 
-            if (request.Email != null)
-            {
-                var specialist = (await specialistsQuery.Where(x => x.Email == request.Email).FirstOrDefaultAsync())?.ToDTO();
-
-                if (specialist != null)
-                {
-                    var result = specialist == null ? new List<SpecialistDTO>()
-                        : new List<SpecialistDTO>() { specialist };
-
-                    return result;
-                }
-                else
-                    return new List<SpecialistDTO>();
-            }
-            else
-            {
-                var result = specialistsQuery.AsQueryable().Select(x => x.ToDTO()).ToList();
-
-                return result;
-            }
+            return result;
         }
     }
 }

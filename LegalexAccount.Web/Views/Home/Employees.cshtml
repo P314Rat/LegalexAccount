@@ -30,12 +30,15 @@
             <tbody>
                 @foreach (var specialist in specialists)
                 {
-                    <tr>
+                    <tr class="with-management-panel" onclick="CallManagementPanel(this)">
                         <td>@specialist.Role.GetDisplayName()</td>
                         <td>@specialist.FirstName</td>
                         <td>@specialist.LastName</td>
                         <td>@specialist.Email</td>
-                        <td>@specialist.Status.GetDisplayName()</td>
+                        <td>
+                            @specialist.Status.GetDisplayName()
+                            <a class="panel" asp-controller="Specialist" asp-action="EmployeesCard" asp-route-email="@specialist.Email"></a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -52,3 +55,4 @@ else
 {
     <link rel="stylesheet" href="~/Styles/Employees.min.css?v = @DateTime.Now.Ticks">
 }
+<script src="~/Scripts/EmployeeManagement.js"></script>

@@ -30,5 +30,24 @@ namespace LegalexAccount.Web.Controllers
 
             return Json(clients);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EmployeesCard(string email)
+        {
+            try
+            {
+                ViewData["ProfileModel"] = _profileModel;
+                var specialist = (await _mediator.Send(new GetEmployeesByEmailQuery(email)))?.ToViewModel();
+
+                if (specialist == null)
+                    throw new Exception("Specialist not found");
+
+                return View(specialist);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
