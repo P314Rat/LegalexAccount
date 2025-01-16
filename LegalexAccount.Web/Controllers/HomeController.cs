@@ -1,4 +1,5 @@
-﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
+﻿using LegalexAccount.BLL.BusinessProcesses.CaseProcesses;
+using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
 using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
 using LegalexAccount.BLL.DTO;
@@ -44,11 +45,14 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Cases()
+        public async Task<IActionResult> Cases(int currentPage = 1)
         {
             ViewData["ProfileModel"] = _profileModel; //Vanya
+            ViewData["CurrentPage"] = currentPage;
 
-            return View();
+            var cases = (await _mediator.Send(new GetCasesRequest())).Select(x => x.ToViewModel()).ToList();
+
+            return View(cases);
         }
 
         [HttpGet]

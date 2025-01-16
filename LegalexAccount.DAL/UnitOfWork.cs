@@ -3,10 +3,6 @@ using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories;
 using LegalexAccount.DAL.Repositories.Contracts;
-using LegalexAccount.Utility.Types;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
 
 namespace LegalexAccount.DAL
@@ -30,15 +26,15 @@ namespace LegalexAccount.DAL
         public IRepository<Case, int> Cases { get => _caseRepository; }
 
 
-        public UnitOfWork(IApplicationDbContextFactory dbFactory)
+        public UnitOfWork(ApplicationDbContext dbContext, IApplicationDbContextFactory dbFactory)
         {
             _userRepository = new(dbFactory);
-            _specialistRepository = new(dbFactory);
-            _clientRepository = new(dbFactory);
+            _specialistRepository = new(dbContext);
+            _clientRepository = new(dbContext);
             _personRepository = new(dbFactory);
             _legalRepository = new(dbFactory);
             _orderRepository = new(dbFactory);
-            _caseRepository = new(dbFactory);
+            _caseRepository = new(dbContext, dbFactory);
         }
 
         public void Dispose()

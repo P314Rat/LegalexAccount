@@ -45,6 +45,6 @@
   },
   {
     "outputFile": "Static/Styles/EmployeesCard.css",
-    "inputFile": "Views/Employee/EmployeesCard.scss"
+    "inputFile": "Views/Specialist/EmployeesCard.scss"
   }
 ]

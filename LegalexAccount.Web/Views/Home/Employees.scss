@@ -4,10 +4,30 @@
     height: 100%;
     padding: 1rem 0;
 
-    h2 {
-        font-weight: 600;
+    .header-panel {
+        display: flex;
+        justify-content: space-between;
         margin-bottom: 2rem;
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .create-case {
+            padding: .5rem 2rem;
+            color: white;
+            background-color: rgba(23, 103, 179, 0.8);
+            border-radius: 5px;
+            text-decoration: none;
+            height: 100%;
+
+            &:hover {
+                background-color: rgba(23, 103, 179, 0.5);
+            }
+        }
     }
+
 
     table {
         width: 100%;

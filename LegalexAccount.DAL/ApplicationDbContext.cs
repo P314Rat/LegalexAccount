@@ -9,6 +9,7 @@ namespace LegalexAccount.DAL
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Specialist> Specialists { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<Person> Individuals { get; set; }
         public DbSet<Legal> LegalEntities { get; set; }
         public DbSet<Order> Orders { get; set; }

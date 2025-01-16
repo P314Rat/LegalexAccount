@@ -10,24 +10,23 @@ namespace LegalexAccount.DAL.Repositories
     {
         private const string REPOSITORY_NAME = "Case";
         private readonly IApplicationDbContextFactory _dbContextFactory;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public CaseRepository(IApplicationDbContextFactory dbContextFactory)
+        public CaseRepository(ApplicationDbContext dbContext, IApplicationDbContextFactory dbContextFactory)
         {
+            _dbContext = dbContext;
             _dbContextFactory = dbContextFactory;
         }
 
         public async Task CreateAsync(Case item)
         {
-            var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Cases?.AddAsync(item).AsTask();
+            var entry = await _dbContext.Cases.AddAsync(item).AsTask();
 
             if (entry == null || entry.State != EntityState.Added)
-            {
-                _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Case was not created");
-            }
 
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
+            _dbContext.SaveChanges();
         }
 
         public async Task<Case> GetByIdAsync(int id)
@@ -74,7 +73,9 @@ namespace LegalexAccount.DAL.Repositories
 
         public IQueryable<Case> AsQueryable()
         {
-            throw new NotImplementedException();
+            var query = _dbContext.Cases.AsQueryable();
+
+            return query;
         }
     }
 }

@@ -11,6 +11,20 @@
         margin-bottom: 2rem;
     }
 
+    .back {
+        position: absolute;
+        padding: .5rem 2rem;
+        color: white;
+        background-color: rgba(23, 103, 179, 0.8);
+        border-radius: 5px;
+        text-decoration: none;
+        bottom: 1rem;
+
+        &:hover {
+            background-color: rgba(23, 103, 179, 0.5);
+        }
+    }
+
     .sender-info {
         font-weight: 400;
         font-size: x-large;

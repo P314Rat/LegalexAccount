@@ -10,6 +10,18 @@
   font-weight: 600;
   margin-bottom: 2rem;
 }
+.employee-card .back {
+  position: absolute;
+  padding: 0.5rem 2rem;
+  color: white;
+  background-color: rgba(23, 103, 179, 0.8);
+  border-radius: 5px;
+  text-decoration: none;
+  bottom: 1rem;
+}
+.employee-card .back:hover {
+  background-color: rgba(23, 103, 179, 0.5);
+}
 .employee-card .sender-info {
   font-weight: 400;
   font-size: x-large;

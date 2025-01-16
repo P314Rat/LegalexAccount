@@ -1,6 +1,5 @@
 ﻿using LegalexAccount.DAL;
-using LegalexAccount.DAL.Models.UserAggregate;
-using LegalexAccount.DAL.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LegalexAccount.BLL.DTO.Case
@@ -15,13 +14,8 @@ namespace LegalexAccount.BLL.DTO.Case
             if (model.CustomerEmail == null || model.AssigneeEmail == null)
                 throw new Exception("CaseDTO model is wrong");
 
-            var clientsRepository = unitOfWork.Clients;
-            var customer = await ((IUserRepository)clientsRepository).GetByEmailAsync(model.CustomerEmail) as Client;
-
-            var employeesRepository = unitOfWork.Specialists;
-            var assignee = await ((IUserRepository)employeesRepository).GetByEmailAsync(model.AssigneeEmail) as Specialist;
-
-
+            var customer = await unitOfWork.Clients.AsQueryable().Where(x => x.Email == model.CustomerEmail).FirstOrDefaultAsync();
+            var assignee = await unitOfWork.Specialists.AsQueryable().Where(x => x.Email == model.AssigneeEmail).FirstOrDefaultAsync();
             var resultModel = new DAL.Models.CaseAggregate.Case
             {
                 StartDate = model.StartDate ?? DateTime.Now,
@@ -38,7 +32,16 @@ namespace LegalexAccount.BLL.DTO.Case
 
         internal static CaseDTO ToDTO(this DAL.Models.CaseAggregate.Case model)
         {
-            throw new NotImplementedException();
+            var resultModel = new CaseDTO
+            {
+                StartDate = model.StartDate,
+                EstimatedDaysToEnd = model.EstimatedDaysToEnd,
+                CustomerEmail = model.Customer.Email,
+                AssigneeEmail = model.Assignee.Email,
+                Description = model.Description ?? string.Empty
+            };
+
+            return resultModel;
         }
     }
 }

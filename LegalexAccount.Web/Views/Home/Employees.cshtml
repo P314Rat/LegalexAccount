@@ -10,7 +10,10 @@
 
 
 <div class="employees">
-    <h2>Сотрудники</h2>
+    <div class="header-panel">
+        <h2>Сотрудники</h2>
+        <a class="create-case" asp-controller="Case" asp-action="CreateCase">Добавить сотрудника</a>
+    </div>
     @if (specialists.Count == 0)
     {
         <span>У вас нет сотрудников.</span>
