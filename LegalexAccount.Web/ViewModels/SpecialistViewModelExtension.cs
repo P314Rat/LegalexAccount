@@ -12,6 +12,7 @@ namespace LegalexAccount.Web.ViewModels
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
+                Password = model.Password,
                 Status = model.Status,
                 Role = model.Role
             };
@@ -26,6 +27,7 @@ namespace LegalexAccount.Web.ViewModels
                 Email = model.Email ?? string.Empty,
                 FirstName = model.FirstName ?? string.Empty,
                 LastName = model.LastName ?? string.Empty,
+                Password = model.Password ?? string.Empty,
                 Role = model.Role ?? Utility.Types.SpecialistRole.Employee,
                 Status = model.Status ?? Utility.Types.SpecialistStatus.Free
             };

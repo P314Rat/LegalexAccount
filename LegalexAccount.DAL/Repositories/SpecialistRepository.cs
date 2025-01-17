@@ -1,7 +1,6 @@
 ﻿using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
 namespace LegalexAccount.DAL.Repositories
@@ -27,6 +26,8 @@ namespace LegalexAccount.DAL.Repositories
 
             if (entry == null || entry.State != EntityState.Added)
                 throw new InvalidOperationException("Specialist was not created");
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteByIdAsync(string email)

@@ -1,0 +1,86 @@
+﻿@model int
+@{
+    var stepNumber = Model;
+    var isCreateFormActive = false;
+
+    if (ViewData["IsCreateFormActive"] != null)
+        isCreateFormActive = (bool)ViewData["IsCreateFormActive"];
+
+    ViewData["Page"] = "Employees";
+}
+
+
+<div class="create-client">
+    <h2>Новый сотрудник</h2>
+
+    @switch (stepNumber)
+    {
+        case 1:
+            ViewData["Title"] = "Новый сотрудник | Шаг 1";
+            @await Html.PartialAsync("_StepOne", model: null)
+            break;
+        case 2:
+            ViewData["Title"] = "Новый сотрудник | Шаг 2";
+            @await Html.PartialAsync("_StepTwo", model: null)
+            break;
+        case 3:
+            ViewData["Title"] = "Новый сотрудник | Шаг 3";
+            @await Html.PartialAsync("_StepThree", model: null)
+            break;
+        default:
+            throw new Exception("Wrong step");
+    }
+
+    <div class="step-container">
+        <ol class="progress-container">
+            <li class="step" data-step="@stepNumber">
+                <div class="line"></div>
+                <a class="step-button" asp-controller="Specialist" asp-action="CreateEmployee">
+                    @* <span class="current-dot"></span> *@
+                </a>
+            </li>
+            <li class="step" data-step="@stepNumber">
+                <div class="line"></div>
+                <a href="#" class="step-button">
+                    @* <span class="check-icon">&#x2713</span> *@
+                </a>
+            </li>
+            <li class="step" data-step="@stepNumber">
+                <div class="line"></div>
+                <a href="#" class="step-button">
+                    @* <span class="upcoming-dot"></span> *@
+                </a>
+            </li>
+        </ol>
+
+        @if (stepNumber != 3)
+        {
+            <button class="next-step" type="submit" form="creation-form" disabled>Следующий шаг</button>
+        }
+        else
+        {
+            @if (isCreateFormActive)
+            {
+                <button class="next-step" type="submit" form="creation-form">Создать</button>
+            }
+            else
+            {
+                <a class="next-step" asp-controller="Client" asp-action="SaveClient">Создать</a>
+            }
+        }
+    </div>
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/CreateEmployee.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/CreateEmployee.min.css?v = @DateTime.Now.Ticks">
+}
+
+@await Html.PartialAsync("_ModelValidation")
+
+<script src="~/Scripts/StepManagement.js"></script>
+<script src="~/Scripts/SubmitValidationManager.js"></script>

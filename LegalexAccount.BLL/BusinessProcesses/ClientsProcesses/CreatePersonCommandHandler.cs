@@ -17,7 +17,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.ClientsProcesses
 
         public async Task Handle(CreatePersonCommand command, CancellationToken cancellationToken)
         {
-            var model = command._model.ToModel();
+            var model = command.model.ToModel();
 
             await _unitOfWork.Individuals.CreateAsync(model);
         }
