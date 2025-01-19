@@ -17,7 +17,8 @@
   background-color: rgba(23, 103, 179, 0.8);
   border-radius: 5px;
   text-decoration: none;
-  bottom: 1rem;
+  left: 2rem;
+  bottom: 2.5rem;
 }
 .employee-card .back:hover {
   background-color: rgba(23, 103, 179, 0.5);

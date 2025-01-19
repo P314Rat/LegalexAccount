@@ -8,11 +8,11 @@
 .employees .header-panel {
   display: flex;
   justify-content: space-between;
+  height: auto;
   margin-bottom: 2rem;
 }
 .employees .header-panel h2 {
   font-weight: 600;
-  margin-bottom: 2rem;
 }
 .employees .header-panel .create-case {
   padding: 0.5rem 2rem;
@@ -74,7 +74,7 @@
   right: -4rem;
   width: 3rem;
   height: 3rem;
-  background-size: 2.5rem;
+  background-size: 2rem;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url("/Images/inspect.svg");

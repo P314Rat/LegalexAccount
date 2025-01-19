@@ -42,6 +42,7 @@ namespace LegalexAccount.Web.Controllers
             try
             {
                 ViewData["ProfileModel"] = _profileModel;
+
                 var specialist = (await _mediator.Send(new GetEmployeesByEmailQuery(email)))?.ToViewModel();
 
                 if (specialist == null)
