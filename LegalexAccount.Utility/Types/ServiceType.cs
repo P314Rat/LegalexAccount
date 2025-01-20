@@ -6,22 +6,22 @@ namespace LegalexAccount.Utility.Types
     public enum ServiceType
     {
         [Display(Name = "Не выбран")]
-        NonSelected,
+        NonSelected = 0,
         [Display(Name = "Юридические услуги")]
-        Legal,
+        Legal = 1,
         [Display(Name = "Антикризисное управление")]
-        CrisisManagement,
+        CrisisManagement = 2,
         [Display(Name = "Медиация")]
-        Mediation,
+        Mediation = 3,
         [Display(Name = "HR услуги")]
-        HR,
+        HR = 4,
         [Display(Name = "Услуги кадрового специалиста")]
-        HRSupport,
+        HRSupport = 5,
         [Display(Name = "Охрана труда")]
-        OccupationalSafetyAndHealth,
+        OccupationalSafetyAndHealth = 6,
         [Display(Name = "Защита персональных данных")]
-        ProtectionOfPersonalInformation,
+        ProtectionOfPersonalInformation = 7,
         [Display(Name = "Услуги экономиста")]
-        Finance
+        Finance = 8
     }
 }

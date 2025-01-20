@@ -15,20 +15,6 @@ namespace LegalexAccount.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Client?> GetByEmailAsync(string email)
-        {
-            var client = await _dbContext.Clients.Where(x => x.Email == email).FirstOrDefaultAsync();
-
-            return client;
-        }
-
-        public async Task<IEnumerable<Client>> GetAllAsync()
-        {
-            var clients = await _dbContext.Clients.ToListAsync();
-
-            return clients;
-        }
-
         public Task CreateAsync(Client item)
         {
             throw new NotImplementedException();
@@ -51,9 +37,7 @@ namespace LegalexAccount.DAL.Repositories
 
         public IQueryable<Client?> AsQueryable()
         {
-            var query = _dbContext.Clients.AsQueryable();
-
-            return query;
+            return _dbContext.Clients.AsQueryable();
         }
 
         public Task<User> GetByNameAsync(string name)
@@ -66,7 +50,7 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        Task<User> IUserRepository.GetByEmailAsync(string email)
+        public Task<User?> GetByEmailAsync(string email)
         {
             throw new NotImplementedException();
         }

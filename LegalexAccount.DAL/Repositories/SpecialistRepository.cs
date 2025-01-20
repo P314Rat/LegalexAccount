@@ -15,7 +15,7 @@ namespace LegalexAccount.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public IQueryable<Specialist> AsQueryable()
+        public IQueryable<Specialist?> AsQueryable()
         {
             return _dbContext.Specialists.AsQueryable();
         }
@@ -30,39 +30,31 @@ namespace LegalexAccount.DAL.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteByIdAsync(string email)
+        public async Task DeleteByIdAsync(Guid id)
         {
-            var item = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == email);
+            var item = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Id == id);
 
             if (item != null)
-                _dbContext?.Specialists?.Remove(item);
+            {
+                var entry = _dbContext.Specialists.Remove(item);
+
+                if (entry == null || entry.State != EntityState.Added)
+                    throw new InvalidOperationException("Specialist was not created");
+            }
+            else
+                throw new NullReferenceException("Specialist is not exists");
+
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteByIdAsync(Guid id)
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var specialist = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == email);
+
+            return specialist;
         }
 
-        public async Task<IEnumerable<Specialist>> GetAllAsync()
-        {
-            var items = await _dbContext.Specialists.ToListAsync();
-
-            return items;
-        }
-
-        public async Task<Specialist?> GetByEmailAsync(string email)
-        {
-            var item = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == email);
-
-            return item;
-        }
-
-        public Task<Specialist> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetByNameAsync(string name)
+        public Task<Specialist?> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -73,11 +65,6 @@ namespace LegalexAccount.DAL.Repositories
         }
 
         public Task UpdateAsync(Specialist item)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<User> IUserRepository.GetByEmailAsync(string email)
         {
             throw new NotImplementedException();
         }

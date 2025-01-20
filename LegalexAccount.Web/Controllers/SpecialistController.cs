@@ -17,8 +17,8 @@ namespace LegalexAccount.Web.Controllers
         private static SpecialistViewModel? _specialistModel = null;
 
 
-        public SpecialistController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory,
-            IHttpContextAccessor httpContextAccessor) : base(_dbContextFactory, httpContextAccessor)
+        public SpecialistController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+            : base(unitOfWork, httpContextAccessor)
         {
             _mediator = mediator;
         }

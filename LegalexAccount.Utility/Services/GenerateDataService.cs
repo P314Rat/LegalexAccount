@@ -33,8 +33,9 @@ namespace LegalexAccount.Utility.Services
 
         public static string CreateSalt(int size)
         {
-            var rng = new RNGCryptoServiceProvider();
+            var rng = RandomNumberGenerator.Create();
             var buffer = new byte[size];
+
             rng.GetBytes(buffer);
 
             return Convert.ToBase64String(buffer);

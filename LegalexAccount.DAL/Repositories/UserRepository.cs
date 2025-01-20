@@ -1,19 +1,19 @@
 ﻿using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 
 namespace LegalexAccount.DAL.Repositories
 {
     public class UserRepository : IRepository<User, Guid>, IUserRepository
     {
-        private const string REPOSITORY_NAME = "Specialist";
-        private readonly IApplicationDbContextFactory _dbContextFactory;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public UserRepository(IApplicationDbContextFactory dbContextFactory)
+        public UserRepository(ApplicationDbContext dbContext)
         {
-            _dbContextFactory = dbContextFactory;
+            _dbContext = dbContext;
         }
 
         public IQueryable<User> AsQueryable()
@@ -31,48 +31,18 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAllAsync()
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
-        }
+            var specialist = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == email);
 
-        public async Task<User> GetByEmailAsync(string email)
-        {
-            var tasks = new Dictionary<Task<User>, ApplicationDbContext>();
-
-            for (int i = 0; i < 3; i++)
+            if (specialist == null)
             {
-                var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-                Task<User> task = i switch
-                {
-                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (User)t.Result),
-                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (User)t.Result),
-                    2 => dbContext.Specialists.FirstOrDefaultAsync(s => s.Email == email).ContinueWith(t => (User)t.Result),
-                    _ => Task.FromResult<User>(null)
-                };
+                var client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Email == email);
 
-                tasks.Add(task, dbContext);
+                return client;
             }
 
-            while (tasks.Any())
-            {
-                var pendingTasks = tasks.Keys.ToArray();
-                var completedTask = await Task.WhenAny(pendingTasks);
-
-                if (await completedTask is User user && user != null)
-                {
-                    _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-                    return user;
-                }
-                else
-                {
-                    tasks.Remove(completedTask);
-                }
-            }
-
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-            throw new InvalidOperationException("User was not found");
+            return specialist;
         }
 
         public Task<User> GetByIdAsync(Guid id)
@@ -80,22 +50,16 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<User> GetByNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> IsExistsAsync(string email)
         {
-            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-            var isLoginExists = dbContext.Specialists
-                .Select(x => x.Email)
-                .Union(dbContext.Individuals.Select(x => x.Email).Union(dbContext.LegalEntities.Select(x => x.Email)))
-                .Any(x => x == email);
+            bool isUserExists = false;
 
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
+            isUserExists = await _dbContext.Specialists.AnyAsync(x => x.Email == email);
 
-            return isLoginExists;
+            if (isUserExists)
+                isUserExists = await _dbContext.Clients.AnyAsync(x => x.Email == email);
+
+            return isUserExists;
         }
 
         public Task UpdateAsync(User item)

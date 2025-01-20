@@ -1,6 +1,4 @@
-﻿using LegalexAccount.Utility.Types;
-
-namespace LegalexAccount.BLL.DTO
+﻿namespace LegalexAccount.BLL.DTO
 {
     public class ProfileDTO
     {
@@ -8,6 +6,5 @@ namespace LegalexAccount.BLL.DTO
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public UserType UserType { get; set; }
     }
 }

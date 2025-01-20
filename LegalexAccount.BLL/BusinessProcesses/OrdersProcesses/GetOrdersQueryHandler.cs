@@ -1,7 +1,7 @@
 ﻿using LegalexAccount.BLL.DTO;
 using LegalexAccount.DAL;
-using LegalexAccount.DAL.Models.OrderAggregate;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LegalexAccount.BLL.BusinessProcesses.OrdersProcesses
@@ -18,16 +18,16 @@ namespace LegalexAccount.BLL.BusinessProcesses.OrdersProcesses
 
         public async Task<List<OrderDTO>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = new List<Order>();
+            var ordersQuery = _unitOfWork.Orders.AsQueryable();
 
-            if (request.Id > 0)
-                orders.Add(await _unitOfWork.Orders.GetByIdAsync(request.Id));
-            else
-                orders = (await _unitOfWork.Orders.GetAllAsync()).ToList();
+            if (ordersQuery.Any())
+            {
+                var orders = await ordersQuery.Select(x => x.ToDTO()).ToListAsync();
 
-            var ordersDTO = orders.Select(x => x.ToDTO()).ToList();
+                return orders;
+            }
 
-            return ordersDTO;
+            return new List<OrderDTO>();
         }
     }
 }

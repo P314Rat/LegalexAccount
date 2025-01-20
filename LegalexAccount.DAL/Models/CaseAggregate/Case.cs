@@ -16,7 +16,7 @@ namespace LegalexAccount.DAL.Models.CaseAggregate
 
         public string Description { get; set; } = string.Empty;
 
-        public bool IsArchived { get; set; } = false; // Флаг архивирования
-        public DateTime? ArchivedAt { get; set; } // Дата архивирования
+        public bool IsArchived { get; set; } = false;
+        public DateTime? ArchivedAt { get; set; }
     }
 }

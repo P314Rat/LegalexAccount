@@ -14,8 +14,8 @@ namespace LegalexAccount.Web.Controllers
         private readonly IMediator _mediator;
 
 
-        public OrderController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
-            : base(_dbContextFactory, httpContextAccessor)
+        public OrderController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+            : base(unitOfWork, httpContextAccessor)
         {
             _mediator = mediator;
         }

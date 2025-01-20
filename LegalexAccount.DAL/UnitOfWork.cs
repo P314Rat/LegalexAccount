@@ -26,15 +26,15 @@ namespace LegalexAccount.DAL
         public IRepository<Case, int> Cases { get => _caseRepository; }
 
 
-        public UnitOfWork(ApplicationDbContext dbContext, IApplicationDbContextFactory dbFactory)
+        public UnitOfWork(ApplicationDbContext dbContext)
         {
-            _userRepository = new(dbFactory);
+            _userRepository = new(dbContext);
             _specialistRepository = new(dbContext);
             _clientRepository = new(dbContext);
-            _personRepository = new(dbFactory);
-            _legalRepository = new(dbFactory);
-            _orderRepository = new(dbFactory);
-            _caseRepository = new(dbContext, dbFactory);
+            _personRepository = new(dbContext);
+            _legalRepository = new(dbContext);
+            _orderRepository = new(dbContext);
+            _caseRepository = new(dbContext);
         }
 
         public void Dispose()

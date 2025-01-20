@@ -1,19 +1,18 @@
 ﻿using LegalexAccount.BLL.DTO;
+using LegalexAccount.Utility.Types;
 using MediatR;
 
 
 namespace LegalexAccount.BLL.BusinessProcesses.Authorization
 {
-    public class LoginQuery : IRequest
+    public class LoginQuery : IRequest<UserRole>
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public IdentityDTO model { get; set; }
 
 
         public LoginQuery(IdentityDTO model)
         {
-            Email = model.Email;
-            Password = model.Password;
+            this.model = model;
         }
     }
 }

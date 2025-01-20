@@ -17,8 +17,8 @@ namespace LegalexAccount.Web.Controllers
         private static PersonViewModel? _personModel = null;
 
 
-        public ClientController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
-            : base(_dbContextFactory, httpContextAccessor)
+        public ClientController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+            : base(unitOfWork, httpContextAccessor)
         {
             _mediator = mediator;
         }
