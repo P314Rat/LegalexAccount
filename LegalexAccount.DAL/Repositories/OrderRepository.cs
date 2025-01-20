@@ -27,7 +27,7 @@ namespace LegalexAccount.DAL.Repositories
 
         public async Task<Order?> GetByIdAsync(int id)
         {
-            var item = await _dbContext.Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var item = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
 
             return item;
         }

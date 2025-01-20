@@ -64,9 +64,18 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Specialist item)
+        public async Task UpdateAsync(Specialist item)
         {
-            throw new NotImplementedException();
+            var specialist = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == item.Email);
+
+            if (specialist == null)
+                return;
+
+            specialist.Email = item.Email;
+            specialist.FirstName = item.FirstName;
+            specialist.LastName = item.LastName;
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

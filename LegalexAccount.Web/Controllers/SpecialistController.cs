@@ -141,17 +141,23 @@ namespace LegalexAccount.Web.Controllers
         public async Task<IActionResult> SaveEmployee(SpecialistViewModel model)
         {
             _specialistModel = model;
-            _specialistModel.Email = _userModel.Email;
-            _specialistModel.Phone = _userModel.Phone;
-            _specialistModel.FirstName = _userModel.FirstName;
-            _specialistModel.LastName = _userModel.LastName;
-            _specialistModel.SurName = _userModel.SurName;
-            _specialistModel.Password = _userModel.Password;
+            if (model.Email == null)
+            {
+                _specialistModel.Email = _userModel.Email;
+                _specialistModel.Phone = _userModel.Phone;
+                _specialistModel.FirstName = _userModel.FirstName;
+                _specialistModel.LastName = _userModel.LastName;
+                _specialistModel.SurName = _userModel.SurName;
+                _specialistModel.Password = _userModel.Password;
+
+                await _mediator.Send(new CreateEmployeeQuery(_specialistModel.ToDTO()));
+            }
+            else
+                await _mediator.Send(new EditEmployeeQuery(_specialistModel.ToDTO()));
+
             //Добавить перегрузку для преобразования ViewModel
 
-            await _mediator.Send(new CreateEmployeeQuery(_specialistModel.ToDTO()));
-
-            return Ok();
+            return RedirectToAction("Employees", "Home");
         }
     }
 }
