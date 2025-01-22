@@ -63,13 +63,14 @@ namespace LegalexAccount.Web.Controllers
 
             try
             {
+                var legals = new List<LegalViewModel>();
+                var individuals = new List<PersonViewModel>();
                 var clients = (await _mediator.Send(new GetClientsQuery())).Select(user =>
                 {
                     var organizationName = user is LegalDTO ? ((LegalDTO)user).OrganizationName : null;
 
                     return new ProfileDTO
                     {
-                        OrganizationName = organizationName,
                         Email = user.Email ?? string.Empty,
                         FirstName = user.FirstName ?? string.Empty,
                         LastName = user.LastName ?? string.Empty,

@@ -23,10 +23,6 @@
             ViewData["Title"] = "Новый сотрудник | Шаг 2";
             @await Html.PartialAsync("_StepTwo", model: null)
             break;
-        case 3:
-            ViewData["Title"] = "Новый сотрудник | Шаг 3";
-            @await Html.PartialAsync("_StepThree", model: null)
-            break;
         default:
             throw new Exception("Wrong step");
     }
@@ -45,28 +41,15 @@
                     @* <span class="check-icon">&#x2713</span> *@
                 </a>
             </li>
-            <li class="step" data-step="@stepNumber">
-                <div class="line"></div>
-                <a href="#" class="step-button">
-                    @* <span class="upcoming-dot"></span> *@
-                </a>
-            </li>
         </ol>
 
-        @if (stepNumber != 3)
+        @if (stepNumber != 2)
         {
             <button class="next-step" type="submit" form="creation-form" disabled>Следующий шаг</button>
         }
         else
         {
-            @if (isCreateFormActive)
-            {
-                <button class="next-step" type="submit" form="creation-form">Создать</button>
-            }
-            else
-            {
-                <a class="next-step" asp-controller="Client" asp-action="SaveClient">Создать</a>
-            }
+            <button class="next-step" type="submit" form="creation-form">Создать</button>
         }
     </div>
 </div>

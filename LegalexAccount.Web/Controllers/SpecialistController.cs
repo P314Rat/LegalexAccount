@@ -141,7 +141,7 @@ namespace LegalexAccount.Web.Controllers
         public async Task<IActionResult> SaveEmployee(SpecialistViewModel model)
         {
             _specialistModel = model;
-            if (model.Email == null)
+            if (_userModel != null)
             {
                 _specialistModel.Email = _userModel.Email;
                 _specialistModel.Phone = _userModel.Phone;
@@ -151,9 +151,16 @@ namespace LegalexAccount.Web.Controllers
                 _specialistModel.Password = _userModel.Password;
 
                 await _mediator.Send(new CreateEmployeeQuery(_specialistModel.ToDTO()));
+
+                _userModel = null;
+                _specialistModel = null;
             }
             else
+            {
                 await _mediator.Send(new EditEmployeeQuery(_specialistModel.ToDTO()));
+
+                _specialistModel = null;
+            }
 
             //Добавить перегрузку для преобразования ViewModel
 
