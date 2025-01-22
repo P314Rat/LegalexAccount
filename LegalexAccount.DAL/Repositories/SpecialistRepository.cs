@@ -59,6 +59,11 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<User> GetByNameAsync(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> IsExistsAsync(string email)
         {
             throw new NotImplementedException();
@@ -74,6 +79,8 @@ namespace LegalexAccount.DAL.Repositories
             specialist.Email = item.Email;
             specialist.FirstName = item.FirstName;
             specialist.LastName = item.LastName;
+            specialist.SurName = item.SurName;
+            specialist.Phone = item.Phone;
 
             await _dbContext.SaveChangesAsync();
         }

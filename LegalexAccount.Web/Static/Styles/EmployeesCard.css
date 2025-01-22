@@ -17,6 +17,7 @@
 .employee-card .sender-info {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   line-height: 48px;
 }
 .employee-card .sender-info p {

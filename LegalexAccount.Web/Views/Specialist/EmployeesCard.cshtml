@@ -7,45 +7,60 @@
     ViewData["Title"] = "Профиль";
 }
 
+
 @if (User.IsInRole(UserRole.Director.GetDisplayName()))
 {
     <div class="employee-card">
         <form id="creation-form" asp-controller="Specialist" asp-action="SaveEmployee" method="post" asp-antiforgery="true">
             <div class="sender-info">
-                <p>Имя сотрудника:</p><input name="FirstName" asp-for=FirstName placeholder="@emp.FirstName">
+                <p>Имя сотрудника:</p><input name="FirstName" asp-for=FirstName value="@emp.FirstName">
             </div>
             <div class="sender-info">
-                <p>Фамилия сотрудника:</p><input name="LastName" asp-for=LastName placeholder="@emp.LastName">
+                <p>Фамилия сотрудника:</p><input name="LastName" asp-for=LastName value="@emp.LastName">
             </div>
             <div class="sender-info">
-                <p class="sender-info">Отчество сотрудника:</p><input name="SurName" asp-for=SurName placeholder="@emp.SurName">
+                <p class="sender-info">Отчество сотрудника:</p><input name="SurName" asp-for=SurName value="@emp.SurName">
             </div>
             <div class="sender-info">
-                <p class="sender-info">Email:</p><input name="Email" asp-for=Email placeholder="@emp.Email">
+                <p class="sender-info">Email:</p><span>@emp.Email</span>
             </div>
             <div class="sender-info">
-                <p class="sender-info">Телефон сотрудника:</p><input name="Phone" asp-for=Phone placeholder="@emp.Phone">
+                <p class="sender-info">Телефон сотрудника:</p><input name="Phone" asp-for=Phone value="@emp.Phone">
             </div>
-            <input type="hidden" name="Status" asp-for=Status value="@emp.Status">
-            <input type="hidden" name="Role" asp-for=Role value="@emp.Role">
+            <div class="sender-info">
+                <p class="sender-info">Роль сотрудника:</p><span>@emp.Role.GetDisplayName()</span>
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Статус сотрудника:</p><span>@emp.Status.GetDisplayName()</span>
+            </div>
+
+            <input hidden name="Email" asp-for=Email value="@emp.Email">
+            <input hidden name="Role" asp-for=Role value="@emp.Role">
+            <input hidden name="Status" asp-for=Status value="@emp.Status">
         </form>
         <div class="button-container">
             <a class="back" asp-controller="Home" asp-action="Employees">Назад</a>
             <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
         </div>
     </div>
-
-
 }
 else
 {
     <div class="employee-card">
-        <p class="sender-info">Имя сотрудника: <span>@emp.FirstName</span></p>
-        <p class="sender-info">Фамилия сотрудника: <span>@emp.LastName</span></p>
-        <a class="back" asp-controller="Home" asp-action="Employees">Назад</a>
+        <div>
+            <p class="sender-info">Имя сотрудника:<span>@emp.FirstName</span></p>
+            <p class="sender-info">Фамилия сотрудника:<span>@emp.LastName</span></p>
+            <p class="sender-info">Отчество сотрудника:<span>@emp.SurName</span></p>
+            <p class="sender-info">Email:<span>@emp.Email</span></p>
+            <p class="sender-info">Телефон:<span>@emp.Phone</span></p>
+            <p class="sender-info">Роль сотрудника:<span>@emp.Role.GetDisplayName()</span></p>
+            <p class="sender-info">Статус сотрудника:<span>@emp.Status.GetDisplayName()</span></p>
+        </div>
+        <div class="button-container">
+            <a class="back" asp-controller="Home" asp-action="Employees">Назад</a>
+        </div>
     </div>
 }
-
 
 
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
