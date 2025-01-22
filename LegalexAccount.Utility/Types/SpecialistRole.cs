@@ -6,10 +6,10 @@ namespace LegalexAccount.Utility.Types
     public enum SpecialistRole
     {
         [Display(Name = "Технический специалист")]
-        Technical,
+        Technical = 0,
         [Display(Name = "Директор")]
-        Director,
+        Director = 1,
         [Display(Name = "Сотрудник")]
-        Employee
+        Employee = 2
     }
 }

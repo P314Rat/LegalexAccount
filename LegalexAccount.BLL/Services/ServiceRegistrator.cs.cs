@@ -13,8 +13,6 @@ namespace LegalexAccount.BLL.Services
             {
                 options.UseSqlServer(connectionString);
             });
-
-            services.AddScoped<IApplicationDbContextFactory, ApplicationDbContextFactory>();
         }
 
         public static void AddUnitOfWork(this IServiceCollection services)

@@ -7,86 +7,12 @@ namespace LegalexAccount.DAL.Repositories
 {
     public class ClientRepository : IRepository<Client, Guid>, IUserRepository
     {
-        private const string REPOSITORY_NAME = "Client";
-        private readonly IApplicationDbContextFactory _dbContextFactory;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public ClientRepository(IApplicationDbContextFactory dbContextFactory)
+        public ClientRepository(ApplicationDbContext dbContext)
         {
-            _dbContextFactory = dbContextFactory;
-        }
-
-        public async Task<User> GetByEmailAsync(string email)
-        {
-            var tasks = new Dictionary<Task<User?>, ApplicationDbContext>();
-
-            for (int i = 0; i < 3; i++)
-            {
-                var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-                var task = i switch
-                {
-                    0 => dbContext.Individuals.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (User?)t.Result),
-                    1 => dbContext.LegalEntities.FirstOrDefaultAsync(c => c.Email == email).ContinueWith(t => (User?)t.Result),
-                    _ => Task.FromResult<User?>(null)
-                };
-
-                tasks.Add(task, dbContext);
-            }
-
-            while (tasks.Any())
-            {
-                var pendingTasks = tasks.Keys.ToArray();
-                var completedTask = await Task.WhenAny(pendingTasks);
-
-                if (await completedTask is Client client && client != null)
-                {
-                    _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-                    return client;
-                }
-                else
-                {
-                    tasks.Remove(completedTask);
-                }
-            }
-
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-            throw new InvalidOperationException("Client was not found");
-        }
-
-        public async Task<IEnumerable<Client>> GetAllAsync()
-        {
-            var tasks = new Dictionary<Task<List<Client>>, ApplicationDbContext>();
-            var resultList = new List<Client>();
-
-            for (int i = 0; i < 2; i++)
-            {
-                var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-                Task<List<Client>> task = i switch
-                {
-                    0 => dbContext.Individuals.Select(x => (Client)x).ToListAsync(),
-                    1 => dbContext.LegalEntities.Select(x => (Client)x).ToListAsync(),
-                    _ => Task.FromResult(new List<Client>())
-                };
-
-                tasks.Add(task, dbContext);
-            }
-
-            while (tasks.Any())
-            {
-                var pendingTasks = tasks.Keys.ToArray();
-                var completedTask = await Task.WhenAny(pendingTasks);
-
-                if (await completedTask is List<Client> clients)
-                {
-                    resultList.AddRange(clients);
-                    tasks.Remove(completedTask);
-                }
-            }
-
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-            return resultList;
+            _dbContext = dbContext;
         }
 
         public Task CreateAsync(Client item)
@@ -109,16 +35,9 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public IQueryable<Client> AsQueryable()
+        public IQueryable<Client?> AsQueryable()
         {
-            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-
-            var legalQuery = dbContext.LegalEntities.OfType<Client>();
-            var personQuery = dbContext.Individuals.OfType<Client>();
-
-            var resultQuery = legalQuery.Union(personQuery);
-
-            return resultQuery;
+            return _dbContext.Clients.AsQueryable();
         }
 
         public Task<User> GetByNameAsync(string name)
@@ -127,6 +46,11 @@ namespace LegalexAccount.DAL.Repositories
         }
 
         public Task<bool> IsExistsAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User?> GetByEmailAsync(string email)
         {
             throw new NotImplementedException();
         }

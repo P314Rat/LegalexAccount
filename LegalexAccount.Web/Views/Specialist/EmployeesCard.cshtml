@@ -1,0 +1,60 @@
+﻿@using LegalexAccount.Utility.Extensions
+@using LegalexAccount.Utility.Types
+@model SpecialistViewModel
+@{
+    var emp = Model;
+
+    ViewData["Title"] = "Профиль";
+}
+
+@if (User.IsInRole(UserRole.Director.GetDisplayName()))
+{
+    <div class="employee-card">
+        <form id="creation-form" asp-controller="Specialist" asp-action="SaveEmployee" method="post" asp-antiforgery="true">
+            <div class="sender-info">
+                <p>Имя сотрудника:</p><input name="FirstName" asp-for=FirstName placeholder="@emp.FirstName">
+            </div>
+            <div class="sender-info">
+                <p>Фамилия сотрудника:</p><input name="LastName" asp-for=LastName placeholder="@emp.LastName">
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Отчество сотрудника:</p><input name="SurName" asp-for=SurName placeholder="@emp.SurName">
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Email:</p><input name="Email" asp-for=Email placeholder="@emp.Email">
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Телефон сотрудника:</p><input name="Phone" asp-for=Phone placeholder="@emp.Phone">
+            </div>
+            <input type="hidden" name="Status" asp-for=Status value="@emp.Status">
+            <input type="hidden" name="Role" asp-for=Role value="@emp.Role">
+        </form>
+        <div class="button-container">
+            <a class="back" asp-controller="Home" asp-action="Employees">Назад</a>
+            <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
+        </div>
+    </div>
+
+
+}
+else
+{
+    <div class="employee-card">
+        <p class="sender-info">Имя сотрудника: <span>@emp.FirstName</span></p>
+        <p class="sender-info">Фамилия сотрудника: <span>@emp.LastName</span></p>
+        <a class="back" asp-controller="Home" asp-action="Employees">Назад</a>
+    </div>
+}
+
+
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/EmployeesCard.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/EmployeesCard.min.css?v = @DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/SubmitValidationManager.js"></script>

@@ -20,8 +20,8 @@ namespace LegalexAccount.Web.Controllers
         private static CaseViewModel? _caseViewModel = null;
 
 
-        public CaseController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
-            : base(_dbContextFactory, httpContextAccessor)
+        public CaseController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+            : base(unitOfWork, httpContextAccessor)
         {
             _mediator = mediator;
         }

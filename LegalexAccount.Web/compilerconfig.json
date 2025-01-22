@@ -42,5 +42,13 @@
   {
     "outputFile": "Static/Styles/CreateClient.css",
     "inputFile": "Views/Client/CreateClient.scss"
+  },
+  {
+    "outputFile": "Static/Styles/EmployeesCard.css",
+    "inputFile": "Views/Specialist/EmployeesCard.scss"
+  },
+  {
+    "outputFile": "Static/Styles/CreateEmployee.css",
+    "inputFile": "Views/Specialist/CreateEmployee.scss"
   }
 ]

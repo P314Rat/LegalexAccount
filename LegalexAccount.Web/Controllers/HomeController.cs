@@ -1,4 +1,5 @@
-﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
+﻿using LegalexAccount.BLL.BusinessProcesses.CaseProcesses;
+using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
 using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
 using LegalexAccount.BLL.DTO;
@@ -19,8 +20,8 @@ namespace LegalexAccount.Web.Controllers
         private readonly IMediator _mediator;
 
 
-        public HomeController(IMediator mediator, IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
-            : base(_dbContextFactory, httpContextAccessor)
+        public HomeController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+            : base(unitOfWork, httpContextAccessor)
         {
             _mediator = mediator;
         }
@@ -44,11 +45,14 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Cases()
+        public async Task<IActionResult> Cases(int currentPage = 1)
         {
             ViewData["ProfileModel"] = _profileModel; //Vanya
+            ViewData["CurrentPage"] = currentPage;
 
-            return View();
+            var cases = (await _mediator.Send(new GetCasesRequest())).Select(x => x.ToViewModel()).ToList();
+
+            return View(cases);
         }
 
         [HttpGet]
@@ -59,24 +63,17 @@ namespace LegalexAccount.Web.Controllers
 
             try
             {
+                var legals = new List<LegalViewModel>();
+                var individuals = new List<PersonViewModel>();
                 var clients = (await _mediator.Send(new GetClientsQuery())).Select(user =>
                 {
-                    UserType userType = user switch
-                    {
-                        LegalDTO => UserType.Legal,
-                        PersonDTO => UserType.Person,
-                        _ => throw new Exception($"Unknown UserDTO type: {user.GetType()}")
-                    };
-
                     var organizationName = user is LegalDTO ? ((LegalDTO)user).OrganizationName : null;
 
                     return new ProfileDTO
                     {
-                        OrganizationName = organizationName,
                         Email = user.Email ?? string.Empty,
                         FirstName = user.FirstName ?? string.Empty,
                         LastName = user.LastName ?? string.Empty,
-                        UserType = userType
                     };
                 }).Select(x => x.ToViewModel()).ToList();
 

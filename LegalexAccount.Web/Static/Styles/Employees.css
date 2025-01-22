@@ -5,9 +5,25 @@
   height: 100%;
   padding: 1rem 0;
 }
-.employees h2 {
-  font-weight: 600;
+.employees .header-panel {
+  display: flex;
+  justify-content: space-between;
+  height: auto;
   margin-bottom: 2rem;
+}
+.employees .header-panel h2 {
+  font-weight: 600;
+}
+.employees .header-panel .create-case {
+  padding: 0.5rem 2rem;
+  color: white;
+  background-color: rgba(23, 103, 179, 0.8);
+  border-radius: 5px;
+  text-decoration: none;
+  height: 100%;
+}
+.employees .header-panel .create-case:hover {
+  background-color: rgba(23, 103, 179, 0.5);
 }
 .employees table {
   width: 100%;
@@ -54,11 +70,11 @@
 }
 .employees table tbody tr.m-panel td .panel {
   position: absolute;
-  top: 0.75rem;
+  top: 0;
   right: -4rem;
   width: 3rem;
   height: 3rem;
-  background-size: 2.5rem;
+  background-size: 1.8rem;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url("/Images/inspect.svg");

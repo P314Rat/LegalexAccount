@@ -1,5 +1,10 @@
-﻿@{
-    var activeCase = Model;
+﻿@model List<CaseViewModel>
+@{
+    var cases = Model;
+    const int casesNumber = 7;
+    var pagesRemainder = cases.Count % casesNumber > 0 ? 1 : 0;
+    var pagesNumber = cases.Count / casesNumber + pagesRemainder;
+    var currentPage = (int)ViewData["CurrentPage"];
 
     ViewData["Title"] = "Дела";
     ViewData["Page"] = "Cases";
@@ -12,13 +17,55 @@
         <a class="create-case" asp-controller="Case" asp-action="CreateCase">Завести дело</a>
     </div>
 
-    @if (activeCase == null)
+    @if (cases.Count == 0)
     {
         <span class="empty-page">У вас нет дел.</span>
     }
     else
     {
+        <table>
+            <thead>
+                <tr>
+                    <th>Начало</th>
+                    <th>Кол-во дней</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < casesNumber; i++)
+                {
+                    var orderIndex = casesNumber * (currentPage - 1) + i;
 
+                    if (orderIndex == cases.Count)
+                        break;
+
+                    var currentModel = cases[orderIndex];
+                    var description = currentModel.Description.Length <= 80 ? currentModel.Description : currentModel.Description.Substring(0, 80) + "...";
+
+                    <tr class="with-management-panel" onclick="CallManagementPanel(this)">
+                        <td>@currentModel.StartDate.ToString("dd.MM.yy")</td>
+                        <td>@currentModel.EstimatedDaysToEnd</td>
+                        <td>
+                            @currentModel.Description
+                            <a class="panel" asp-controller="Home" asp-action="Clients"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (pagesNumber > 1)
+        {
+            <div class="pagination">
+
+                @for (var i = 0; i < pagesNumber; i++)
+                {
+                    <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Orders" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
+                }
+            </div>
+        }
+
+        <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
     }
 </div>
 
@@ -30,3 +77,5 @@ else
 {
     <link rel="stylesheet" href="~/Styles/Cases.min.css?v = @DateTime.Now.Ticks">
 }
+
+<script src="~/Scripts/EmployeeManagement.js"></script>

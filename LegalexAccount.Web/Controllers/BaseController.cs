@@ -11,7 +11,7 @@ namespace LegalexAccount.Web.Controllers
         protected static ProfileViewModel? _profileModel = null;
 
 
-        public BaseController(IApplicationDbContextFactory _dbContextFactory, IHttpContextAccessor httpContextAccessor)
+        public BaseController(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
             var email = httpContextAccessor.HttpContext?.User?.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
@@ -19,19 +19,15 @@ namespace LegalexAccount.Web.Controllers
             if (email == null)
                 throw new Exception("Authorization is wrong.");
 
-            var dbContext = _dbContextFactory.CreateDbContext("BaseController");
-            var profile = dbContext.Specialists.Select(x => new { x.Email, x.FirstName, x.LastName })
-                .Union(dbContext.LegalEntities.Select(x => new { x.Email, x.FirstName, x.LastName })
-                .Union(dbContext.Individuals.Select(x => new { x.Email, x.FirstName, x.LastName })))
-                .FirstOrDefault(x => x.Email == email);
+            var userDTO = unitOfWork.Users.GetByEmailAsync(email).Result;
 
-            if (profile != null)
+            if (userDTO != null)
             {
                 _profileModel = new()
                 {
                     Email = email,
-                    FirstName = profile.FirstName,
-                    LastName = profile.LastName
+                    FirstName = userDTO.FirstName,
+                    LastName = userDTO.LastName
                 };
             }
             else

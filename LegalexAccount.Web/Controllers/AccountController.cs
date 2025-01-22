@@ -1,5 +1,6 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.Authorization;
 using LegalexAccount.BLL.DTO;
+using LegalexAccount.Utility.Extensions;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -36,13 +37,6 @@ namespace LegalexAccount.Web.Controllers
             return Redirect("Login");
         }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> RegisterAsync()
-        {
-            return Redirect("Login"); // Сделать
-        }
-
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {
@@ -57,13 +51,13 @@ namespace LegalexAccount.Web.Controllers
                     Password = model.Password
                 };
 
-                await _mediator.Send(new LoginQuery(modelDTO));
+                var role = await _mediator.Send(new LoginQuery(modelDTO));
 
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, modelDTO.Email),
+                    new Claim(ClaimTypes.Role, role.GetDisplayName())
                 };
-
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 

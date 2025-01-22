@@ -6,8 +6,8 @@ namespace LegalexAccount.Utility.Types
     public enum ClientType
     {
         [Display(Name = "Юридическое лицо")]
-        Legal,
+        Legal = 0,
         [Display(Name = "Физическое лицо")]
-        Person
+        Person = 1
     }
 }

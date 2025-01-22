@@ -1,54 +1,38 @@
 ﻿using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
 namespace LegalexAccount.DAL.Repositories
 {
-    public class PersonRepository : IRepository<Person, Guid>
+    public class PersonRepository : IRepository<Person, Guid>, IUserRepository
     {
-        private const string REPOSITORY_NAME = "Person";
-        private readonly IApplicationDbContextFactory _dbContextFactory;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public PersonRepository(IApplicationDbContextFactory dbContextFactory)
+        public PersonRepository(ApplicationDbContext dbContext)
         {
-            _dbContextFactory = dbContextFactory;
+            _dbContext = dbContext;
         }
 
         public IQueryable<Person> AsQueryable()
         {
-            return _dbContextFactory.CreateDbContext(REPOSITORY_NAME).Individuals.AsQueryable();
+            return _dbContext.Individuals.AsQueryable();
         }
 
         public async Task CreateAsync(Person item)
         {
-            var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Individuals?.AddAsync(item).AsTask();
+            var entry = await _dbContext.Individuals.AddAsync(item);
 
             if (entry == null || entry.State != EntityState.Added)
-            {
-                _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Person was not created");
-            }
 
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteByEmailAsync(string email)
+        public Task DeleteByEmailAsync(string email)
         {
-            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-            var item = await dbContext?.Individuals?.FirstOrDefaultAsync(x => x.Email == email);
-
-            EntityEntry<Person>? entry = null;
-
-            if (item != null)
-                entry = dbContext?.Individuals?.Remove(item);
-
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-            if (entry == null || entry.State != EntityState.Deleted)
-                throw new InvalidOperationException("Person was not deleted");
+            throw new NotImplementedException();
         }
 
         public Task DeleteByIdAsync(Guid id)
@@ -56,29 +40,17 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Person>> GetAllAsync()
+        public Task<User?> GetByEmailAsync(string email)
         {
-            var items = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Individuals.ToListAsync();
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-            if (items == null)
-                throw new InvalidOperationException("Individuals was not found");
-
-            return items;
+            throw new NotImplementedException();
         }
 
-        public async Task<Person> GetByEmailAsync(string email)
+        public Task<Person?> GetByIdAsync(Guid id)
         {
-            var item = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Individuals?.FirstOrDefaultAsync(x => x.Email == email);
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-            if (item == null)
-                throw new InvalidOperationException("Person was not found");
-
-            return item;
+            throw new NotImplementedException();
         }
 
-        public Task<Person> GetByIdAsync(Guid id)
+        public Task<bool> IsExistsAsync(string email)
         {
             throw new NotImplementedException();
         }

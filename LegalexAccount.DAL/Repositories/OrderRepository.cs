@@ -1,71 +1,52 @@
 ﻿using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 
 namespace LegalexAccount.DAL.Repositories
 {
     public class OrderRepository : IRepository<Order, int>
     {
-        private const string REPOSITORY_NAME = "Order";
-        private readonly IApplicationDbContextFactory _dbContextFactory;
+        private readonly ApplicationDbContext _dbContext;
 
 
-        public OrderRepository(IApplicationDbContextFactory dbContextFactory)
+        public OrderRepository(ApplicationDbContext dbContext)
         {
-            _dbContextFactory = dbContextFactory;
+            _dbContext = dbContext;
         }
 
         public async Task CreateAsync(Order item)
         {
-            var entry = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Orders?.AddAsync(item).AsTask();
+            var entry = await _dbContext.Orders.AddAsync(item);
 
             if (entry == null || entry.State != EntityState.Added)
-            {
-                _dbContextFactory.Dispose(REPOSITORY_NAME);
                 throw new InvalidOperationException("Order was not created");
-            }
 
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Order> GetByIdAsync(int id)
+        public async Task<Order?> GetByIdAsync(int id)
         {
-            var item = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME).Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-            if (item == null)
-                throw new InvalidOperationException("Order was not found");
+            var item = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
 
             return item;
         }
 
-        public async Task<IEnumerable<Order>> GetAllAsync()
-        {
-            var items = await _dbContextFactory.CreateDbContext(REPOSITORY_NAME)?.Orders.ToListAsync();
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
-
-            if (!items.Any())
-                throw new InvalidOperationException("Orders was not found");
-
-            return items;
-        }
-
         public async Task DeleteByIdAsync(int id)
         {
-            var dbContext = _dbContextFactory.CreateDbContext(REPOSITORY_NAME);
-            var item = await dbContext?.Orders?.FirstOrDefaultAsync(x => x.Id == id);
-
-            EntityEntry<Order>? entry = null;
+            var item = await _dbContext.Orders.FirstOrDefaultAsync(x => x.Id == id);
 
             if (item != null)
-                entry = dbContext?.Orders?.Remove(item);
+            {
+                var entry = _dbContext.Orders.Remove(item);
 
-            _dbContextFactory.Dispose(REPOSITORY_NAME);
+                if (entry == null || entry.State != EntityState.Deleted)
+                    throw new InvalidOperationException("Order was not deleted");
+            }
+            else
+                throw new NullReferenceException("Order is not exists");
 
-            if (entry == null || entry.State != EntityState.Deleted)
-                throw new InvalidOperationException("Order was not deleted");
+            await _dbContext.SaveChangesAsync();
         }
 
         public Task UpdateAsync(Order item)
