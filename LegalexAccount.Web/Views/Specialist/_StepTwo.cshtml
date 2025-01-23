@@ -1,19 +1,12 @@
 ﻿@model SpecialistViewModel
 @{
     var roles = ViewBag.Roles;
-    var statuses = ViewBag.Statuses;
 }
 
 
 <form id="creation-form" asp-controller="Specialist" asp-action="SaveEmployee" method="post">
     <div class="form-container">
         <div class="form-grid">
-            <div class="item-container">
-                <label for="status" class="status-label">Статус</label>
-                <div class="input-container">
-                    <select id="status" name="Status" asp-for=Status asp-items="statuses"></select>
-                </div>
-            </div>
             <div class="item-container">
                 <label for="role" class="role-label">Роль</label>
                 <div class="input-container">

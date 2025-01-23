@@ -80,7 +80,7 @@ namespace LegalexAccount.DAL.Repositories
             specialist.FirstName = item.FirstName;
             specialist.LastName = item.LastName;
             specialist.SurName = item.SurName;
-            specialist.Phone = item.Phone;
+            specialist.PhoneNumber = item.PhoneNumber;
 
             await _dbContext.SaveChangesAsync();
         }

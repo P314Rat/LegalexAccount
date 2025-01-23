@@ -14,7 +14,7 @@ namespace LegalexAccount.BLL.DTO
             var resultModel = new Specialist
             {
                 Email = model.Email ?? string.Empty,
-                Phone = model.Phone,
+                PhoneNumber = model.PhoneNumber,
                 FirstName = model.FirstName ?? string.Empty,
                 LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,
@@ -34,7 +34,7 @@ namespace LegalexAccount.BLL.DTO
             var resultModel = new SpecialistDTO
             {
                 Email = model.Email,
-                Phone = model.Phone,
+                PhoneNumber = model.PhoneNumber,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 SurName = model.SurName,

@@ -9,9 +9,11 @@ namespace LegalexAccount.BLL.DTO
         {
             var profileDTO = new ProfileDTO
             {
-                Email = model.Email,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                SurName = model.SurName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
             };
 
             return profileDTO;

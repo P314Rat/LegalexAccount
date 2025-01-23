@@ -3,7 +3,7 @@ using LegalexAccount.DAL;
 using MediatR;
 
 
-namespace LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses
+namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 {
     public class EditEmployeeQueryHandler : IRequestHandler<EditEmployeeQuery>
     {

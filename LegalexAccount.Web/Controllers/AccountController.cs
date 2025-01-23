@@ -52,13 +52,14 @@ namespace LegalexAccount.Web.Controllers
                 };
 
                 var role = await _mediator.Send(new LoginQuery(modelDTO));
-
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, modelDTO.Email),
-                    new Claim(ClaimTypes.Role, role.GetDisplayName())
+                    new Claim(ClaimTypes.Role, role.ToString())
                 };
+
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
                 return RedirectToAction("Orders", "Home");

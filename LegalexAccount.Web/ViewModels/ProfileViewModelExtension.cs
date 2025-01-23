@@ -9,9 +9,11 @@ namespace LegalexAccount.Web.ViewModels
         {
             var profileViewModel = new ProfileViewModel
             {
-                Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
+                SurName = model.SurName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
             };
 
             return profileViewModel;
@@ -21,9 +23,11 @@ namespace LegalexAccount.Web.ViewModels
         {
             var profileDTO = new ProfileDTO
             {
-                Email = model.Email,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                SurName = model.SurName,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber
             };
 
             return profileDTO;

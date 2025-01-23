@@ -9,11 +9,11 @@ namespace LegalexAccount.Web.ViewModels
         {
             var specialistDTO = new SpecialistDTO
             {
-                Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 SurName = model.SurName,
-                Phone = model.Phone,
+                Email = model.Email,
+                PhoneNumber = model.Phone,
                 Password = model.Password,
                 Status = model.Status,
                 Role = model.Role
@@ -26,14 +26,14 @@ namespace LegalexAccount.Web.ViewModels
         {
             var specialistViewModel = new SpecialistViewModel
             {
-                Email = model.Email ?? string.Empty,
                 FirstName = model.FirstName ?? string.Empty,
                 LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,
-                Phone = model.Phone,
+                Email = model.Email ?? string.Empty,
+                Phone = model.PhoneNumber,
                 Password = model.Password ?? string.Empty,
-                Role = model.Role ?? Utility.Types.SpecialistRole.Employee,
-                Status = model.Status ?? Utility.Types.SpecialistStatus.Free
+                Status = model.Status ?? Utility.Types.SpecialistStatus.Free,
+                Role = model.Role ?? Utility.Types.SpecialistRole.Employee
             };
 
             return specialistViewModel;

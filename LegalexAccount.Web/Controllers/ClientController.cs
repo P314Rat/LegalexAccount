@@ -1,5 +1,4 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
-using LegalexAccount.DAL;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,17 +10,13 @@ namespace LegalexAccount.Web.Controllers
     [Authorize]
     public class ClientController : BaseController
     {
-        private readonly IMediator _mediator;
         private static UserViewModel? _userModel = null;
         private static LegalViewModel? _legalModel = null;
         private static PersonViewModel? _personModel = null;
 
 
-        public ClientController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
-            : base(unitOfWork, httpContextAccessor)
-        {
-            _mediator = mediator;
-        }
+        public ClientController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+            : base(mediator, httpContextAccessor) { }
 
         [HttpGet]
         public async Task<IActionResult> ClientCard(string email)

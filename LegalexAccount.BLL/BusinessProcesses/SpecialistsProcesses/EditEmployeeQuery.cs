@@ -2,7 +2,7 @@
 using MediatR;
 
 
-namespace LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses
+namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 {
     public class EditEmployeeQuery : IRequest
     {

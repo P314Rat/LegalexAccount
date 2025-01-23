@@ -4,9 +4,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses
+namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 {
-    public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, IEnumerable<SpecialistDTO>>
+    public class GetEmployeesQueryHandler : IRequestHandler<GetSpecialistsQuery, IEnumerable<SpecialistDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -16,7 +16,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<SpecialistDTO>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<SpecialistDTO>> Handle(GetSpecialistsQuery request, CancellationToken cancellationToken)
         {
             var specialistsQuery = _unitOfWork.Specialists.AsQueryable();
             var result = await specialistsQuery.AsQueryable().Select(x => x.ToDTO()).ToListAsync();

@@ -1,54 +1,38 @@
-﻿using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
-using LegalexAccount.DAL;
+﻿using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
 using LegalexAccount.Utility.Extensions;
 using LegalexAccount.Utility.Types;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace LegalexAccount.Web.Controllers
 {
+    [Authorize(Roles = "Director, Technical, Employee")]
     public class SpecialistController : BaseController
     {
-        private readonly IMediator _mediator;
         private static UserViewModel? _userModel = null;
         private static SpecialistViewModel? _specialistModel = null;
 
 
-        public SpecialistController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
-            : base(unitOfWork, httpContextAccessor)
-        {
-            _mediator = mediator;
-        }
+        public SpecialistController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+            : base(mediator, httpContextAccessor) { }
 
         [HttpGet]
-        public async Task<JsonResult> GetEmployees()
-        {
-            var clients = (await _mediator.Send(new GetEmployeesQuery())).Select(x => new ProfileViewModel
-            {
-                Email = x.Email,
-                FirstName = x.FirstName,
-                LastName = x.LastName
-            }).ToArray();
-
-            return Json(clients);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EmployeesCard(string email)
+        public async Task<IActionResult> EmployeeCard(string email)
         {
             try
             {
-                ViewData["ProfileModel"] = _profileModel;
+                var response = (await _mediator.Send(new GetSpecialistByEmailQuery(email)))?.ToViewModel();
 
-                var specialist = (await _mediator.Send(new GetEmployeesByEmailQuery(email)))?.ToViewModel();
-
-                if (specialist == null)
+                if (response == null)
                     throw new Exception("Specialist not found");
 
-                return View(specialist);
+                ViewData["ProfileModel"] = _profileModel;
+
+                return View(response);
             }
             catch (Exception ex)
             {
@@ -56,14 +40,31 @@ namespace LegalexAccount.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Director")]
         [HttpGet]
-        public async Task<IActionResult> CreateEmployee()
+        public IActionResult CreateEmployee(int stepNumber = 1)
         {
             try
             {
-                const int stepNumber = 1;
-
                 ViewData["ProfileModel"] = _profileModel;
+
+                if (stepNumber == 2)
+                {
+                    ViewBag.Roles = new List<SelectListItem>
+                    {
+                        new SelectListItem { Value = "", Text = "Выберите роль специалиста", Selected = true }
+                    }
+                    .Concat(
+                        Enum.GetValues(typeof(SpecialistRole))
+                        .Cast<SpecialistRole>()
+                        .Where(x => x != SpecialistRole.Director)
+                        .Select(x => new SelectListItem
+                        {
+                            Value = x.ToString(),
+                            Text = x.GetDisplayName()
+                        })
+                        .ToList());
+                }
 
                 return View(stepNumber);
             }
@@ -73,74 +74,25 @@ namespace LegalexAccount.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Director")]
         [HttpPost]
-        public async Task<IActionResult> StepTwo(UserViewModel model)
+        public IActionResult CreateStepOne(UserViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Wrong model");
 
-            try
-            {
-                const int stepNumber = 2;
+            const int stepNumber = 2;
+            _userModel = model;
 
-                if (_profileModel == null)
-                    return BadRequest("Authorization is wrong.");
-
-                _userModel = model;
-
-                return Redirect("StepTwo");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return RedirectToAction("CreateEmployee", new { stepNumber });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> StepTwo()
-        {
-            try
-            {
-                const int stepNumber = 2;
-
-                if (_profileModel == null)
-                    return BadRequest("Authorization is wrong.");
-
-                ViewData["ProfileModel"] = _profileModel;
-                ViewBag.Statuses = Enum.GetValues(typeof(SpecialistStatus))
-                    .Cast<SpecialistStatus>()
-                    .Select(x => new SelectListItem
-                    {
-                        Value = x.ToString(),
-                        Text = x.GetDisplayName()
-                    })
-                    .ToList();
-                ViewBag.Roles = new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "", Text = "Выберите роль специалиста", Selected = true }
-                }
-                .Concat(
-                    Enum.GetValues(typeof(SpecialistRole))
-                    .Cast<SpecialistRole>()
-                    .Select(x => new SelectListItem
-                    {
-                        Value = x.ToString(),
-                        Text = x.GetDisplayName()
-                    })
-                    .ToList());
-
-                return View("CreateEmployee", stepNumber);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
+        [Authorize(Roles = "Director")]
         [HttpPost]
         public async Task<IActionResult> SaveEmployee(SpecialistViewModel model)
         {
             _specialistModel = model;
+
             if (_userModel != null)
             {
                 _specialistModel.Email = _userModel.Email;
@@ -161,8 +113,6 @@ namespace LegalexAccount.Web.Controllers
 
                 _specialistModel = null;
             }
-
-            //Добавить перегрузку для преобразования ViewModel
 
             return RedirectToAction("Employees", "Home");
         }

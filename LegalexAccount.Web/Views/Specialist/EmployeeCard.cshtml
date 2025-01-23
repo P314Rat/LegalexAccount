@@ -8,7 +8,7 @@
 }
 
 
-@if (User.IsInRole(UserRole.Director.GetDisplayName()))
+@if (User.IsInRole(UserRole.Director.ToString()))
 {
     <div class="employee-card">
         <form id="creation-form" asp-controller="Specialist" asp-action="SaveEmployee" method="post" asp-antiforgery="true">
@@ -33,7 +33,6 @@
             <div class="sender-info">
                 <p class="sender-info">Статус сотрудника:</p><span>@emp.Status.GetDisplayName()</span>
             </div>
-
             <input hidden name="Email" asp-for=Email value="@emp.Email">
             <input hidden name="Role" asp-for=Role value="@emp.Role">
             <input hidden name="Status" asp-for=Status value="@emp.Status">
@@ -62,14 +61,13 @@ else
     </div>
 }
 
-
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
-    <link rel="stylesheet" href="~/Styles/EmployeesCard.css">
+    <link rel="stylesheet" href="~/Styles/EmployeeCard.css">
 }
 else
 {
-    <link rel="stylesheet" href="~/Styles/EmployeesCard.min.css?v = @DateTime.Now.Ticks">
+    <link rel="stylesheet" href="~/Styles/EmployeeCard.min.css?v = @DateTime.Now.Ticks">
 }
 
 <script src="~/Scripts/SubmitValidationManager.js"></script>

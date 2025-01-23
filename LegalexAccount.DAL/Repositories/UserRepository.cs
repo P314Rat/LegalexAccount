@@ -1,7 +1,6 @@
 ﻿using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 
 namespace LegalexAccount.DAL.Repositories

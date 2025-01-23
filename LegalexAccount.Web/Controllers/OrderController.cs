@@ -1,5 +1,4 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
-using LegalexAccount.DAL;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,14 +10,8 @@ namespace LegalexAccount.Web.Controllers
     [Authorize]
     public class OrderController : BaseController
     {
-        private readonly IMediator _mediator;
-
-
-        public OrderController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
-            : base(unitOfWork, httpContextAccessor)
-        {
-            _mediator = mediator;
-        }
+        public OrderController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+            : base(mediator, httpContextAccessor) { }
 
         [HttpGet]
         public async Task<IActionResult> OrderCard(int id)

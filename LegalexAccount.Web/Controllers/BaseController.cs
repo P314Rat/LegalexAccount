@@ -1,5 +1,6 @@
-﻿using LegalexAccount.DAL;
+﻿using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
 using LegalexAccount.Web.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -9,25 +10,30 @@ namespace LegalexAccount.Web.Controllers
     public class BaseController : Controller
     {
         protected static ProfileViewModel? _profileModel = null;
+        protected readonly IMediator _mediator;
 
 
-        public BaseController(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        public BaseController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
         {
+            _mediator = mediator;
+
             var email = httpContextAccessor.HttpContext?.User?.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             if (email == null)
                 throw new Exception("Authorization is wrong.");
 
-            var userDTO = unitOfWork.Users.GetByEmailAsync(email).Result;
+            var profileDTO = _mediator.Send(new GetProfileQuery(email)).Result;
 
-            if (userDTO != null)
+            if (profileDTO != null)
             {
                 _profileModel = new()
                 {
+                    FirstName = profileDTO.FirstName,
+                    LastName = profileDTO.LastName,
+                    SurName = profileDTO.SurName,
                     Email = email,
-                    FirstName = userDTO.FirstName,
-                    LastName = userDTO.LastName
+                    PhoneNumber = profileDTO.PhoneNumber
                 };
             }
             else

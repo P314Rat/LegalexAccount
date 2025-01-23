@@ -5,7 +5,7 @@
     var specialists = Model;
 
     ViewData["Title"] = "Сотрудники";
-    ViewData["Page"] = "Employees";
+    ViewData["Page"] = "Specialists";
 }
 
 
@@ -40,7 +40,7 @@
                         <td>@specialist.Email</td>
                         <td>
                             @specialist.Status.GetDisplayName()
-                            <a class="panel" asp-controller="Specialist" asp-action="EmployeesCard" asp-route-email="@specialist.Email"></a>
+                            <a class="panel" asp-controller="Specialist" asp-action="EmployeeCard" asp-route-email="@specialist.Email"></a>
                         </td>
                     </tr>
                 }
@@ -58,4 +58,5 @@ else
 {
     <link rel="stylesheet" href="~/Styles/Employees.min.css?v = @DateTime.Now.Ticks">
 }
+
 <script src="~/Scripts/EmployeeManagement.js"></script>

@@ -1,16 +1,12 @@
 ﻿@model int
 @{
     var stepNumber = Model;
-    var isCreateFormActive = false;
 
-    if (ViewData["IsCreateFormActive"] != null)
-        isCreateFormActive = (bool)ViewData["IsCreateFormActive"];
-
-    ViewData["Page"] = "Employees";
+    ViewData["Page"] = "Specialists";
 }
 
 
-<div class="create-client">
+<div class="create-employee">
     <h2>Новый сотрудник</h2>
 
     @switch (stepNumber)

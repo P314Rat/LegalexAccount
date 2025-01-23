@@ -1,10 +1,8 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.CaseProcesses;
 using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
-using LegalexAccount.BLL.BusinessProcesses.EmployeesProcesses;
+using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
 using LegalexAccount.BLL.DTO;
-using LegalexAccount.DAL;
-using LegalexAccount.Utility.Types;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,14 +15,8 @@ namespace LegalexAccount.Web.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
-        private readonly IMediator _mediator;
-
-
-        public HomeController(IMediator mediator, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
-            : base(unitOfWork, httpContextAccessor)
-        {
-            _mediator = mediator;
-        }
+        public HomeController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
+            : base(mediator, httpContextAccessor) { }
 
         [HttpGet]
         public async Task<IActionResult> Orders(int currentPage = 1)
@@ -94,19 +86,20 @@ namespace LegalexAccount.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Director, Technical, Employee")]
         [HttpGet]
         public async Task<IActionResult> Employees()
         {
             try
             {
-                var result = (await _mediator.Send(new GetEmployeesQuery()))
+                var response = (await _mediator.Send(new GetSpecialistsQuery()))
                     .Where(x => x.Email != _profileModel?.Email)
                     .Select(x => x.ToViewModel())
                     .ToList();
 
-                ViewData["ProfileModel"] = _profileModel; //Создать общую ViewModel
+                ViewData["ProfileModel"] = _profileModel;
 
-                return View(result);
+                return View(response);
             }
             catch (Exception ex)
             {

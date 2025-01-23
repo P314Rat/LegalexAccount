@@ -1,7 +1,7 @@
 ﻿using LegalexAccount.BLL.DTO;
 using LegalexAccount.BLL.Services;
-using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL;
+using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.Utility.Services;
 using LegalexAccount.Utility.Types;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -22,20 +22,9 @@ namespace LegalexAccount.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowAll",
-            //        builder =>
-            //        {
-            //            builder
-            //                .AllowAnyOrigin()
-            //                .AllowAnyMethod()
-            //                .AllowAnyHeader();
-            //        });
-            //});
             services.AddApplicationDbContext(Configuration["ConnectionStrings:DefaultConnection"]);
             services.AddUnitOfWork();
-            services.AddHttpContextAccessor(); // Регистрируем IHttpContextAccessor
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserDTO).Assembly));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -60,18 +49,15 @@ namespace LegalexAccount.Web
                 app.UseExceptionHandler("/Error");
             }
 
-            // Применяем миграции и инициализируем данные
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                // Применяем миграции, если есть
                 if (dbContext.Database.GetPendingMigrations().Any())
                 {
                     dbContext.Database.Migrate();
                 }
 
-                // Инициализация данных (например, добавление специалистов)
                 if (!dbContext.Specialists.Any())
                 {
                     var salt1 = GenerateDataService.CreateSalt(32);
@@ -105,9 +91,6 @@ namespace LegalexAccount.Web
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
-            //app.UseCors();
-
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
             app.UseStaticFiles(new StaticFileOptions
             {
@@ -116,10 +99,8 @@ namespace LegalexAccount.Web
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=172800");
                 }
             });
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
