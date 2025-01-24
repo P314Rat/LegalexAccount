@@ -102,14 +102,21 @@ namespace LegalexAccount.Web.Controllers
                 _specialistModel.SurName = _userModel.SurName;
                 _specialistModel.Password = _userModel.Password;
 
-                await _mediator.Send(new CreateEmployeeQuery(_specialistModel.ToDTO()));
+                await _mediator.Send(new CreateEmployeeQuery(_specialistModel.ToDTO())); // Create new
 
                 _userModel = null;
                 _specialistModel = null;
             }
             else
             {
-                await _mediator.Send(new EditEmployeeQuery(_specialistModel.ToDTO()));
+                var mailRequest = new MailRequest
+                {
+                    ToEmail = "silencetray@gmail.com",
+                    Subject = "Подтверждение аккаунта",
+                    Body = "Test"
+                };
+
+                await _mediator.Send(new EditEmployeeQuery(_specialistModel.ToDTO(), mailRequest)); // Edit existing
 
                 _specialistModel = null;
             }

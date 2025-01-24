@@ -24,6 +24,7 @@ namespace LegalexAccount.Web
         {
             services.AddApplicationDbContext(Configuration["ConnectionStrings:DefaultConnection"]);
             services.AddUnitOfWork();
+            services.AddMailService(Configuration.GetSection("MailSettings"));
             services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserDTO).Assembly));

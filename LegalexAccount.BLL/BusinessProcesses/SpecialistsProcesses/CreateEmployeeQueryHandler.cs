@@ -1,5 +1,6 @@
 ﻿using LegalexAccount.BLL.DTO;
 using LegalexAccount.DAL;
+using LegalexAccount.DAL.Repositories.Contracts;
 using MediatR;
 
 
@@ -17,9 +18,16 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 
         public async Task Handle(CreateEmployeeQuery request, CancellationToken cancellationToken)
         {
-            var model = request.model.ToModel();
+            var isSpecialistExist = await ((IUserRepository)_unitOfWork.Specialists).IsExistsAsync(request.Model.Email);
 
-            await _unitOfWork.Specialists.CreateAsync(model);
+            if (isSpecialistExist)
+            {
+                await _unitOfWork.Specialists.CreateAsync(request.Model.ToModel());
+
+                return;
+            }
+
+            throw new Exception("Specialist already exists");
         }
     }
 }

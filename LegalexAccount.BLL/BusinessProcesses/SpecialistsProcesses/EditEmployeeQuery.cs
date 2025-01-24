@@ -6,12 +6,14 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 {
     public class EditEmployeeQuery : IRequest
     {
-        public SpecialistDTO model { get; set; }
+        public SpecialistDTO Model { get; set; }
+        public MailRequest MailRequest { get; set; }
 
 
-        public EditEmployeeQuery(SpecialistDTO model)
+        public EditEmployeeQuery(SpecialistDTO model, MailRequest mailRequest)
         {
-            this.model = model;
+            Model = model;
+            MailRequest = mailRequest;
         }
     }
 }

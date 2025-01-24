@@ -6,12 +6,12 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 {
     public class CreateEmployeeQuery : IRequest
     {
-        public SpecialistDTO model { get; set; }
+        public SpecialistDTO Model { get; set; }
 
 
         public CreateEmployeeQuery(SpecialistDTO model)
         {
-            this.model = model;
+            Model = model;
         }
     }
 }
