@@ -96,7 +96,7 @@ namespace LegalexAccount.Web.Controllers
             if (_userModel != null)
             {
                 _specialistModel.Email = _userModel.Email;
-                _specialistModel.Phone = _userModel.Phone;
+                _specialistModel.PhoneNumber = _userModel.PhoneNumber;
                 _specialistModel.FirstName = _userModel.FirstName;
                 _specialistModel.LastName = _userModel.LastName;
                 _specialistModel.SurName = _userModel.SurName;

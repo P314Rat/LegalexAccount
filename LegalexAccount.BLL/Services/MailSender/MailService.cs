@@ -17,6 +17,15 @@ namespace LegalexAccount.BLL.Services.MailSender
 
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = Path.Combine(basePath, "Static", "Pages", "WelcomeMail.html");
+
+            StreamReader str = new StreamReader(filePath);
+            string MailText = str.ReadToEnd();
+            str.Close();
+
+            MailText = MailText.Replace("[username]", "Юзернейм").Replace("[email]", mailRequest.ToEmail).Replace("[password]", "Пароль");
+
             using var email = new MimeMessage();
 
             email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
@@ -41,7 +50,7 @@ namespace LegalexAccount.BLL.Services.MailSender
                 }
             }
 
-            builder.HtmlBody = mailRequest.Body;
+            builder.HtmlBody = MailText;
             email.Body = builder.ToMessageBody();
 
             using var smtp = new SmtpClient();

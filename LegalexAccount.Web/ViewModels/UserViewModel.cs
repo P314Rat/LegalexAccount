@@ -8,7 +8,7 @@ namespace LegalexAccount.Web.ViewModels
         [Required(ErrorMessage = "Это необходимое поле")]
         [EmailAddress(ErrorMessage = "Неверный формат электронной почты")]
         public string Email { get; set; } = string.Empty;
-        public string? Phone { get; set; } = null;
+        public string? PhoneNumber { get; set; } = null;
         [Required(ErrorMessage = "Это необходимое поле")]
         public string FirstName { get; set; } = string.Empty;
         [Required(ErrorMessage = "Это необходимое поле")]

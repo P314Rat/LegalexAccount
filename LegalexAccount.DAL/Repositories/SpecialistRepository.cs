@@ -64,14 +64,16 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsExistsAsync(string email)
+        public async Task<bool> IsExistsAsync(string email)
         {
-            throw new NotImplementedException();
+            var result = await _dbContext.Specialists.AnyAsync(x => x.Email == email);
+
+            return result;
         }
 
         public async Task UpdateAsync(Specialist item)
         {
-            var specialist = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == item.Email);
+            var specialist = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Id == item.Id);
 
             if (specialist == null)
                 return;

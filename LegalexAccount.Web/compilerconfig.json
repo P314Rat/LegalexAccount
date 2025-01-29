@@ -50,5 +50,9 @@
   {
     "outputFile": "Static/Styles/CreateEmployee.css",
     "inputFile": "Views/Specialist/CreateEmployee.scss"
-  }
+  },
+  {
+    "outputFile": "Static/Styles/EditProfile.css",
+    "inputFile": "Views/Home/EditProfile.scss"
+  },
 ]

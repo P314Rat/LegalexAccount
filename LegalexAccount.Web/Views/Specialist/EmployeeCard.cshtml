@@ -25,7 +25,7 @@
                 <p class="sender-info">Email:</p><span>@emp.Email</span>
             </div>
             <div class="sender-info">
-                <p class="sender-info">Телефон сотрудника:</p><input name="Phone" asp-for=Phone value="@emp.Phone">
+                <p class="sender-info">Телефон сотрудника:</p><input name="Phone" asp-for=PhoneNumber value="@emp.PhoneNumber">
             </div>
             <div class="sender-info">
                 <p class="sender-info">Роль сотрудника:</p><span>@emp.Role.GetDisplayName()</span>
@@ -51,7 +51,7 @@ else
             <p class="sender-info">Фамилия сотрудника:<span>@emp.LastName</span></p>
             <p class="sender-info">Отчество сотрудника:<span>@emp.SurName</span></p>
             <p class="sender-info">Email:<span>@emp.Email</span></p>
-            <p class="sender-info">Телефон:<span>@emp.Phone</span></p>
+            <p class="sender-info">Телефон:<span>@emp.PhoneNumber</span></p>
             <p class="sender-info">Роль сотрудника:<span>@emp.Role.GetDisplayName()</span></p>
             <p class="sender-info">Статус сотрудника:<span>@emp.Status.GetDisplayName()</span></p>
         </div>

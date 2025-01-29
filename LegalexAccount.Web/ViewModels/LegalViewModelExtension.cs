@@ -10,7 +10,7 @@ namespace LegalexAccount.Web.ViewModels
             var viewModel = new LegalViewModel
             {
                 Email = model.Email ?? string.Empty,
-                Phone = model.PhoneNumber,
+                PhoneNumber = model.PhoneNumber,
                 FirstName = model.FirstName ?? string.Empty,
                 LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,
@@ -35,7 +35,7 @@ namespace LegalexAccount.Web.ViewModels
             var modelDTO = new LegalDTO
             {
                 Email = model.Email,
-                PhoneNumber = model.Phone,
+                PhoneNumber = model.PhoneNumber,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 SurName = model.SurName,

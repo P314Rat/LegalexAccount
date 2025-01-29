@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
 
 
 namespace LegalexAccount.Web.Controllers
@@ -105,6 +106,38 @@ namespace LegalexAccount.Web.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
+        {
+            ViewData["ProfileModel"] = _profileModel;
+
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(UserViewModel model)
+        {
+            var editableModel = new UserDTO
+            {
+                FirstName = _profileModel.FirstName,
+                LastName = _profileModel.LastName,
+                SurName = _profileModel.SurName,
+                Email = _profileModel.Email,
+                PhoneNumber = _profileModel.PhoneNumber
+            };
+
+            await _mediator.Send(new EditProfileCommand(editableModel, model.ToDTO()));
+
+            if(model.Email != _profileModel.Email)
+                return RedirectToAction("Logout", "Account");
+
+            ViewData["ProfileModel"] = _profileModel;
+
+            return View();
         }
     }
 }

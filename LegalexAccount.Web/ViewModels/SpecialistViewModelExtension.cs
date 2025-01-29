@@ -13,7 +13,7 @@ namespace LegalexAccount.Web.ViewModels
                 LastName = model.LastName,
                 SurName = model.SurName,
                 Email = model.Email,
-                PhoneNumber = model.Phone,
+                PhoneNumber = model.PhoneNumber,
                 Password = model.Password,
                 Status = model.Status,
                 Role = model.Role
@@ -30,7 +30,7 @@ namespace LegalexAccount.Web.ViewModels
                 LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,
                 Email = model.Email ?? string.Empty,
-                Phone = model.PhoneNumber,
+                PhoneNumber = model.PhoneNumber,
                 Password = model.Password ?? string.Empty,
                 Status = model.Status ?? Utility.Types.SpecialistStatus.Free,
                 Role = model.Role ?? Utility.Types.SpecialistRole.Employee

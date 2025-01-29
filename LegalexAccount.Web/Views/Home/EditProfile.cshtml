@@ -1,0 +1,45 @@
+﻿@using LegalexAccount.Utility.Extensions
+@using LegalexAccount.Utility.Types
+@model UserViewModel
+@{
+    var profile = ViewData["ProfileModel"] as ProfileViewModel;
+    var editableProfile = Model;
+
+    ViewData["Title"] = "Профиль";
+}
+
+
+<div class="edit-card">
+    <form id="creation-form" asp-controller="Home" asp-action="EditProfile" method="post" asp-antiforgery="true">
+        <div class="sender-info">
+            <p>Имя:</p><input name="FirstName" asp-for=FirstName value="@profile?.FirstName">
+        </div>
+        <div class="sender-info">
+            <p>Фамилия:</p><input name="LastName" asp-for=LastName value="@profile?.LastName">
+        </div>
+        <div class="sender-info">
+            <p class="sender-info">Отчество:</p><input name="SurName" asp-for=SurName value="@profile?.SurName">
+        </div>
+        <div class="sender-info">
+            <p class="sender-info">Email:</p><input name="Email" asp-for=Email value="@profile?.Email">
+        </div>
+        <div class="sender-info">
+            <p class="sender-info">Телефон:</p><input name="Phone" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+        </div>
+    </form>
+    <div class="button-container">
+        <a class="back" asp-controller="Home" asp-action="EditProfile">Назад</a>
+        <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
+    </div>
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/EditProfile.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/EditProfile.min.css?v = @DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/SubmitValidationManager.js"></script>

@@ -30,9 +30,20 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Client item)
+        public async Task UpdateAsync(Client item)
         {
-            throw new NotImplementedException();
+            var client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Id == item.Id);
+
+            if (client == null)
+                return;
+
+            client.Email = item.Email;
+            client.FirstName = item.FirstName;
+            client.LastName = item.LastName;
+            client.SurName = item.SurName;
+            client.PhoneNumber = item.PhoneNumber;
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public IQueryable<Client?> AsQueryable()

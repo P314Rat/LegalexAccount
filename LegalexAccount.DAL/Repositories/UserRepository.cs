@@ -61,7 +61,7 @@ namespace LegalexAccount.DAL.Repositories
             return isUserExists;
         }
 
-        public Task UpdateAsync(User item)
+        public async Task UpdateAsync(User item)
         {
             throw new NotImplementedException();
         }

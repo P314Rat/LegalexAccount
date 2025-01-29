@@ -131,7 +131,7 @@ namespace LegalexAccount.Web.Controllers
         {
             _legalModel = model;
             _legalModel.Email = _userModel.Email;
-            _legalModel.Phone = _userModel.Phone;
+            _legalModel.PhoneNumber = _userModel.PhoneNumber;
             _legalModel.FirstName = _userModel.FirstName;
             _legalModel.LastName = _userModel.LastName;
             _legalModel.SurName = _userModel.SurName;
@@ -146,7 +146,7 @@ namespace LegalexAccount.Web.Controllers
         {
             _personModel = model;
             _personModel.Email = _userModel.Email;
-            _personModel.Phone = _userModel.Phone;
+            _personModel.PhoneNumber = _userModel.PhoneNumber;
             _personModel.FirstName = _userModel.FirstName;
             _personModel.LastName = _userModel.LastName;
             _personModel.SurName = _userModel.SurName;
