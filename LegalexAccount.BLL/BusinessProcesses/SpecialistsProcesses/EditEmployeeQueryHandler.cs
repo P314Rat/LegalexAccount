@@ -2,6 +2,7 @@
 using LegalexAccount.BLL.Services.MailSender;
 using LegalexAccount.DAL;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
@@ -20,7 +21,13 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 
         public async Task Handle(EditEmployeeQuery request, CancellationToken cancellationToken)
         {
-            await _unitOfWork.Specialists.UpdateAsync(request.Model.ToModel());
+            var specialistId = (await _unitOfWork.Specialists.AsQueryable()
+                .FirstOrDefaultAsync(x => x.Email == request.Model.Email))?.Id;
+
+            var model = request.Model.ToModel();
+            model.Id = specialistId ?? default;
+
+            await _unitOfWork.Specialists.UpdateAsync(model);
         }
     }
 }

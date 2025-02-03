@@ -84,6 +84,12 @@ namespace LegalexAccount.DAL.Repositories
             specialist.SurName = item.SurName;
             specialist.PhoneNumber = item.PhoneNumber;
 
+            if(item.PasswordHash != string.Empty)
+            {
+                specialist.PasswordHash = item.PasswordHash;
+                specialist.PasswordSalt = item.PasswordSalt;
+            }
+
             await _dbContext.SaveChangesAsync();
         }
     }

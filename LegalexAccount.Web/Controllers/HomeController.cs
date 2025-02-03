@@ -147,7 +147,7 @@ namespace LegalexAccount.Web.Controllers
             if (model.Email != _profileModel.Email || model.NewPassword != null)
                 return RedirectToAction("Logout", "Account");
 
-            return View();
+            return Redirect("EditProfile");
         }
     }
 }

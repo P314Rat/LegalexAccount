@@ -4,6 +4,7 @@ using LegalexAccount.DAL.Repositories.Contracts;
 using LegalexAccount.Utility.Exceptions;
 using LegalexAccount.Utility.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
@@ -26,23 +27,35 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
             {
                 if (request.Profile != null)
                 {
-                    specialist.Email = request.Profile.Email;
-                    specialist.FirstName = request.Profile.FirstName;
-                    specialist.LastName = request.Profile.LastName;
-                    specialist.SurName = request.Profile.SurName;
-                    specialist.PhoneNumber = request.Profile.PhoneNumber;
+                    var specialistId = (await _unitOfWork.Specialists.AsQueryable()
+                        .FirstOrDefaultAsync(x => x.Email == request.Profile.Email))?.Id;
 
-                    var passwordHash = GenerateDataService.GenerateHash(request.Profile.OldPassword, specialist.PasswordSalt);
+                    var model = new Specialist
+                    {
+                        Id = specialistId ?? default,
+                        Email = request.Profile.Email,
+                        FirstName = request.Profile.FirstName,
+                        LastName = request.Profile.LastName,
+                        SurName = request.Profile.SurName,
+                        PhoneNumber = request.Profile.PhoneNumber
+                    };
 
-                    if (passwordHash != specialist.PasswordHash)
-                        throw new ValidationException("OldPassword", "Неверный текущий пароль.");
+                    if (request.Profile.OldPassword != null)
+                    {
+                        var passwordHash = GenerateDataService.GenerateHash(request.Profile.OldPassword, specialist.PasswordSalt);
 
-                    const int SALT_SIZE = 32;
-                    var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
-                    var hash = GenerateDataService.GenerateHash(request.Profile.NewPassword, salt);
+                        if (passwordHash != specialist.PasswordHash)
+                            throw new ValidationException("OldPassword", "Неверный текущий пароль.");
 
-                    specialist.PasswordHash = hash;
-                    specialist.PasswordSalt = salt;
+                        const int SALT_SIZE = 32;
+                        var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
+                        var hash = GenerateDataService.GenerateHash(request.Profile.NewPassword, salt);
+
+                        model.PasswordHash = hash;
+                        model.PasswordSalt = salt;
+                    }
+
+                    await _unitOfWork.Specialists.UpdateAsync(model);
                 }
                 else
                 {
@@ -52,9 +65,10 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
 
                     specialist.PasswordHash = hash;
                     specialist.PasswordSalt = salt;
+
+                    await _unitOfWork.Specialists.UpdateAsync(specialist);
                 }
 
-                await _unitOfWork.Specialists.UpdateAsync(specialist);
 
                 return;
             }
@@ -71,17 +85,20 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
                     client.SurName = request.Profile.SurName;
                     client.PhoneNumber = request.Profile.PhoneNumber;
 
-                    var passwordHash = GenerateDataService.GenerateHash(request.Profile.OldPassword, specialist.PasswordSalt);
+                    if (request.Profile.OldPassword != null)
+                    {
+                        var passwordHash = GenerateDataService.GenerateHash(request.Profile.OldPassword, specialist.PasswordSalt);
 
-                    if (passwordHash != specialist.PasswordHash)
-                        throw new ValidationException("OldPassword", "Неверный текущий пароль.");
+                        if (passwordHash != specialist.PasswordHash)
+                            throw new ValidationException("OldPassword", "Неверный текущий пароль.");
 
-                    const int SALT_SIZE = 32;
-                    var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
-                    var hash = GenerateDataService.GenerateHash(request.Profile.NewPassword, salt);
+                        const int SALT_SIZE = 32;
+                        var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
+                        var hash = GenerateDataService.GenerateHash(request.Profile.NewPassword, salt);
 
-                    client.PasswordHash = hash;
-                    client.PasswordSalt = salt;
+                        client.PasswordHash = hash;
+                        client.PasswordSalt = salt;
+                    }
                 }
                 else
                 {
