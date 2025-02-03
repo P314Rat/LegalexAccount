@@ -45,6 +45,15 @@
     line-height: 26px; /* Межстрочное расстояние 26px (1.625rem) */
   }
 }
+.edit-card .password-section {
+  border: 1px solid #7e7e7e;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  padding: 1rem 2rem;
+}
+.edit-card .text-disabled {
+  color: #7e7e7e;
+}
 .edit-card .button-container {
   display: flex;
   justify-content: space-between;

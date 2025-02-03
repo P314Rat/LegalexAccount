@@ -31,7 +31,7 @@ namespace LegalexAccount.Utility.Services
             }
         }
 
-        public static string CreateSalt(int size)
+        public static string GenerateSalt(int size)
         {
             var rng = RandomNumberGenerator.Create();
             var buffer = new byte[size];

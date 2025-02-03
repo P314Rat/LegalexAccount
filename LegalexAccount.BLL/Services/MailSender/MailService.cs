@@ -15,28 +15,20 @@ namespace LegalexAccount.BLL.Services.MailSender
             _mailSettings = mailSettings.Value;
         }
 
-        public async Task SendEmailAsync(MailRequest mailRequest)
+        private async Task SendEmailAsync(MailRequest request)
         {
-            string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = Path.Combine(basePath, "Static", "Pages", "WelcomeMail.html");
-
-            StreamReader str = new StreamReader(filePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-
-            MailText = MailText.Replace("[username]", "Юзернейм").Replace("[email]", mailRequest.ToEmail).Replace("[password]", "Пароль");
-
             using var email = new MimeMessage();
 
             email.From.Add(new MailboxAddress(_mailSettings.DisplayName, _mailSettings.Mail));
-            email.To.Add(new MailboxAddress("", mailRequest.ToEmail));
-            email.Subject = mailRequest.Subject;
+            email.To.Add(new MailboxAddress("", request.ToEmail));
+            email.Subject = request.Subject;
 
             var builder = new BodyBuilder();
-            if (mailRequest.Attachments != null)
+
+            if (request.Attachments != null)
             {
                 byte[] fileBytes;
-                foreach (var file in mailRequest.Attachments)
+                foreach (var file in request.Attachments)
                 {
                     if (file.Length > 0)
                     {
@@ -50,7 +42,7 @@ namespace LegalexAccount.BLL.Services.MailSender
                 }
             }
 
-            builder.HtmlBody = MailText;
+            builder.HtmlBody = request.Body;
             email.Body = builder.ToMessageBody();
 
             using var smtp = new SmtpClient();
@@ -58,8 +50,27 @@ namespace LegalexAccount.BLL.Services.MailSender
             await smtp.ConnectAsync(_mailSettings.Host, _mailSettings.Port, true);
             await smtp.AuthenticateAsync(_mailSettings.Mail, _mailSettings.Password);
             await smtp.SendAsync(email);
-
             await smtp.DisconnectAsync(true);
+        }
+
+        public async Task SendRegistrationDataAsync(MailRequest request, string username, string password)
+        {
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Static", "Pages", "WelcomeMail.html");
+            var str = new StreamReader(filePath);
+            var message = str.ReadToEnd();
+            str.Close();
+
+            message = message.Replace("[username]", username).Replace("[email]", request.ToEmail).Replace("[password]", password);
+            request.Body = message;
+
+            await SendEmailAsync(request);
+        }
+
+        public async Task SendResetPasswordLink(MailRequest request, string email)
+        {
+
+
+            await SendEmailAsync(request);
         }
     }
 }

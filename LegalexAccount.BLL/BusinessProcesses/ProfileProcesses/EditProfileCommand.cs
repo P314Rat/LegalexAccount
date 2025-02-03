@@ -6,13 +6,13 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
 {
     public class EditProfileCommand : IRequest
     {
-        public UserDTO EditableModel { get; set; }
-        public UserDTO Model { get; set; }
+        public string UserEmail { get; set; }
+        public ProfileDTO Model { get; set; }
 
 
-        public EditProfileCommand(UserDTO editableModel, UserDTO model)
+        public EditProfileCommand(string userEmail, ProfileDTO model)
         {
-            EditableModel = editableModel;
+            UserEmail = userEmail;
             Model = model;
         }
     }

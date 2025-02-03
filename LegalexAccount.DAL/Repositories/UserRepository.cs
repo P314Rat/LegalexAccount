@@ -55,7 +55,7 @@ namespace LegalexAccount.DAL.Repositories
 
             isUserExists = await _dbContext.Specialists.AnyAsync(x => x.Email == email);
 
-            if (isUserExists)
+            if (!isUserExists)
                 isUserExists = await _dbContext.Clients.AnyAsync(x => x.Email == email);
 
             return isUserExists;

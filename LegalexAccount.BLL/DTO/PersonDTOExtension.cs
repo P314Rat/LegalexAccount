@@ -9,7 +9,7 @@ namespace LegalexAccount.BLL.DTO
         internal static Person ToModel(this PersonDTO model)
         {
             const int SALT_SIZE = 32;
-            var salt = GenerateDataService.CreateSalt(SALT_SIZE);
+            var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
 
             var resultModel = new Person
             {

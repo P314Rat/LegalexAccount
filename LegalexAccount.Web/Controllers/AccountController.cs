@@ -37,6 +37,20 @@ namespace LegalexAccount.Web.Controllers
             return Redirect("Login");
         }
 
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return PartialView("_ForgotPassword");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            await _mediator.Send(new ForgotPasswordCommand(model.Email));
+
+            return PartialView("_PasswordSended");
+        }
+
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {

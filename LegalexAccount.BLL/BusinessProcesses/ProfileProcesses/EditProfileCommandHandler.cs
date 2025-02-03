@@ -1,6 +1,8 @@
 ﻿using LegalexAccount.DAL;
 using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
+using LegalexAccount.Utility.Exceptions;
+using LegalexAccount.Utility.Services;
 using MediatR;
 
 
@@ -18,7 +20,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
 
         public async Task Handle(EditProfileCommand request, CancellationToken cancellationToken)
         {
-            var specialist = (Specialist?)await ((IUserRepository)_unitOfWork.Specialists).GetByEmailAsync(request.EditableModel.Email);
+            var specialist = (Specialist?)await ((IUserRepository)_unitOfWork.Specialists).GetByEmailAsync(request.UserEmail);
 
             if (specialist != null)
             {
@@ -28,12 +30,24 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
                 specialist.SurName = request.Model.SurName;
                 specialist.PhoneNumber = request.Model.PhoneNumber;
 
+                var passwordHash = GenerateDataService.GenerateHash(request.Model.OldPassword, specialist.PasswordSalt);
+
+                if (passwordHash != specialist.PasswordHash)
+                    throw new ValidationException("OldPassword", "Неверный текущий пароль.");
+
+                const int SALT_SIZE = 32;
+                var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
+                var hash = GenerateDataService.GenerateHash(request.Model.NewPassword, salt);
+
+                specialist.PasswordHash = hash;
+                specialist.PasswordSalt = salt;
+
                 await _unitOfWork.Specialists.UpdateAsync(specialist);
 
                 return;
             }
 
-            var client = (Client?)await ((IUserRepository)_unitOfWork.Clients).GetByEmailAsync(request.EditableModel.Email);
+            var client = (Client?)await ((IUserRepository)_unitOfWork.Clients).GetByEmailAsync(request.UserEmail);
 
             if (client != null)
             {

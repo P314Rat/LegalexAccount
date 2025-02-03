@@ -1,14 +1,14 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.CaseProcesses;
 using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
-using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
 using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
+using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
+using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
 using LegalexAccount.BLL.DTO;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
 
 
 namespace LegalexAccount.Web.Controllers
@@ -110,32 +110,42 @@ namespace LegalexAccount.Web.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> EditProfile()
+        public IActionResult EditProfile()
         {
             ViewData["ProfileModel"] = _profileModel;
+            ViewData["PaswordWasChanged"] = false;
 
             return View();
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> EditProfile(UserViewModel model)
+        public async Task<IActionResult> EditProfile(ProfileViewModel model)
         {
-            var editableModel = new UserDTO
-            {
-                FirstName = _profileModel.FirstName,
-                LastName = _profileModel.LastName,
-                SurName = _profileModel.SurName,
-                Email = _profileModel.Email,
-                PhoneNumber = _profileModel.PhoneNumber
-            };
-
-            await _mediator.Send(new EditProfileCommand(editableModel, model.ToDTO()));
-
-            if(model.Email != _profileModel.Email)
-                return RedirectToAction("Logout", "Account");
-
             ViewData["ProfileModel"] = _profileModel;
+            ViewData["PaswordWasChanged"] = false;
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["PaswordWasChanged"] = true;
+
+                return View("EditProfile", model);
+            }
+
+            try
+            {
+                await _mediator.Send(new EditProfileCommand(_profileModel.Email, model.ToDTO()));
+            }
+            catch (Utility.Exceptions.ValidationException ex)
+            {
+                ViewData["PaswordWasChanged"] = true;
+                ModelState.AddModelError(ex.WrongFieldName, ex.Message);
+
+                return View("EditProfile", model);
+            }
+
+            if (model.Email != _profileModel.Email || model.NewPassword != null)
+                return RedirectToAction("Logout", "Account");
 
             return View();
         }
