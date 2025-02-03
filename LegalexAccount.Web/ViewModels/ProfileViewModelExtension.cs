@@ -13,7 +13,10 @@ namespace LegalexAccount.Web.ViewModels
                 LastName = model.LastName,
                 SurName = model.SurName,
                 Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                OldPassword = model.OldPassword,
+                NewPassword = model.NewPassword,
+                RepeatPassword = model.RepeatPassword
             };
 
             return profileViewModel;
@@ -27,7 +30,10 @@ namespace LegalexAccount.Web.ViewModels
                 LastName = model.LastName,
                 SurName = model.SurName,
                 Email = model.Email,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
+                OldPassword = model.OldPassword,
+                NewPassword = model.NewPassword,
+                RepeatPassword = model.RepeatPassword
             };
 
             return profileDTO;

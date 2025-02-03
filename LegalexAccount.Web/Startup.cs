@@ -61,8 +61,8 @@ namespace LegalexAccount.Web
 
                 if (!dbContext.Specialists.Any())
                 {
-                    var salt1 = GenerateDataService.CreateSalt(32);
-                    var salt2 = GenerateDataService.CreateSalt(32);
+                    var salt1 = GenerateDataService.GenerateSalt(32);
+                    var salt2 = GenerateDataService.GenerateSalt(32);
                     dbContext.Specialists.AddRange(
                         new Specialist
                         {

@@ -2,6 +2,7 @@
 {
     public interface IMailService
     {
-        Task SendEmailAsync(MailRequest mailRequest);
+        Task SendRegistrationDataAsync(MailRequest request, string username, string password);
+        Task SendResetPasswordLink(MailRequest request, string email);
     }
 }

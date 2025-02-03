@@ -1,4 +1,5 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.Authorization;
+using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
 using LegalexAccount.BLL.DTO;
 using LegalexAccount.Utility.Extensions;
 using LegalexAccount.Web.ViewModels;
@@ -35,6 +36,53 @@ namespace LegalexAccount.Web.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Redirect("Login");
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return PartialView("_ForgotPassword");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(string token)
+        {
+            var isTokenValid = await _mediator.Send(new ResetTokenValidationQuery(token));
+
+            if (!isTokenValid)
+                return Content("Токен истек или не существует.");
+
+            var email = await _mediator.Send(new GetEmailByTokenQuery(token));
+
+            var model = new ResetPasswordViewModel
+            {
+                Email = email
+            };
+
+            return PartialView("_ResetPassword", model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            await _mediator.Send(new ForgotPasswordCommand(model.Email));
+
+            return PartialView("_PasswordSended");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            var resetPasswordDTO = new ResetPasswordDTO
+            {
+                Email = model.Email,
+                NewPassword = model.NewPassword,
+                RepeatPassword = model.RepeatPassword
+            };
+
+            await _mediator.Send(new EditProfileCommand(model.Email, null, resetPasswordDTO));
+
+            return PartialView("_PasswordSended");
         }
 
         [HttpPost]

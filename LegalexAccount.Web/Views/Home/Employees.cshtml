@@ -1,5 +1,5 @@
 ﻿@using LegalexAccount.Utility.Extensions
-
+@using LegalexAccount.Utility.Types
 @model List<SpecialistViewModel>
 @{
     var specialists = Model;
@@ -12,7 +12,7 @@
 <div class="employees">
     <div class="header-panel">
         <h2>Сотрудники</h2>
-        <a class="create-case" asp-controller="Specialist" asp-action="CreateEmployee">Добавить сотрудника</a>
+        <a class="create-case" asp-controller="Specialist" asp-action="CreateEmployee" hidden="@(!User.IsInRole(UserRole.Director.ToString()))">Добавить сотрудника</a>
     </div>
     @if (specialists.Count == 0)
     {

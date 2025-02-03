@@ -1,9 +1,9 @@
 ﻿@using LegalexAccount.Utility.Extensions
 @using LegalexAccount.Utility.Types
-@model UserViewModel
+@model ProfileViewModel
 @{
-    var profile = ViewData["ProfileModel"] as ProfileViewModel;
-    var editableProfile = Model;
+    var profile = Model == null ? ViewData["ProfileModel"] as ProfileViewModel : Model;
+    var checkPass = (bool)ViewData["PaswordWasChanged"];
 
     ViewData["Title"] = "Профиль";
 }
@@ -24,14 +24,42 @@
             <p class="sender-info">Email:</p><input name="Email" asp-for=Email value="@profile?.Email">
         </div>
         <div class="sender-info">
-            <p class="sender-info">Телефон:</p><input name="Phone" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+            <p class="sender-info">Телефон:</p><input name="PhoneNumber" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+        </div>
+        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+            <p>Сменить пароль</p><input id="checkPas" type="checkbox" onchange="checkPasswordSection(this)" checked="@(checkPass)">
+        </div>
+        <div class="password-section text-disabled">
+            <div class="sender-info">
+                <p class="sender-info">Старый пароль:</p>
+                <div>
+                    <input class="password-field" name="OldPassword" asp-for=OldPassword value="@profile?.OldPassword">
+                    <span class="text-validation" asp-validation-for="OldPassword"></span>
+                </div>
+            </div>
+            <div class="sender-info" style="display: flex;">
+                <p class="sender-info">Новый пароль:</p>
+                <div>
+                    <input class="password-field" name="NewPassword" asp-for=NewPassword>
+                    <span class="text-validation" asp-validation-for="NewPassword"></span>
+                </div>
+            </div>
+            <div class="sender-info" style="display: flex;">
+                <p class="sender-info">Подтвердите пароль:</p>
+                <div>
+                    <input class="password-field" name="RepeatPassword" asp-for=RepeatPassword value="@profile?.RepeatPassword">
+                    <span class="text-validation" asp-validation-for="RepeatPassword"></span>
+                </div>
+            </div>
         </div>
     </form>
     <div class="button-container">
-        <a class="back" asp-controller="Home" asp-action="EditProfile">Назад</a>
+        <a class="back" asp-controller="Home" asp-action="Orders">Назад</a>
         <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
     </div>
 </div>
+
+@await Html.PartialAsync("_ModelValidation")
 
 @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
 {
@@ -43,3 +71,4 @@ else
 }
 
 <script src="~/Scripts/SubmitValidationManager.js"></script>
+<script src="~/Scripts/EditProfile.js"></script>

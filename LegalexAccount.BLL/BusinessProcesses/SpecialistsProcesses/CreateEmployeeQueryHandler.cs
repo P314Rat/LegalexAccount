@@ -33,7 +33,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
             if (!isSpecialistExist)
             {
                 await _unitOfWork.Specialists.CreateAsync(request.Model.ToModel());
-                await _mailService.SendEmailAsync(mail);
+                await _mailService.SendRegistrationDataAsync(mail, request.Model.FirstName, request.Model.Password);
 
                 return;
             }

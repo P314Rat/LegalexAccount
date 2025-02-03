@@ -21,7 +21,6 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
         public async Task Handle(EditEmployeeQuery request, CancellationToken cancellationToken)
         {
             await _unitOfWork.Specialists.UpdateAsync(request.Model.ToModel());
-            await _mailService.SendEmailAsync(request.MailRequest);
         }
     }
 }

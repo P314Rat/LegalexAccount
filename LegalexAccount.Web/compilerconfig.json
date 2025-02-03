@@ -55,4 +55,16 @@
     "outputFile": "Static/Styles/EditProfile.css",
     "inputFile": "Views/Home/EditProfile.scss"
   },
+  {
+    "outputFile": "Static/Styles/_ForgotPassword.css",
+    "inputFile": "Views/Shared/_ForgotPassword.scss"
+  },
+  {
+    "outputFile": "Static/Styles/_PasswordSended.css",
+    "inputFile": "Views/Shared/_PasswordSended.scss"
+  },
+  {
+    "outputFile": "Static/Styles/_ResetPassword.css",
+    "inputFile": "Views/Shared/_ResetPassword.scss"
+  }
 ]
