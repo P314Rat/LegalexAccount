@@ -54,9 +54,9 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public IQueryable<Order> AsQueryable()
+        public IQueryable<Order?> AsQueryable()
         {
-            throw new NotImplementedException();
+            return _dbContext.Orders.AsQueryable();
         }
     }
 }

@@ -35,14 +35,16 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization
                 {
                     Email = command.Email,
                     Token = token,
-                    ExpiryDate = DateTime.UtcNow.AddHours(1),
+                    ExpirationDate = DateTime.UtcNow.AddMinutes(4),
                     IsUsed = false
                 };
+
+                await _unitOfWork.PasswordResetTokens.CreateAsync(tokenModel);
 
                 var resetUrl = _linkGenerator.GetUriByAction(
                         action: "ResetPassword",
                         controller: "Account",
-                        values: new { email = command.Email, token = token },
+                        values: new { token = token },
                         scheme: "https",
                         host: new HostString("account.legalex.by")
                     );

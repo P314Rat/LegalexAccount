@@ -1,4 +1,5 @@
-﻿using LegalexAccount.DAL.Models.CaseAggregate;
+﻿using LegalexAccount.DAL.Models.AccountAggregate;
+using LegalexAccount.DAL.Models.CaseAggregate;
 using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories;
@@ -16,6 +17,7 @@ namespace LegalexAccount.DAL
         private readonly LegalRepository _legalRepository;
         private readonly OrderRepository _orderRepository;
         private readonly CaseRepository _caseRepository;
+        private readonly PasswordResetTokenRepository _passwordResetTokenRepository;
 
         public IUserRepository Users { get => _userRepository; }
         public IRepository<Specialist, Guid> Specialists { get => _specialistRepository; }
@@ -24,7 +26,7 @@ namespace LegalexAccount.DAL
         public IRepository<Legal, Guid> LegalEntities { get => _legalRepository; }
         public IRepository<Order, int> Orders { get => _orderRepository; }
         public IRepository<Case, int> Cases { get => _caseRepository; }
-
+        public IRepository<PasswordResetToken, int> PasswordResetTokens { get => _passwordResetTokenRepository; }
 
         public UnitOfWork(ApplicationDbContext dbContext)
         {
@@ -35,6 +37,7 @@ namespace LegalexAccount.DAL
             _legalRepository = new(dbContext);
             _orderRepository = new(dbContext);
             _caseRepository = new(dbContext);
+            _passwordResetTokenRepository = new(dbContext);
         }
 
         public void Dispose()

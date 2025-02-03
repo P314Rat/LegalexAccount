@@ -24,23 +24,35 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
 
             if (specialist != null)
             {
-                specialist.Email = request.Model.Email;
-                specialist.FirstName = request.Model.FirstName;
-                specialist.LastName = request.Model.LastName;
-                specialist.SurName = request.Model.SurName;
-                specialist.PhoneNumber = request.Model.PhoneNumber;
+                if (request.Profile != null)
+                {
+                    specialist.Email = request.Profile.Email;
+                    specialist.FirstName = request.Profile.FirstName;
+                    specialist.LastName = request.Profile.LastName;
+                    specialist.SurName = request.Profile.SurName;
+                    specialist.PhoneNumber = request.Profile.PhoneNumber;
 
-                var passwordHash = GenerateDataService.GenerateHash(request.Model.OldPassword, specialist.PasswordSalt);
+                    var passwordHash = GenerateDataService.GenerateHash(request.Profile.OldPassword, specialist.PasswordSalt);
 
-                if (passwordHash != specialist.PasswordHash)
-                    throw new ValidationException("OldPassword", "Неверный текущий пароль.");
+                    if (passwordHash != specialist.PasswordHash)
+                        throw new ValidationException("OldPassword", "Неверный текущий пароль.");
 
-                const int SALT_SIZE = 32;
-                var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
-                var hash = GenerateDataService.GenerateHash(request.Model.NewPassword, salt);
+                    const int SALT_SIZE = 32;
+                    var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
+                    var hash = GenerateDataService.GenerateHash(request.Profile.NewPassword, salt);
 
-                specialist.PasswordHash = hash;
-                specialist.PasswordSalt = salt;
+                    specialist.PasswordHash = hash;
+                    specialist.PasswordSalt = salt;
+                }
+                else
+                {
+                    const int SALT_SIZE = 32;
+                    var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
+                    var hash = GenerateDataService.GenerateHash(request.Password.NewPassword, salt);
+
+                    specialist.PasswordHash = hash;
+                    specialist.PasswordSalt = salt;
+                }
 
                 await _unitOfWork.Specialists.UpdateAsync(specialist);
 
@@ -51,11 +63,35 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
 
             if (client != null)
             {
-                client.Email = request.Model.Email;
-                client.FirstName = request.Model.FirstName;
-                client.LastName = request.Model.LastName;
-                client.SurName = request.Model.SurName;
-                client.PhoneNumber = request.Model.PhoneNumber;
+                if (request.Profile != null)
+                {
+                    client.Email = request.Profile.Email;
+                    client.FirstName = request.Profile.FirstName;
+                    client.LastName = request.Profile.LastName;
+                    client.SurName = request.Profile.SurName;
+                    client.PhoneNumber = request.Profile.PhoneNumber;
+
+                    var passwordHash = GenerateDataService.GenerateHash(request.Profile.OldPassword, specialist.PasswordSalt);
+
+                    if (passwordHash != specialist.PasswordHash)
+                        throw new ValidationException("OldPassword", "Неверный текущий пароль.");
+
+                    const int SALT_SIZE = 32;
+                    var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
+                    var hash = GenerateDataService.GenerateHash(request.Profile.NewPassword, salt);
+
+                    client.PasswordHash = hash;
+                    client.PasswordSalt = salt;
+                }
+                else
+                {
+                    const int SALT_SIZE = 32;
+                    var salt = GenerateDataService.GenerateSalt(SALT_SIZE);
+                    var hash = GenerateDataService.GenerateHash(request.Password.NewPassword, salt);
+
+                    client.PasswordHash = hash;
+                    client.PasswordSalt = salt;
+                }
 
                 await _unitOfWork.Clients.UpdateAsync(client);
             }
