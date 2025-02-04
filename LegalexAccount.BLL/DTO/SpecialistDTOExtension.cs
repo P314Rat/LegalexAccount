@@ -22,7 +22,7 @@ namespace LegalexAccount.BLL.DTO
                     ? GenerateDataService.GenerateHash(model.Password, salt)
                     : throw new Exception("Password is empty"),
                 PasswordSalt = salt,
-                Role = model.Role ?? Utility.Types.SpecialistRole.Employee,
+                Role = model.Role ?? Utility.Types.SpecialistType.Employee,
                 Status = model.Status ?? Utility.Types.SpecialistStatus.Free
             };
 
