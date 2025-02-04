@@ -3,6 +3,7 @@ using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
 using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
 using LegalexAccount.BLL.DTO;
 using LegalexAccount.BLL.DTO.Case;
+using LegalexAccount.DAL;
 using LegalexAccount.Web.ViewModels;
 using LegalexAccount.Web.ViewModels.Case;
 using MediatR;
@@ -16,17 +17,19 @@ namespace LegalexAccount.Web.Controllers
     [Authorize]
     public class CaseController : BaseController
     {
-        private static CaseViewModel? _caseViewModel = null;
+        private static CreateCaseViewModel? _caseViewModel = null;
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public CaseController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
-            : base(mediator, httpContextAccessor) { }
+        public CaseController(IUnitOfWork unitOfWork, IMediator mediator, IHttpContextAccessor httpContextAccessor)
+            : base(mediator, httpContextAccessor)
+        {
+            _unitOfWork = unitOfWork;
+        }
 
         [HttpGet]
         public async Task<IActionResult> CreateCase()
         {
-            var clients = await _mediator.Send(new GetClientsQuery());
-
             ViewBag.Clients = new List<SelectListItem>
             {
                 new SelectListItem { Value = "", Text = "Выберите заказчика", Selected = true }
@@ -36,9 +39,9 @@ namespace LegalexAccount.Web.Controllers
                 {
                     Value = x.Email ?? string.Empty,
                     Text = (x as LegalDTO)?.OrganizationName != null ? (x as LegalDTO)?.OrganizationName : x.FirstName + ' ' + x.LastName
-                }).ToList());
+                })).ToList();
 
-            ViewBag.Assignee = (await _mediator.Send(new GetSpecialistsQuery()))
+            ViewBag.Assignees = (await _mediator.Send(new GetSpecialistsQuery()))
                 .Select(x => new SelectListItem
                 {
                     Value = x.Email ?? string.Empty,
@@ -59,7 +62,7 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveCase(CaseViewModel model)
+        public async Task<IActionResult> SaveCase(CreateCaseViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -77,7 +80,7 @@ namespace LegalexAccount.Web.Controllers
 
             try
             {
-                await _mediator.Send(new CreateCaseCommand(_caseViewModel.ToDTO()));
+                await _mediator.Send(new CreateCaseCommand(await _caseViewModel.ToDTO(_unitOfWork)));
             }
             catch (Exception ex)
             {

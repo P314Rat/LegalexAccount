@@ -1,4 +1,5 @@
 ﻿using LegalexAccount.DAL;
+using LegalexAccount.DAL.Models.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,19 +12,26 @@ namespace LegalexAccount.BLL.DTO.Case
             if (model == null)
                 throw new Exception("CaseDTO is null");
 
-            if (model.CustomerEmail == null || model.AssigneeEmail == null)
+            if (model.Customer == null || model.Assignees == null)
                 throw new Exception("CaseDTO model is wrong");
 
-            var customer = await unitOfWork.Clients.AsQueryable().Where(x => x.Email == model.CustomerEmail).FirstOrDefaultAsync();
-            var assignee = await unitOfWork.Specialists.AsQueryable().Where(x => x.Email == model.AssigneeEmail).FirstOrDefaultAsync();
+            var customer = await unitOfWork.Clients.AsQueryable()
+                .Where(x => x.Email == model.Customer.Email)
+                .FirstOrDefaultAsync();
+
+            var emails = model.Assignees.Select(x => x.Email);
+            var assignees = await unitOfWork.Specialists.AsQueryable()
+                .Where(x => emails.Contains(x.Email))
+                .ToListAsync();
+
+
             var resultModel = new DAL.Models.CaseAggregate.Case
             {
                 StartDate = model.StartDate ?? DateTime.Now,
                 EstimatedDaysToEnd = model.EstimatedDaysToEnd,
                 CustomerId = customer?.Id ?? throw new Exception("Guid isn't exists"),
                 Customer = customer ?? throw new Exception("Wrong customer"),
-                AssigneeId = assignee?.Id ?? throw new Exception("Guid isn't exists"),
-                Assignee = assignee ?? throw new Exception("Wrong assignee"),
+                Assignees = assignees ?? throw new Exception("Wrong assignee"),
                 Description = model.Description ?? string.Empty
             };
 
@@ -36,8 +44,9 @@ namespace LegalexAccount.BLL.DTO.Case
             {
                 StartDate = model.StartDate,
                 EstimatedDaysToEnd = model.EstimatedDaysToEnd,
-                CustomerEmail = model.Customer.Email,
-                AssigneeEmail = model.Assignee.Email,
+                Customer = model.Customer is Legal ? (model.Customer as Legal).ToDTO()
+                : (model.Customer as Person).ToDTO(),
+                Assignees = model.Assignees.Select(x => x.ToDTO()).ToList(),
                 Description = model.Description ?? string.Empty
             };
 

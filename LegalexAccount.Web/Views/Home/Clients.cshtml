@@ -1,5 +1,6 @@
 ﻿@using LegalexAccount.Utility.Extensions
-@model List<ProfileViewModel>
+@using LegalexAccount.Utility.Types
+@model List<UserViewModel>
 @{
     var profiles = Model;
     const int profilesNumber = 7;
@@ -27,6 +28,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Организация</th>
                     <th>Имя</th>
                     <th>Фамилия</th>
                     <th>Тип клиента</th>
@@ -41,12 +43,16 @@
                         break;
 
                     var currentModel = profiles[profileIndex];
+                    var isLegalModel = currentModel is LegalViewModel;
 
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
-                        <td>@string.Empty</td>
+                        <td>@(isLegalModel ? ((LegalViewModel)currentModel).OrganizationName : string.Empty)</td>
                         <td>@currentModel.FirstName</td>
                         <td>
                             @currentModel.LastName
+                        </td>
+                        <td>
+                            @(isLegalModel ? ClientType.Legal.GetDisplayName() : ClientType.Person.GetDisplayName())
                             <a class="panel" asp-controller="Client" asp-action="ClientCard" asp-route-email="@currentModel.Email"></a>
                         </td>
                     </tr>

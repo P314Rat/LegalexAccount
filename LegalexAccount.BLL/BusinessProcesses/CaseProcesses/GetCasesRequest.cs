@@ -6,8 +6,6 @@ namespace LegalexAccount.BLL.BusinessProcesses.CaseProcesses
 {
     public class GetCasesRequest : IRequest<IEnumerable<CaseDTO>>
     {
-        public GetCasesRequest()
-        {
-        }
+        public GetCasesRequest() { }
     }
 }

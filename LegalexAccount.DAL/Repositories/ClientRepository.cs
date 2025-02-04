@@ -61,9 +61,18 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<User?> GetByEmailAsync(string email)
+        public async Task<User?> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var legal = await _dbContext.LegalEntities.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (legal == null)
+            {
+                var person = await _dbContext.Individuals.FirstOrDefaultAsync(x => x.Email == email);
+
+                return person;
+            }
+
+            return legal;
         }
     }
 }

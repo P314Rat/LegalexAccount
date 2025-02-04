@@ -20,7 +20,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.CaseProcesses
         {
             var cases = await _unitOfWork.Cases.AsQueryable()
                 .Include(x => x.Customer)
-                .Include(x => x.Assignee)
+                .Include(x => x.Assignees)
                 .Select(x => x.ToDTO()).ToListAsync();
 
             return cases;
