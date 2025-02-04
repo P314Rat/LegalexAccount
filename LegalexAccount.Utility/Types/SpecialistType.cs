@@ -3,7 +3,7 @@
 
 namespace LegalexAccount.Utility.Types
 {
-    public enum SpecialistRole
+    public enum SpecialistType
     {
         [Display(Name = "Технический специалист")]
         Technical = 0,

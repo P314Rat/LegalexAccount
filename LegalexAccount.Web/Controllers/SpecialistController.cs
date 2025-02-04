@@ -55,9 +55,9 @@ namespace LegalexAccount.Web.Controllers
                         new SelectListItem { Value = "", Text = "Выберите роль специалиста", Selected = true }
                     }
                     .Concat(
-                        Enum.GetValues(typeof(SpecialistRole))
-                        .Cast<SpecialistRole>()
-                        .Where(x => x != SpecialistRole.Director)
+                        Enum.GetValues(typeof(SpecialistType))
+                        .Cast<SpecialistType>()
+                        .Where(x => x != SpecialistType.Director)
                         .Select(x => new SelectListItem
                         {
                             Value = x.ToString(),

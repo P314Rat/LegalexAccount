@@ -33,7 +33,7 @@ namespace LegalexAccount.Web.ViewModels
                 PhoneNumber = model.PhoneNumber,
                 Password = model.Password ?? string.Empty,
                 Status = model.Status ?? Utility.Types.SpecialistStatus.Free,
-                Role = model.Role ?? Utility.Types.SpecialistRole.Employee
+                Role = model.Role ?? Utility.Types.SpecialistType.Employee
             };
 
             return specialistViewModel;

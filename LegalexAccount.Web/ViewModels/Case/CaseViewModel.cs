@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace LegalexAccount.Web.ViewModels
+namespace LegalexAccount.Web.ViewModels.Case
 {
     public class CaseViewModel
     {

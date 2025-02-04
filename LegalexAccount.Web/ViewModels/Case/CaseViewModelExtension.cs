@@ -1,7 +1,7 @@
 ﻿using LegalexAccount.BLL.DTO.Case;
 
 
-namespace LegalexAccount.Web.ViewModels
+namespace LegalexAccount.Web.ViewModels.Case
 {
     internal static class CaseViewModelExtension
     {

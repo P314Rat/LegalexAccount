@@ -1,5 +1,6 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
 using LegalexAccount.Web.ViewModels;
+using LegalexAccount.Web.ViewModels.Case;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
