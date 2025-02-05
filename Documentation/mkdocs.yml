@@ -1,0 +1,23 @@
+site_name: LegaLex Account Documentation
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
+  - pymdownx.superfences
+  - codehilite
+
+extra:
+  generator: false
+
+plugins:
+  - search
+  - mermaid2
