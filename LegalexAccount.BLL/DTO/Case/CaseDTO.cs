@@ -2,6 +2,7 @@
 {
     public class CaseDTO
     {
+        public int Id { get; set; }
         public DateTime? StartDate { get; set; } = null;
         public int? EstimatedDaysToEnd { get; set; } = null;
         public UserDTO? Customer { get; set; } = null;

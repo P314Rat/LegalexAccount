@@ -42,6 +42,7 @@ namespace LegalexAccount.BLL.DTO.Case
         {
             var resultModel = new CaseDTO
             {
+                Id = model.Id,
                 StartDate = model.StartDate,
                 EstimatedDaysToEnd = model.EstimatedDaysToEnd,
                 Customer = model.Customer is Legal ? (model.Customer as Legal).ToDTO()

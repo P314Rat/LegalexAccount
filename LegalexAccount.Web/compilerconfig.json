@@ -68,7 +68,11 @@
     "inputFile": "Views/Shared/_ResetPassword.scss"
   },
   {
-    "outputFile": "Static/ Styles/ClientCard.css",
+    "outputFile": "Static/Styles/ClientCard.css",
     "inputFile": "Views/Client/ClientCard.scss"
+  },
+  {
+    "outputFile": "Static/Styles/CaseCard.css",
+    "inputFile": "Views/Case/CaseCard.scss"
   }
 ]

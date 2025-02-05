@@ -18,10 +18,14 @@ namespace LegalexAccount.BLL.BusinessProcesses.CaseProcesses
 
         public async Task<IEnumerable<CaseDTO>> Handle(GetCasesRequest request, CancellationToken cancellationToken)
         {
-            var cases = await _unitOfWork.Cases.AsQueryable()
+            var cases = _unitOfWork.Cases.AsQueryable()
                 .Include(x => x.Customer)
                 .Include(x => x.Assignees)
-                .Select(x => x.ToDTO()).ToListAsync();
+                .Select(x => x.ToDTO())
+                .AsEnumerable();
+
+            if (request.Id != 0)
+                cases = cases.Where(x => x.Id == request.Id);
 
             return cases;
         }

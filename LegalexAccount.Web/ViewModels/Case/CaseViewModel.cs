@@ -6,6 +6,7 @@ namespace LegalexAccount.Web.ViewModels.Case
 {
     public class CaseViewModel
     {
+        public int Id { get; set; }
         public DateTime StartDate { get; set; } = DateTime.Now;
         public int? EstimatedDaysToEnd { get; set; } = null;
         [Required(ErrorMessage = "Это необходимое поле")]

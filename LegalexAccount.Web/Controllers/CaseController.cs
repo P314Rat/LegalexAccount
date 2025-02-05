@@ -28,6 +28,17 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> CaseCard(int id)
+        {
+            ViewData["ProfileModel"] = _profileModel;
+
+            var result = (await _mediator.Send(new GetCasesRequest(id)))
+                .FirstOrDefault()?.ToViewModel();
+
+            return View(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CreateCase()
         {
             ViewBag.Clients = new List<SelectListItem>

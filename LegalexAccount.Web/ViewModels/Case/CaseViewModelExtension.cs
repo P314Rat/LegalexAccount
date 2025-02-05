@@ -4,7 +4,6 @@ using LegalexAccount.DAL;
 using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace LegalexAccount.Web.ViewModels.Case
@@ -15,6 +14,7 @@ namespace LegalexAccount.Web.ViewModels.Case
         {
             var resultModel = new CaseViewModel
             {
+                Id = model.Id,
                 StartDate = model.StartDate ?? throw new NullReferenceException(),
                 EstimatedDaysToEnd = model.EstimatedDaysToEnd,
                 Customer = new SelectListItem
@@ -92,9 +92,10 @@ namespace LegalexAccount.Web.ViewModels.Case
                     Status = x.Status
                 })
                 .ToList();
-            
+
             var resultModel = new CaseDTO
             {
+                Id = model.Id,
                 StartDate = model.StartDate,
                 EstimatedDaysToEnd = model.EstimatedDaysToEnd,
                 Customer = customer,
@@ -104,7 +105,7 @@ namespace LegalexAccount.Web.ViewModels.Case
 
             return resultModel;
         }
-    
+
         internal static async Task<CaseDTO> ToDTO(this CreateCaseViewModel model, IUnitOfWork unitOfWork)
         {
             var user = await ((IUserRepository)unitOfWork.Clients).GetByEmailAsync(model.Customer);
@@ -162,7 +163,7 @@ namespace LegalexAccount.Web.ViewModels.Case
                     Status = x.Status
                 })
                 .ToList();
-            
+
             var resultModel = new CaseDTO
             {
                 StartDate = model.StartDate,

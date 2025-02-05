@@ -52,7 +52,7 @@
                         </td>
                         <td>
                             @currentModel.Customer.Text
-                            <a class="panel" asp-controller="Home" asp-action="Clients"></a>
+                            <a class="panel" asp-controller="Case" asp-action="CaseCard" asp-route-id="@currentModel.Id"></a>
                         </td>
                     </tr>
                 }
