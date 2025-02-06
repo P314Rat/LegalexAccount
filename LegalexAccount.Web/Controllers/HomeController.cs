@@ -82,7 +82,7 @@ namespace LegalexAccount.Web.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Director, Technical, Employee")]
+        [Authorize(Roles = "Director, Technical, Specialist")]
         [HttpGet]
         public async Task<IActionResult> Employees()
         {
