@@ -1,6 +1,7 @@
 site_name: LegaLex Account Documentation
 theme:
   name: material
+  language: ru
   features:
     - navigation.tabs
     - navigation.top
