@@ -67,7 +67,7 @@ namespace LegalexAccount.Web
                         new Specialist
                         {
                             Status = SpecialistStatus.Free,
-                            Role = SpecialistRole.Technical,
+                            Role = SpecialistType.Technical,
                             Email = "support@legalex.by",
                             PasswordHash = GenerateDataService.GenerateHash("1234dev!", salt1),
                             PasswordSalt = salt1,
@@ -77,7 +77,7 @@ namespace LegalexAccount.Web
                         new Specialist
                         {
                             Status = SpecialistStatus.Free,
-                            Role = SpecialistRole.Director,
+                            Role = SpecialistType.Director,
                             Email = "vv95@bk.ru",
                             PasswordHash = GenerateDataService.GenerateHash("Peredovaya15!", salt2),
                             PasswordSalt = salt2,

@@ -9,7 +9,7 @@ namespace LegalexAccount.Utility.Types
         Technical = 0,
         [Display(Name = "Директор")]
         Director = 1,
-        [Display(Name = "Сотрудник")]
+        [Display(Name = "Специалист")]
         Employee = 2,
         [Display(Name = "Клиент")]
         Client = 3

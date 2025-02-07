@@ -6,8 +6,12 @@ namespace LegalexAccount.BLL.BusinessProcesses.CaseProcesses
 {
     public class GetCasesRequest : IRequest<IEnumerable<CaseDTO>>
     {
-        public GetCasesRequest()
+        public int Id { get; set; }
+
+
+        public GetCasesRequest(int id = 0)
         {
+            Id = id;
         }
     }
 }

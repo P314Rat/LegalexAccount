@@ -1,0 +1,73 @@
+﻿@using LegalexAccount.Utility.Extensions
+@using LegalexAccount.Utility.Types
+@model PersonViewModel
+@{
+    var client = Model;
+
+    ViewData["Title"] = "Профиль";
+}
+
+
+@if (User.IsInRole(UserRole.Director.ToString()))
+{
+    <div class="client-card">
+        <form id="creation-form" asp-controller="Client" asp-action="SaveClient" method="post" asp-antiforgery="true">
+            <div class="sender-info">
+                <p>Дата рождения: </p><span>@client.DateOfBirth.ToShortDateString()</span>
+            </div>
+            <div class="sender-info">
+                <p>Серия и номер документа удостоверяющего личность: </p><span>@client.PassportNumber</span>
+            </div>
+            <div class="sender-info">
+                <p>Кем выдан: </p><span>@client.IssuingAuthority</span>
+            </div>
+            <div class="sender-info">
+                <p>Дата выдачи: </p><span>@client.IssueDate.ToShortDateString()</span>
+            </div>
+            <div class="sender-info">
+                <p>Идентификационный номер: </p><span>@client.TaxIdentificationNumber</span>
+            </div>
+            <div class="sender-info">
+                <p>Адрес проживания: </p><span>@client.RegistrationAddress</span>
+            </div>
+            <div class="sender-info">
+                <p>Адрес банка: </p><span>@client.ResidentialAddress</span>
+            </div>
+            <div class="sender-info">
+                <p>Имя:</p><input name="FirstName" asp-for=FirstName value="@client.FirstName">
+            </div>
+            <div class="sender-info">
+                <p>Фамилия:</p><input name="LastName" asp-for=LastName value="@client.LastName">
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Отчество:</p><input name="SurName" asp-for=SurName value="@client.SurName">
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Email:</p><span>@client.Email</span>
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Телефон:</p><input name="PhoneNumber" asp-for=PhoneNumber value="@client.PhoneNumber">
+            </div>
+            <input hidden name="Email" asp-for=Email value="@client.Email">
+        </form>
+        <div class="button-container">
+            <a class="back" asp-controller="Home" asp-action="Employees">Назад</a>
+            <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
+        </div>
+    </div>
+}
+else
+{
+    <div class="employee-card">
+        <div>
+            <p class="sender-info">Имя:<span>@client.FirstName</span></p>
+            <p class="sender-info">Фамилия:<span>@client.LastName</span></p>
+            <p class="sender-info">Отчество:<span>@client.SurName</span></p>
+            <p class="sender-info">Email:<span>@client.Email</span></p>
+            <p class="sender-info">Телефон:<span>@client.PhoneNumber</span></p>
+        </div>
+        <div class="button-container">
+            <a class="back" asp-controller="Home" asp-action="Employees">Назад</a>
+        </div>
+    </div>
+}

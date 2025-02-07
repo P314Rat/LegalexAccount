@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LegalexAccount.Web.Controllers
 {
-    [Authorize(Roles = "Director, Technical, Employee")]
+    [Authorize(Roles = "Director, Technical, Specialist")]
     public class SpecialistController : BaseController
     {
         private static UserViewModel? _userModel = null;
@@ -55,9 +55,9 @@ namespace LegalexAccount.Web.Controllers
                         new SelectListItem { Value = "", Text = "Выберите роль специалиста", Selected = true }
                     }
                     .Concat(
-                        Enum.GetValues(typeof(SpecialistRole))
-                        .Cast<SpecialistRole>()
-                        .Where(x => x != SpecialistRole.Director)
+                        Enum.GetValues(typeof(SpecialistType))
+                        .Cast<SpecialistType>()
+                        .Where(x => x != SpecialistType.Director)
                         .Select(x => new SelectListItem
                         {
                             Value = x.ToString(),

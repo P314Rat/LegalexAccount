@@ -1,5 +1,7 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.ClientsProcesses;
+using LegalexAccount.BLL.DTO;
 using LegalexAccount.Web.ViewModels;
+using LegalexAccount.Web.ViewModels.Case;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +27,14 @@ namespace LegalexAccount.Web.Controllers
 
             try
             {
-                return View(new ProfileViewModel());
+                var client = (await _mediator.Send(new GetClientsQuery(email)))
+                    .FirstOrDefault();
+
+                var result = client is LegalDTO
+                    ? (UserViewModel)(client as LegalDTO).ToViewModel()
+                    : (client as PersonDTO).ToViewModel();
+
+                return View(result);
             }
             catch (Exception ex)
             {

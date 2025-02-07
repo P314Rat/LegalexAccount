@@ -1,7 +1,7 @@
-﻿@model CaseViewModel
+﻿@model CreateCaseViewModel
 @{
-    var clients = ViewBag.Clients;
-    var assignee = ViewBag.Assignee;
+    var clients = ViewBag.Clients as List<SelectListItem>;
+    var assignees = ViewBag.Assignees as List<SelectListItem>;
 }
 
 
@@ -18,16 +18,17 @@
                 <label for="customer">Заказчик</label>
                 <div class="client-type">
                     <div class="input-container">
-                        <select id="customer" name="CustomerEmail" asp-for=CustomerEmail asp-items="clients"></select>
-                        <span class="text-validation" asp-validation-for="CustomerEmail"></span>
+                        <select id="customers" name="Customer" asp-for=Customer asp-items="clients"></select>
+                        <span class="text-validation" asp-validation-for="Customer"></span>
                     </div>
                 </div>
             </div>
             <div class="item-container">
-                <label for="assignee">Исполнитель</label>
+                <label for="assignee">Исполнители</label>
                 <div class="client-type">
                     <div class="input-container">
-                        <select id="assignee" name="AssigneeEmail" asp-for=AssigneeEmail asp-items="assignee"></select>
+                        @Html.ListBoxFor(x => x.Assignees, assignees, null)
+                        <span class="text-validation" asp-validation-for="Assignees"></span>
                     </div>
                 </div>
             </div>
