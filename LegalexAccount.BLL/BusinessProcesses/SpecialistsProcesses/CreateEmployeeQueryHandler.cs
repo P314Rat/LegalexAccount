@@ -1,6 +1,7 @@
 ﻿using LegalexAccount.BLL.DTO;
 using LegalexAccount.BLL.Services.MailSender;
 using LegalexAccount.DAL;
+using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories.Contracts;
 using MediatR;
 
@@ -21,7 +22,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 
         public async Task Handle(CreateEmployeeQuery request, CancellationToken cancellationToken)
         {
-            var isSpecialistExist = await ((IUserRepository)_unitOfWork.Specialists).IsExistsAsync(request.Model.Email);
+            var isSpecialistExist = await ((IUserRepository<User>)_unitOfWork.Specialists).IsExistsAsync(request.Model.Email);
 
             var mail = new MailRequest
             {

@@ -21,7 +21,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
 
         public async Task Handle(EditProfileCommand request, CancellationToken cancellationToken)
         {
-            var specialist = (Specialist?)await ((IUserRepository)_unitOfWork.Specialists).GetByEmailAsync(request.UserEmail);
+            var specialist = await ((IUserRepository<Specialist>)_unitOfWork.Specialists).GetByEmailAsync(request.UserEmail);
 
             if (specialist != null)
             {
@@ -73,7 +73,7 @@ namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
                 return;
             }
 
-            var client = (Client?)await ((IUserRepository)_unitOfWork.Clients).GetByEmailAsync(request.UserEmail);
+            var client = await ((IUserRepository<Client>)_unitOfWork.Clients).GetByEmailAsync(request.UserEmail);
 
             if (client != null)
             {

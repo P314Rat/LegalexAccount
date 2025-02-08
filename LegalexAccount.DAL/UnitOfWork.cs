@@ -19,7 +19,7 @@ namespace LegalexAccount.DAL
         private readonly CaseRepository _caseRepository;
         private readonly PasswordResetTokenRepository _passwordResetTokenRepository;
 
-        public IUserRepository Users { get => _userRepository; }
+        public IUserRepository<User> Users { get => _userRepository; }
         public IRepository<Specialist, Guid> Specialists { get => _specialistRepository; }
         public IRepository<Client, Guid> Clients { get => _clientRepository; }
         public IRepository<Person, Guid> Individuals { get => _personRepository; }

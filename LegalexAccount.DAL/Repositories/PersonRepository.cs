@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LegalexAccount.DAL.Repositories
 {
-    public class PersonRepository : IRepository<Person, Guid>, IUserRepository
+    public class PersonRepository : IRepository<Person, Guid>, IUserRepository<Person>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -40,7 +40,7 @@ namespace LegalexAccount.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<User?> GetByEmailAsync(string email)
+        public Task<Person?> GetByEmailAsync(string email)
         {
             throw new NotImplementedException();
         }

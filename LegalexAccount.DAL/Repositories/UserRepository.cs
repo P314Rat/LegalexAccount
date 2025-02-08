@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LegalexAccount.DAL.Repositories
 {
-    public class UserRepository : IRepository<User, Guid>, IUserRepository
+    public class UserRepository : IRepository<User, Guid>, IUserRepository<User>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -34,14 +34,12 @@ namespace LegalexAccount.DAL.Repositories
         {
             var specialist = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == email);
 
-            if (specialist == null)
-            {
-                var client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Email == email);
+            if (specialist != null)
+                return specialist;
 
-                return client;
-            }
+            var client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Email == email);
 
-            return specialist;
+            return client;
         }
 
         public Task<User> GetByIdAsync(Guid id)

@@ -19,8 +19,22 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization
 
         public async Task<UserRole> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.model.Email);
-            var hashedPassword = GenerateDataService.GenerateHash(request.model.Password, user.PasswordSalt);
+            var email = request.Model?.Email;
+
+            if (email == null)
+                throw new ArgumentNullException(nameof(email) + " email");
+
+            var user = await _unitOfWork.Users.GetByEmailAsync(email);
+
+            if (user == null)
+                throw new Exception("Email is not valid");
+
+            var password = request.Model?.Password;
+
+            if (password == null)
+                throw new ArgumentNullException(nameof(password) + " password");
+
+            var hashedPassword = GenerateDataService.GenerateHash(password, user.PasswordSalt);
 
             if (user.PasswordHash != hashedPassword)
                 throw new InvalidOperationException("Password is not valid");

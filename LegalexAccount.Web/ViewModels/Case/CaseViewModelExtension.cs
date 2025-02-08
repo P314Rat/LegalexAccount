@@ -37,7 +37,7 @@ namespace LegalexAccount.Web.ViewModels.Case
 
         internal static async Task<CaseDTO> ToDTO(this CaseViewModel model, IUnitOfWork unitOfWork)
         {
-            var user = await ((IUserRepository)unitOfWork.Clients).GetByEmailAsync(model.Customer.Value);
+            var user = await ((IUserRepository<Client>)unitOfWork.Clients).GetByEmailAsync(model.Customer.Value);
 
             UserDTO customer = user switch
             {
@@ -108,7 +108,7 @@ namespace LegalexAccount.Web.ViewModels.Case
 
         internal static async Task<CaseDTO> ToDTO(this CreateCaseViewModel model, IUnitOfWork unitOfWork)
         {
-            var user = await ((IUserRepository)unitOfWork.Clients).GetByEmailAsync(model.Customer);
+            var user = await ((IUserRepository<Client>)unitOfWork.Clients).GetByEmailAsync(model.Customer);
 
             UserDTO customer = user switch
             {

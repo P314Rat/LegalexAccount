@@ -3,9 +3,9 @@
 
 namespace LegalexAccount.DAL.Repositories.Contracts
 {
-    public interface IUserRepository
+    public interface IUserRepository<T> where T : User
     {
-        Task<User?> GetByEmailAsync(string email);
+        Task<T?> GetByEmailAsync(string email);
         Task<bool> IsExistsAsync(string email);
     }
 }

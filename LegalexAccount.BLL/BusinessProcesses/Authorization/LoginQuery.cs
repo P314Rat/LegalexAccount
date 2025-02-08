@@ -7,12 +7,12 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization
 {
     public class LoginQuery : IRequest<UserRole>
     {
-        public IdentityDTO model { get; set; }
+        public IdentityDTO Model { get; set; }
 
 
         public LoginQuery(IdentityDTO model)
         {
-            this.model = model;
+            Model = model;
         }
     }
 }

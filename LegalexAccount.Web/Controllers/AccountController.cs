@@ -1,7 +1,6 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.Authorization;
 using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
 using LegalexAccount.BLL.DTO;
-using LegalexAccount.Utility.Extensions;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;

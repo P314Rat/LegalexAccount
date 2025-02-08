@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LegalexAccount.DAL.Repositories
 {
-    public class SpecialistRepository : IRepository<Specialist, Guid>, IUserRepository
+    public class SpecialistRepository : IRepository<Specialist, Guid>, IUserRepository<Specialist>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -47,7 +47,7 @@ namespace LegalexAccount.DAL.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<User?> GetByEmailAsync(string email)
+        public async Task<Specialist?> GetByEmailAsync(string email)
         {
             var specialist = await _dbContext.Specialists.FirstOrDefaultAsync(x => x.Email == email);
 
@@ -55,11 +55,6 @@ namespace LegalexAccount.DAL.Repositories
         }
 
         public Task<Specialist?> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetByNameAsync(string name)
         {
             throw new NotImplementedException();
         }
