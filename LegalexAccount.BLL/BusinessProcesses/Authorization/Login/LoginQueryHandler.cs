@@ -5,7 +5,7 @@ using LegalexAccount.Utility.Types;
 using MediatR;
 
 
-namespace LegalexAccount.BLL.BusinessProcesses.Authorization
+namespace LegalexAccount.BLL.BusinessProcesses.Authorization.Login
 {
     public class LoginQueryHandler : IRequestHandler<LoginQuery, UserRole>
     {
@@ -19,25 +19,15 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization
 
         public async Task<UserRole> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var email = request.Model?.Email;
-
-            if (email == null)
-                throw new ArgumentNullException(nameof(email) + " email");
-
-            var user = await _unitOfWork.Users.GetByEmailAsync(email);
+            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
 
             if (user == null)
-                throw new Exception("Email is not valid");
+                throw new Exception("Email is incorrect");
 
-            var password = request.Model?.Password;
-
-            if (password == null)
-                throw new ArgumentNullException(nameof(password) + " password");
-
-            var hashedPassword = GenerateDataService.GenerateHash(password, user.PasswordSalt);
+            var hashedPassword = GenerateDataService.GenerateHash(request.Password, user.PasswordSalt);
 
             if (user.PasswordHash != hashedPassword)
-                throw new InvalidOperationException("Password is not valid");
+                throw new Exception("Password is incorrect");
 
             var userRole = user switch
             {

@@ -1,8 +1,11 @@
-﻿using LegalexAccount.BLL.Services.MailSender;
+﻿using FluentValidation;
+using LegalexAccount.BLL.Services.MailSender;
 using LegalexAccount.DAL;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 
 namespace LegalexAccount.BLL.Services
@@ -26,6 +29,12 @@ namespace LegalexAccount.BLL.Services
         {
             services.Configure<MailSettings>(configurationSection);
             services.AddTransient<IMailService, MailService>();
+        }
+
+        public static void AddHandlerValidator(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorService<,>));
         }
     }
 }

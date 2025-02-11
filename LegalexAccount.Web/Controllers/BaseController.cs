@@ -1,5 +1,4 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
-using LegalexAccount.BLL.DTO;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,28 +9,9 @@ namespace LegalexAccount.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected static readonly ShortProfileViewModel _profileModel;
+        protected static ShortProfileViewModel _profileModel = new();
         protected readonly IMediator _mediator;
 
-
-        static ShortProfileViewModel()
-        {
-            _profileModel = LoadProfile();
-        }
-
-        private static ShortProfileViewModel LoadProfile()
-        {
-            var profileDTO = _mediator.Send(new GetProfileQuery(email)).Result;
-
-            return new ShortProfileViewModel
-            {
-                FirstName = profileDTO.FirstName,
-                LastName = profileDTO.LastName,
-                SurName = profileDTO.SurName,
-                Email = email,
-                PhoneNumber = profileDTO.PhoneNumber
-            };
-        }
 
         public BaseController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
         {
@@ -42,23 +22,14 @@ namespace LegalexAccount.Web.Controllers
             if (email == null)
                 throw new Exception("Authorization is wrong.");
 
-            var profileDTO = _mediator.Send(new GetProfileQuery(email)).Result;
+            var shortProfileDTO = _mediator.Send(new GetShortProfileQuery(email)).Result;
 
-            if (profileDTO != null)
-            {
-                _profileModel = new()
-                {
-                    FirstName = profileDTO.FirstName,
-                    LastName = profileDTO.LastName,
-                    SurName = profileDTO.SurName,
-                    Email = email,
-                    PhoneNumber = profileDTO.PhoneNumber
-                };
-            }
-            else
-            {
+            if (shortProfileDTO == null)
                 throw new Exception("Authorization is wrong.");
-            }
+
+            _profileModel.FirstName = shortProfileDTO.FirstName ?? string.Empty;
+            _profileModel.LastName = shortProfileDTO.LastName ?? string.Empty;
+            _profileModel.Email = email;
         }
     }
 }

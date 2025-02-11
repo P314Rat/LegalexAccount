@@ -68,8 +68,6 @@ namespace LegalexAccount.BLL.Services.MailSender
 
         public async Task SendResetPasswordLink(MailRequest request, string email)
         {
-
-
             await SendEmailAsync(request);
         }
     }

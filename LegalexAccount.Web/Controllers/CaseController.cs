@@ -5,7 +5,6 @@ using LegalexAccount.BLL.DTO;
 using LegalexAccount.BLL.DTO.Case;
 using LegalexAccount.DAL;
 using LegalexAccount.Web.ViewModels;
-using LegalexAccount.Web.ViewModels.Case;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

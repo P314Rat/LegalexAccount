@@ -1,6 +1,8 @@
 ﻿@model LoginViewModel
 
 
+<script src="~/Scripts/Loader.js"></script>
+
 <title>Вход в аккаунт</title>
 <div class="login">
     <div class="form-container">
@@ -35,6 +37,10 @@
             </form>
         </div>
     </div>
+</div>
+
+<div id="loader" class="loader">
+    <div class="loader-animation"></div>
 </div>
 
 @await Html.PartialAsync("_ModelValidation")

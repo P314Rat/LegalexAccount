@@ -1,7 +1,12 @@
-﻿using LegalexAccount.BLL.BusinessProcesses.Authorization;
+﻿using AutoMapper;
+using LegalexAccount.BLL.BusinessProcesses.Authorization;
+using LegalexAccount.BLL.BusinessProcesses.Authorization.ForgotPassword;
+using LegalexAccount.BLL.BusinessProcesses.Authorization.Login;
 using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
 using LegalexAccount.BLL.DTO;
+using LegalexAccount.Utility.Exceptions;
 using LegalexAccount.Web.ViewModels;
+using LegalexAccount.Web.ViewModels.Account;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,11 +20,13 @@ namespace LegalexAccount.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
 
-        public AccountController(IMediator mediator)
+        public AccountController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -62,9 +69,52 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> LoginAsync(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView("_Login", model);
+
+            try
+            {
+                var role = await _mediator.Send(new LoginQuery(_mapper.Map<AccountDTO>(model)));
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, model.Email),
+                    new Claim(ClaimTypes.Role, role.ToString())
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                return RedirectToAction("Orders", "Home");
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError(ex.WrongFieldName, "Неверные данные для входа");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return PartialView("_Login", model);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            await _mediator.Send(new ForgotPasswordCommand(model.Email));
+            if (!ModelState.IsValid)
+                return PartialView("_ForgotPassword", model);
+
+            try
+            {
+                await _mediator.Send(new ForgotPasswordCommand(model.Email));
+            }
+            catch(ValidationException ex)
+            {
+                ModelState.AddModelError(ex.WrongFieldName, ex.Message);
+
+                return PartialView("_ForgotPassword", model);
+            }
 
             return PartialView("_PasswordSended");
         }
@@ -82,41 +132,6 @@ namespace LegalexAccount.Web.Controllers
             await _mediator.Send(new EditProfileCommand(model.Email, null, resetPasswordDTO));
 
             return PartialView("_PasswordSended");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> LoginAsync(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return PartialView("_Login", model);
-
-            try
-            {
-                var modelDTO = new IdentityDTO
-                {
-                    Email = model.Email,
-                    Password = model.Password
-                };
-
-                var role = await _mediator.Send(new LoginQuery(modelDTO));
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, modelDTO.Email),
-                    new Claim(ClaimTypes.Role, role.ToString())
-                };
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-                return RedirectToAction("Orders", "Home");
-            }
-            catch
-            {
-                ModelState.AddModelError("Email", "Неверные данные для входа");
-
-                return PartialView("_Login", model);
-            }
         }
     }
 }

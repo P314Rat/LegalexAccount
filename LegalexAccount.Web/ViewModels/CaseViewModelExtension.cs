@@ -6,7 +6,7 @@ using LegalexAccount.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
-namespace LegalexAccount.Web.ViewModels.Case
+namespace LegalexAccount.Web.ViewModels
 {
     internal static class CaseViewModelExtension
     {
