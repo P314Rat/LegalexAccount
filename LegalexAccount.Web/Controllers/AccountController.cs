@@ -89,11 +89,11 @@ namespace LegalexAccount.Web.Controllers
             }
             catch (ValidationException ex)
             {
-                ModelState.AddModelError(ex.WrongFieldName, "Неверные данные для входа");
+                ModelState.AddModelError("Email", "Неверные данные для входа");
             }
-            catch(Exception ex)
+            catch
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500);
             }
 
             return PartialView("_Login", model);

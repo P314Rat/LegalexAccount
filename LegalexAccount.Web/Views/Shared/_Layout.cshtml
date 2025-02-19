@@ -14,7 +14,7 @@
 <body>
     @await Html.PartialAsync("_Header")
 
-    <main style="opacity: 0;">
+    <main class="skeleton">
         @await Html.PartialAsync("_FunctionalPanel", profileModel)
         <div class="main-content">
             @RenderBody()

@@ -51,6 +51,14 @@ a {
         text-decoration: underline;
     }
 
+button {
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    border: none;
+    cursor: pointer;
+}
+
 /* ============================= */
 /* LAYOUT STYLES */
 /* ============================= */

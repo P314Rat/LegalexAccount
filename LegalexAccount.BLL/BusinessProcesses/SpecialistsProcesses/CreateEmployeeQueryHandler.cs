@@ -22,13 +22,12 @@ namespace LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses
 
         public async Task Handle(CreateEmployeeQuery request, CancellationToken cancellationToken)
         {
-            var isSpecialistExist = await ((IUserRepository<User>)_unitOfWork.Specialists).IsExistsAsync(request.Model.Email);
+            var isSpecialistExist = await ((IUserRepository<Specialist>)_unitOfWork.Specialists).IsExistsAsync(request.Model.Email);
 
             var mail = new MailRequest
             {
                 ToEmail = request.Model.Email,
-                Subject = "Registration",
-                Body = $"Your password: {request.Model.Password}"
+                Subject = "Регистрация",
             };
 
             if (!isSpecialistExist)

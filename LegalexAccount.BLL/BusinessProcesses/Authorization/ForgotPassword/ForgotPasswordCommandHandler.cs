@@ -5,6 +5,7 @@ using LegalexAccount.Utility.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Cryptography;
 
 
@@ -55,7 +56,19 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization.ForgotPassword
             {
                 ToEmail = command.Email,
                 Subject = "Password reset",
-                Body = resetUrl ?? string.Empty
+                Body = $@"
+                        <div style='font-family: Arial, sans-serif; color: #333;'>
+                            <h2>Восстановление пароля</h2>
+                            <p>Вы запросили сброс пароля. Нажмите на кнопку ниже, чтобы установить новый пароль:</p>
+                            <p style='text-align: center;'>
+                                <a href='{resetUrl}' 
+                                    style='display: inline-block; padding: 10px 20px; color: white; background-color: #007bff;
+                                            text-decoration: none; border-radius: 5px; font-weight: bold;'>
+                                    Сбросить пароль
+                                </a>
+                            </p>
+                            <p>Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.</p>
+                        </div>" ?? string.Empty
             };
 
             await _mailService.SendResetPasswordLink(message, command.Email);

@@ -1,5 +1,6 @@
 ﻿using LegalexAccount.DAL;
 using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.Utility.Exceptions;
 using LegalexAccount.Utility.Services;
 using LegalexAccount.Utility.Types;
 using MediatR;
@@ -22,12 +23,12 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization.Login
             var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
 
             if (user == null)
-                throw new Exception("Email is incorrect");
+                throw new ValidationException("Email", "Неверный Email");
 
             var hashedPassword = GenerateDataService.GenerateHash(request.Password, user.PasswordSalt);
 
             if (user.PasswordHash != hashedPassword)
-                throw new Exception("Password is incorrect");
+                throw new ValidationException("Password", "Неверный Password");
 
             var userRole = user switch
             {
