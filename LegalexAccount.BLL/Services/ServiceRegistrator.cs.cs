@@ -27,5 +27,16 @@ namespace LegalexAccount.BLL.Services
             services.Configure<MailSettings>(configurationSection);
             services.AddTransient<IMailService, MailService>();
         }
+
+        public static void AddHandlerValidator(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorService<,>));
+        }
+
+        public static void AddPresenceTracker(this IServiceCollection services)
+        {
+            services.AddSingleton<PresenceTracker>();
+        }
     }
 }

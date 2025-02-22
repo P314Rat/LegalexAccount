@@ -4,6 +4,8 @@ using LegalexAccount.DAL;
 using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.Utility.Services;
 using LegalexAccount.Utility.Types;
+using LegalexAccount.Web.Hubs;
+using LegalexAccount.Web.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +38,8 @@ namespace LegalexAccount.Web
                 options.SlidingExpiration = false;
                 options.ExpireTimeSpan = TimeSpan.FromHours(12);
             });
+            services.AddPresenceTracker();
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -108,6 +112,7 @@ namespace LegalexAccount.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Orders}/{id?}");
                 endpoints.MapControllers();
+                endpoints.MapHub<PresenceHub>("/presence");
             });
         }
     }

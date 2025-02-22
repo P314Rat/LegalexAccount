@@ -2,6 +2,7 @@
 {
     public class ProfileDTO
     {
+        public bool IsOnline { get; set; }
         public string? FirstName { get; set; } = null;
         public string? LastName { get; set; } = null;
         public string? SurName { get; set; } = null;
