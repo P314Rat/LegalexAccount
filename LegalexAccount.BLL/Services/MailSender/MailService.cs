@@ -55,7 +55,7 @@ namespace LegalexAccount.BLL.Services.MailSender
 
         public async Task SendRegistrationDataAsync(MailRequest request, string username, string password)
         {
-            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Static", "Pages", "WelcomeMail.html");
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Static", "MessageTemplates", "Welcome.html");
             var str = new StreamReader(filePath);
             var message = str.ReadToEnd();
             str.Close();
@@ -68,8 +68,6 @@ namespace LegalexAccount.BLL.Services.MailSender
 
         public async Task SendResetPasswordLink(MailRequest request, string email)
         {
-
-
             await SendEmailAsync(request);
         }
     }

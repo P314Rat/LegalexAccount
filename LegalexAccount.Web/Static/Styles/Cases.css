@@ -71,11 +71,11 @@
 }
 .cases table tbody tr.m-panel td .panel {
   position: absolute;
-  top: 0rem;
+  top: 0;
   right: -4rem;
   width: 3rem;
   height: 3rem;
-  background-size: 2.5rem;
+  background-size: 1.8rem;
   background-position: center;
   background-repeat: no-repeat;
   background-image: url("/Images/inspect.svg");

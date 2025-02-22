@@ -9,37 +9,27 @@ namespace LegalexAccount.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected static ProfileViewModel? _profileModel = null;
+        protected static ShortProfileViewModel _profileModel = new();
         protected readonly IMediator _mediator;
 
 
         public BaseController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
-
             var email = httpContextAccessor.HttpContext?.User?.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             if (email == null)
                 throw new Exception("Authorization is wrong.");
 
-            var profileDTO = _mediator.Send(new GetProfileQuery(email)).Result;
+            var shortProfileDTO = _mediator.Send(new GetShortProfileQuery(email)).Result;
 
-            if (profileDTO != null)
-            {
-                _profileModel = new()
-                {
-                    FirstName = profileDTO.FirstName,
-                    LastName = profileDTO.LastName,
-                    SurName = profileDTO.SurName,
-                    Email = email,
-                    PhoneNumber = profileDTO.PhoneNumber
-                };
-            }
-            else
-            {
+            if (shortProfileDTO == null)
                 throw new Exception("Authorization is wrong.");
-            }
+
+            _profileModel.FirstName = shortProfileDTO.FirstName ?? string.Empty;
+            _profileModel.LastName = shortProfileDTO.LastName ?? string.Empty;
+            _profileModel.Email = email;
         }
     }
 }

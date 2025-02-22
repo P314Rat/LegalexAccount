@@ -1,8 +1,11 @@
-﻿using LegalexAccount.BLL.Services.MailSender;
+﻿using FluentValidation;
+using LegalexAccount.BLL.Services.MailSender;
 using LegalexAccount.DAL;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 
 namespace LegalexAccount.BLL.Services

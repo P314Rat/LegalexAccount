@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LegalexAccount.DAL.Repositories
 {
-    public class ClientRepository : IRepository<Client, Guid>, IUserRepository
+    public class ClientRepository : IRepository<Client, Guid>, IUserRepository<Client>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -51,19 +51,21 @@ namespace LegalexAccount.DAL.Repositories
             return _dbContext.Clients.AsQueryable();
         }
 
-        public Task<User> GetByNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<bool> IsExistsAsync(string email)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User?> GetByEmailAsync(string email)
+        public async Task<Client?> GetByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            var legal = await _dbContext.LegalEntities.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (legal != null)
+                return legal;
+
+            var person = await _dbContext.Individuals.FirstOrDefaultAsync(x => x.Email == email);
+
+            return person;
         }
     }
 }

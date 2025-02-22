@@ -1,6 +1,6 @@
 ﻿namespace LegalexAccount.BLL.DTO
 {
-    public class IdentityDTO
+    public class AccountDTO
     {
         public string? Email { get; set; } = null;
         public string? Password { get; set; } = null;

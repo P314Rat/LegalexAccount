@@ -22,6 +22,21 @@ namespace LegalexAccount.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CaseSpecialist", b =>
+                {
+                    b.Property<Guid>("AssigneesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CasesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssigneesId", "CasesId");
+
+                    b.HasIndex("CasesId");
+
+                    b.ToTable("CaseSpecialist");
+                });
+
             modelBuilder.Entity("LegalexAccount.DAL.Models.AccountAggregate.PasswordResetToken", b =>
                 {
                     b.Property<int>("Id")
@@ -60,9 +75,6 @@ namespace LegalexAccount.DAL.Migrations
                     b.Property<DateTime?>("ArchivedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("AssigneeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -80,8 +92,6 @@ namespace LegalexAccount.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AssigneeId");
 
                     b.HasIndex("CustomerId");
 
@@ -279,21 +289,28 @@ namespace LegalexAccount.DAL.Migrations
                     b.ToTable("Individuals", (string)null);
                 });
 
-            modelBuilder.Entity("LegalexAccount.DAL.Models.CaseAggregate.Case", b =>
+            modelBuilder.Entity("CaseSpecialist", b =>
                 {
-                    b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Specialist", "Assignee")
-                        .WithMany("Cases")
-                        .HasForeignKey("AssigneeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Specialist", null)
+                        .WithMany()
+                        .HasForeignKey("AssigneesId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LegalexAccount.DAL.Models.CaseAggregate.Case", null)
+                        .WithMany()
+                        .HasForeignKey("CasesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LegalexAccount.DAL.Models.CaseAggregate.Case", b =>
+                {
                     b.HasOne("LegalexAccount.DAL.Models.UserAggregate.Client", "Customer")
                         .WithMany("Cases")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Assignee");
 
                     b.Navigation("Customer");
                 });
@@ -317,11 +334,6 @@ namespace LegalexAccount.DAL.Migrations
                 });
 
             modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Client", b =>
-                {
-                    b.Navigation("Cases");
-                });
-
-            modelBuilder.Entity("LegalexAccount.DAL.Models.UserAggregate.Specialist", b =>
                 {
                     b.Navigation("Cases");
                 });

@@ -9,7 +9,7 @@ namespace LegalexAccount.DAL
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository Users { get; }
+        IUserRepository<User> Users { get; }
         IRepository<Specialist, Guid> Specialists { get; }
         IRepository<Client, Guid> Clients { get; }
         IRepository<Person, Guid> Individuals { get; }

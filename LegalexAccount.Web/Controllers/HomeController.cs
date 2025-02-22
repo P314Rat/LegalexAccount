@@ -43,7 +43,9 @@ namespace LegalexAccount.Web.Controllers
             ViewData["ProfileModel"] = _profileModel; //Vanya
             ViewData["CurrentPage"] = currentPage;
 
-            var cases = (await _mediator.Send(new GetCasesRequest())).Select(x => x.ToViewModel()).ToList();
+            var cases = (await _mediator.Send(new GetCasesRequest()))
+                .Select(x => x.ToViewModel())
+                .ToList();
 
             return View(cases);
         }
@@ -56,19 +58,11 @@ namespace LegalexAccount.Web.Controllers
 
             try
             {
-                var legals = new List<LegalViewModel>();
-                var individuals = new List<PersonViewModel>();
-                var clients = (await _mediator.Send(new GetClientsQuery())).Select(user =>
-                {
-                    var organizationName = user is LegalDTO ? ((LegalDTO)user).OrganizationName : null;
-
-                    return new ProfileDTO
-                    {
-                        Email = user.Email ?? string.Empty,
-                        FirstName = user.FirstName ?? string.Empty,
-                        LastName = user.LastName ?? string.Empty,
-                    };
-                }).Select(x => x.ToViewModel()).ToList();
+                var clients = (await _mediator.Send(new GetClientsQuery()))
+                    .Select(x => x is LegalDTO
+                        ? (UserViewModel)(x as LegalDTO).ToViewModel()
+                        : (x as PersonDTO).ToViewModel())
+                    .ToList();
 
                 return View(clients);
             }
@@ -87,7 +81,7 @@ namespace LegalexAccount.Web.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Director, Technical, Employee")]
+        [Authorize(Roles = "Director, Technical, Specialist")]
         [HttpGet]
         public async Task<IActionResult> Employees()
         {

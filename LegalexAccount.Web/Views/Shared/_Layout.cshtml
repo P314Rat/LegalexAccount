@@ -1,27 +1,28 @@
 @{
-    var userModel = ViewData["ProfileModel"] as ProfileViewModel;
+    var profileModel = ViewData["ProfileModel"] as ShortProfileViewModel;
 }
 
-
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legalex | @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/Styles/main.css">
+    <script src="~/Scripts/Loader.js"></script>
 </head>
 <body>
     @await Html.PartialAsync("_Header")
-    <main>
-        <div class="container">
-            <div class="main-order">
-                @await Html.PartialAsync("_FunctionalPanel", userModel)
-                <div class="main-content">
-                    @RenderBody()
-                </div>
-            </div>
+
+    <main class="skeleton">
+        @await Html.PartialAsync("_FunctionalPanel", profileModel)
+        <div class="main-content">
+            @RenderBody()
         </div>
     </main>
+
+    <div id="loader" class="loader">
+        <div class="loader-animation"></div>
+    </div>
 </body>
 </html>

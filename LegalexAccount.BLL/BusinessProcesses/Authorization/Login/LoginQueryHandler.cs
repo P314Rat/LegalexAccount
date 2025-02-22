@@ -1,11 +1,12 @@
 ﻿using LegalexAccount.DAL;
 using LegalexAccount.DAL.Models.UserAggregate;
+using LegalexAccount.Utility.Exceptions;
 using LegalexAccount.Utility.Services;
 using LegalexAccount.Utility.Types;
 using MediatR;
 
 
-namespace LegalexAccount.BLL.BusinessProcesses.Authorization
+namespace LegalexAccount.BLL.BusinessProcesses.Authorization.Login
 {
     public class LoginQueryHandler : IRequestHandler<LoginQuery, UserRole>
     {
@@ -19,11 +20,15 @@ namespace LegalexAccount.BLL.BusinessProcesses.Authorization
 
         public async Task<UserRole> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.model.Email);
-            var hashedPassword = GenerateDataService.GenerateHash(request.model.Password, user.PasswordSalt);
+            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
+
+            if (user == null)
+                throw new ValidationException("Email", "Неверный Email");
+
+            var hashedPassword = GenerateDataService.GenerateHash(request.Password, user.PasswordSalt);
 
             if (user.PasswordHash != hashedPassword)
-                throw new InvalidOperationException("Password is not valid");
+                throw new ValidationException("Password", "Неверный Password");
 
             var userRole = user switch
             {

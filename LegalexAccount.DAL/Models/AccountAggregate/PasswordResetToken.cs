@@ -2,9 +2,9 @@
 {
     public class PasswordResetToken : BaseEntity<int>
     {
-        public string Email { get; set; } // Email пользователя
-        public string Token { get; set; } // Уникальный токен
-        public DateTime ExpirationDate { get; set; } // Время жизни токена
-        public bool IsUsed { get; set; } // Был ли уже использован
+        public string Email { get; set; }
+        public string Token { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public bool IsUsed { get; set; }
     }
 }

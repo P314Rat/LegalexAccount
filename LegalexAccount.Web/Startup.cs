@@ -30,6 +30,8 @@ namespace LegalexAccount.Web
             services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(UserDTO).Assembly));
+            services.AddHandlerValidator();
+            services.AddAutoMapper(typeof(UserDTO).Assembly, typeof(UserViewModel).Assembly);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {

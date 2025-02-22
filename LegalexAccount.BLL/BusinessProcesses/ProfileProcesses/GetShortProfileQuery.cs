@@ -4,12 +4,12 @@ using MediatR;
 
 namespace LegalexAccount.BLL.BusinessProcesses.ProfileProcesses
 {
-    public class GetProfileQuery : IRequest<ProfileDTO?>
+    public class GetShortProfileQuery : IRequest<ShortProfileDTO?>
     {
         public string Email { get; set; }
 
 
-        public GetProfileQuery(string email)
+        public GetShortProfileQuery(string email)
         {
             Email = email;
         }

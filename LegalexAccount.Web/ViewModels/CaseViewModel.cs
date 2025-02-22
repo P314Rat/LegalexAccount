@@ -1,15 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace LegalexAccount.Web.ViewModels
 {
     public class CaseViewModel
     {
-        public DateTime StartDate { get; set; }
+        public int Id { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
         public int? EstimatedDaysToEnd { get; set; } = null;
         [Required(ErrorMessage = "Это необходимое поле")]
-        public string CustomerEmail { get; set; }
-        public string AssigneeEmail { get; set; }
+        public SelectListItem Customer { get; set; }
+        public List<SelectListItem> Assignees { get; set; }
         [Required(ErrorMessage = "Это необходимое поле")]
         public string Description { get; set; } = string.Empty;
     }
