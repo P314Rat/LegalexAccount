@@ -1,0 +1,77 @@
+﻿@model List<ChatViewModel>
+
+@{
+    var chats = Model;
+    const int chatsPerPage = 10;
+    var pagesRemainder = chats.Count % chatsPerPage > 0 ? 1 : 0;
+    var pagesNumber = chats.Count / chatsPerPage + pagesRemainder;
+    var currentPage = (int)ViewData["CurrentPage"];
+
+    ViewData["Title"] = "Чаты";
+    ViewData["Page"] = "Chats";
+}
+
+<div class="chats">
+    <div class="header-panel">
+        <h2>Чаты</h2>
+    </div>
+
+    @if (chats.Count == 0)
+    {
+        <span>У вас пока нет чатов.</span>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Статус</th>
+                    <th>Последнее сообщение</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < chatsPerPage; i++)
+                {
+                    var chatIndex = chatsPerPage * (currentPage - 1) + i;
+
+                    if (chatIndex >= chats.Count)
+                        break;
+
+                    var chat = chats[chatIndex];
+
+                    <tr class="chat-row" onclick="openChat('@chat.UserId')">
+                        <td>@chat.UserName</td>
+                        <td>
+                            <div id="status-indicator-@chat.UserId" class="status-indicator @(chat.IsOnline ? "online" : "")"></div>
+                        </td>
+                        <td>@chat.LastMessage</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (pagesNumber > 1)
+        {
+            <div class="pagination">
+                @for (var i = 0; i < pagesNumber; i++)
+                {
+                    <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Chat" asp-action="Index" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
+                }
+            </div>
+        }
+
+        <span class="hint">* Нажмите на чат, чтобы открыть диалог.</span>
+    }
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Chats.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Chats.min.css?v=@DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/ChatManagement.js"></script>
