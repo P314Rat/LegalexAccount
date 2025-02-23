@@ -16,5 +16,9 @@ connection.on("UserOnline", function (userId) {
 
 connection.on("UserOffline", function (userId) {
     console.log("Пользователь оффлайн: " + userId);
-    document.querySelectorAll(".status-indicator").forEach(el => el.classList.remove("online"));
+    let element = document.getElementById("status-indicator-" + userId);
+
+    if (element) { // Проверяем, что элемент существует
+        element.classList.remove("online");
+    }
 });

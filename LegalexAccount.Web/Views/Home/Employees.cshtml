@@ -37,7 +37,7 @@
                         <td>@specialist.LastName</td>
                         <td>@specialist.Email</td>
                         <td>
-                            <div id="status-indicator-@(specialist.Email)" class="indicator"></div>
+                            <div id="status-indicator-@(specialist.Email)" class="indicator @(specialist.IsOnline ? "online" : "")"></div>
                             <a class="panel" asp-controller="Specialist" asp-action="EmployeeCard" asp-route-email="@specialist.Email"></a>
                         </td>
                     </tr>
