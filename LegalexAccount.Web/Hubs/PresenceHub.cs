@@ -8,10 +8,10 @@ namespace LegalexAccount.Web.Hubs
     [Authorize]
     public class PresenceHub : Hub
     {
-        private readonly PresenceTracker _tracker;
+        private readonly PresenceTrackerService _tracker;
 
 
-        public PresenceHub(PresenceTracker tracker)
+        public PresenceHub(PresenceTrackerService tracker)
         {
             _tracker = tracker;
         }

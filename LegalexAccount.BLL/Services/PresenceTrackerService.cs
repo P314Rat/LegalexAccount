@@ -1,6 +1,6 @@
 ﻿namespace LegalexAccount.BLL.Services
 {
-    public class PresenceTracker
+    public class PresenceTrackerService
     {
         private static readonly Dictionary<string, HashSet<string>> OnlineUsers = new();
 
@@ -33,6 +33,14 @@
                     return Task.FromResult(true);
                 }
                 return Task.FromResult(false);
+            }
+        }
+
+        public bool IsOnline(string userId)
+        {
+            lock (OnlineUsers)
+            {
+                return OnlineUsers.Keys.Any(x => x == userId);
             }
         }
 

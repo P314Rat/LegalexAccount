@@ -24,7 +24,6 @@
             <thead>
                 <tr>
                     <th>Роль</th>
-                    <th>Имя</th>
                     <th>Фамилия</th>
                     <th>Электронная почта</th>
                     <th>Статус</th>
@@ -35,11 +34,10 @@
                 {
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
                         <td>@specialist.Role.GetDisplayName()</td>
-                        <td>@specialist.FirstName</td>
                         <td>@specialist.LastName</td>
                         <td>@specialist.Email</td>
                         <td>
-                            @specialist.Status.GetDisplayName()
+                            <div id="status-indicator-@(specialist.Email)" class="indicator"></div>
                             <a class="panel" asp-controller="Specialist" asp-action="EmployeeCard" asp-route-email="@specialist.Email"></a>
                         </td>
                     </tr>

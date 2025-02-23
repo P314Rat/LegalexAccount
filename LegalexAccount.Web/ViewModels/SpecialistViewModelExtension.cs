@@ -1,4 +1,7 @@
 ﻿using LegalexAccount.BLL.DTO;
+using Microsoft.AspNetCore.SignalR;
+
+using LegalexAccount.BLL.Services;
 
 
 namespace LegalexAccount.Web.ViewModels
@@ -22,10 +25,11 @@ namespace LegalexAccount.Web.ViewModels
             return specialistDTO;
         }
 
-        internal static SpecialistViewModel ToViewModel(this SpecialistDTO model)
+        internal static SpecialistViewModel ToViewModel(this SpecialistDTO model, PresenceTrackerService presenceTracker)
         {
             var specialistViewModel = new SpecialistViewModel
             {
+                IsOnline = model.Email != null ? presenceTracker.IsOnline(model.Email) : false,
                 FirstName = model.FirstName ?? string.Empty,
                 LastName = model.LastName ?? string.Empty,
                 SurName = model.SurName,

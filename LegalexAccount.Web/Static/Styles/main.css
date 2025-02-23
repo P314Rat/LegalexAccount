@@ -41,6 +41,19 @@ body {
     line-height: 1;
 }
 
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: gray; /* Цвет по умолчанию (оффлайн) */
+    display: inline-block;
+}
+
+    .indicator.online {
+        background-color: green; /* Если онлайн */
+    }
+
+
 /* Links */
 a {
     color: inherit;

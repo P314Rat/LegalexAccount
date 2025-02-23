@@ -39,7 +39,7 @@ namespace LegalexAccount.BLL.Services
 
         public static void AddPresenceTracker(this IServiceCollection services)
         {
-            services.AddSingleton<PresenceTracker>();
+            services.AddSingleton<PresenceTrackerService>();
         }
     }
 }

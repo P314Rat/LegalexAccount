@@ -4,6 +4,7 @@ using LegalexAccount.BLL.BusinessProcesses.OrdersProcesses;
 using LegalexAccount.BLL.BusinessProcesses.ProfileProcesses;
 using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
 using LegalexAccount.BLL.DTO;
+using LegalexAccount.BLL.Services;
 using LegalexAccount.Web.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +17,13 @@ namespace LegalexAccount.Web.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
-        public HomeController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
-            : base(mediator, httpContextAccessor) { }
+        private readonly PresenceTrackerService _presence;
+
+        public HomeController(IMediator mediator, IHttpContextAccessor httpContextAccessor, PresenceTrackerService presence)
+            : base(mediator, httpContextAccessor)
+        {
+            _presence = presence;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Orders(int currentPage = 1)
@@ -89,7 +95,7 @@ namespace LegalexAccount.Web.Controllers
             {
                 var response = (await _mediator.Send(new GetSpecialistsQuery()))
                     .Where(x => x.Email != _profileModel?.Email)
-                    .Select(x => x.ToViewModel())
+                    .Select(x => x.ToViewModel(_presence))
                     .ToList();
 
                 ViewData["ProfileModel"] = _profileModel;

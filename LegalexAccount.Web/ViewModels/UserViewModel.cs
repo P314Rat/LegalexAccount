@@ -5,6 +5,7 @@ namespace LegalexAccount.Web.ViewModels
 {
     public class UserViewModel
     {
+        public bool IsOnline { get; set; }
         [Required(ErrorMessage = "Это необходимое поле")]
         [EmailAddress(ErrorMessage = "Неверный формат электронной почты")]
         public string Email { get; set; } = string.Empty;
