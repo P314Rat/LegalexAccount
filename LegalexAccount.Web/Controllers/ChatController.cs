@@ -1,14 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace LegalexAccount.Web.Controllers
 {
-    [ApiController]
-    [Route("api/chat")]
-    public class ChatController : ControllerBase
+    public class ChatController : BaseController
     {
+        public ChatController(IMediator mediator, IHttpContextAccessor httpContextAccessor) : base(mediator, httpContextAccessor)
+        { }
         //private readonly AppDbContext _context;
         //private readonly IHubContext<ChatHub> _hubContext;
+
+        [HttpGet]
+        public async Task<IActionResult> ChatCard(string email)
+        {
+            ViewData["ProfileModel"] = _profileModel;
+
+            return View();
+        }
 
         //public ChatController(AppDbContext context, IHubContext<ChatHub> hubContext)
         //{

@@ -1,4 +1,5 @@
 ﻿using LegalexAccount.BLL.BusinessProcesses.SpecialistsProcesses;
+using LegalexAccount.BLL.Services;
 using LegalexAccount.Utility.Extensions;
 using LegalexAccount.Utility.Types;
 using LegalexAccount.Web.ViewModels;
@@ -15,17 +16,21 @@ namespace LegalexAccount.Web.Controllers
     {
         private static UserViewModel? _userModel = null;
         private static SpecialistViewModel? _specialistModel = null;
+        private readonly PresenceTrackerService _presence;
 
 
-        public SpecialistController(IMediator mediator, IHttpContextAccessor httpContextAccessor)
-            : base(mediator, httpContextAccessor) { }
+        public SpecialistController(IMediator mediator, IHttpContextAccessor httpContextAccessor, PresenceTrackerService presence)
+            : base(mediator, httpContextAccessor)
+        {
+            _presence = presence;
+        }
 
         [HttpGet]
         public async Task<IActionResult> EmployeeCard(string email)
         {
             try
             {
-                var response = (await _mediator.Send(new GetSpecialistByEmailQuery(email)))?.ToViewModel();
+                var response = (await _mediator.Send(new GetSpecialistByEmailQuery(email)))?.ToViewModel(_presence);
 
                 if (response == null)
                     throw new Exception("Specialist not found");

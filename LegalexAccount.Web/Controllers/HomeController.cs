@@ -108,6 +108,14 @@ namespace LegalexAccount.Web.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Chats()
+        {
+            ViewData["ProfileModel"] = _profileModel;
+
+            return View();
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult EditProfile()

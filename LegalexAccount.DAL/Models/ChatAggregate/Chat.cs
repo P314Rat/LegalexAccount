@@ -1,9 +1,12 @@
-﻿namespace LegalexAccount.DAL.Models.ChatAggregate
+﻿using LegalexAccount.DAL.Models.UserAggregate;
+
+
+namespace LegalexAccount.DAL.Models.ChatAggregate
 {
-    public class Chat
+    public class Chat : BaseEntity<Guid>
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<Message> Messages { get; set; } = new();
+        public List<User> Members { get; set; }
+        public List<Message> Messages { get; set; }
     }
 }

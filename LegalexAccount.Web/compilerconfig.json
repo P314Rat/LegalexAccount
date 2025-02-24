@@ -74,5 +74,9 @@
   {
     "outputFile": "Static/Styles/CaseCard.css",
     "inputFile": "Views/Case/CaseCard.scss"
+  },
+  {
+    "outputFile": "Static/Styles/ChatCard.css",
+    "inputFile": "Views/Chat/ChatCard.scss"
   }
 ]

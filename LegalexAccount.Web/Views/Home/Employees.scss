@@ -79,33 +79,45 @@
         tbody tr.m-panel td {
             position: relative;
 
-            .panel {
+            .panel-container {
                 position: absolute;
                 top: 0;
-                right: -4rem;
-                width: 3rem;
-                height: 3rem;
-                background-size: 1.8rem;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-image: url('/Images/inspect.svg');
-                border-radius: 5px;
-                animation: appearing .5s;
+                right: -6rem;
+                display: flex;
+                gap: 0.5rem;
 
-                &:hover {
-                    background-color: rgba(173, 216, 230, 0.3);
-                }
-            }
+                .panel {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    background-size: 1.8rem;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    border-radius: 5px;
+                    animation: appearing .5s;
 
-            @keyframes appearing {
-                0% {
-                    opacity: 0;
-                    right: -2.5rem;
+                    &:hover {
+                        background-color: rgba(173, 216, 230, 0.3);
+                    }
                 }
 
-                100% {
-                    opacity: 1;
-                    right: -4rem;
+                .edit {
+                    background-image: url('/Images/inspect.svg');
+                }
+
+                .message {
+                    background-image: url('/Images/chat.svg');
+                }
+
+                @keyframes appearing {
+                    0% {
+                        opacity: 0;
+                        right: -2.5rem;
+                    }
+
+                    100% {
+                        opacity: 1;
+                        right: -4rem;
+                    }
                 }
             }
         }
