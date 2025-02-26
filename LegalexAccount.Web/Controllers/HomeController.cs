@@ -109,11 +109,13 @@ namespace LegalexAccount.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Chats()
+        public IActionResult Chats(string? email)
         {
             ViewData["ProfileModel"] = _profileModel;
 
-            return View();
+
+
+            return View(new ChatViewModel());
         }
 
         [Authorize]

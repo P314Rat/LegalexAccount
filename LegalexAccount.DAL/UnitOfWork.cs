@@ -1,5 +1,6 @@
 ﻿using LegalexAccount.DAL.Models.AccountAggregate;
 using LegalexAccount.DAL.Models.CaseAggregate;
+using LegalexAccount.DAL.Models.ChatAggregate;
 using LegalexAccount.DAL.Models.OrderAggregate;
 using LegalexAccount.DAL.Models.UserAggregate;
 using LegalexAccount.DAL.Repositories;
@@ -17,6 +18,7 @@ namespace LegalexAccount.DAL
         private readonly LegalRepository _legalRepository;
         private readonly OrderRepository _orderRepository;
         private readonly CaseRepository _caseRepository;
+        private readonly ChatRepository _chatRepository;
         private readonly PasswordResetTokenRepository _passwordResetTokenRepository;
 
         public IUserRepository<User> Users { get => _userRepository; }
@@ -26,6 +28,7 @@ namespace LegalexAccount.DAL
         public IRepository<Legal, Guid> LegalEntities { get => _legalRepository; }
         public IRepository<Order, int> Orders { get => _orderRepository; }
         public IRepository<Case, int> Cases { get => _caseRepository; }
+        public IRepository<Chat, Guid> Chats { get => _chatRepository; }
         public IRepository<PasswordResetToken, int> PasswordResetTokens { get => _passwordResetTokenRepository; }
 
         public UnitOfWork(ApplicationDbContext dbContext)
@@ -37,6 +40,7 @@ namespace LegalexAccount.DAL
             _legalRepository = new(dbContext);
             _orderRepository = new(dbContext);
             _caseRepository = new(dbContext);
+            _chatRepository = new(dbContext);
             _passwordResetTokenRepository = new(dbContext);
         }
 

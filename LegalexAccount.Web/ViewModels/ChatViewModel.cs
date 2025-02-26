@@ -2,9 +2,8 @@
 {
     public class ChatViewModel
     {
-        public string UserId { get; set; }
-        public string UserName { get; set; }
-        public bool IsOnline { get; set; }
+        public string ChatName { get; set; }
+        public List<ChatViewModel> AnotherChats { get; set; }
         public string LastMessage { get; set; }
     }
 }

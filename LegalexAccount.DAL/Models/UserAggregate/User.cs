@@ -1,4 +1,7 @@
-﻿namespace LegalexAccount.DAL.Models.UserAggregate
+﻿using LegalexAccount.DAL.Models.ChatAggregate;
+
+
+namespace LegalexAccount.DAL.Models.UserAggregate
 {
     public abstract class User : BaseEntity<Guid>
     {

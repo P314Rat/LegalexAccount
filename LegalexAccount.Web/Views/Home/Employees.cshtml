@@ -40,7 +40,7 @@
                             <div id="status-indicator-@(specialist.Email)" class="indicator @(specialist.IsOnline ? "online" : "")"></div>
                             <div class="panel-container">
                                 <a class="panel edit" asp-controller="Specialist" asp-action="EmployeeCard" asp-route-email="@specialist.Email"></a>
-                                <a class="panel message" asp-controller="Chat" asp-action="ChatCard" asp-route-email="@specialist.Email"></a>
+                                <a class="panel message" asp-controller="Home" asp-action="Chats" asp-route-email="@specialist.Email"></a>
                             </div>
                         </td>
                     </tr>

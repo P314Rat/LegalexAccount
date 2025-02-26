@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ChatViewModel
+@{
+    var chat = Model;
     ViewData["Title"] = "Чаты";
 }
 
@@ -6,18 +8,18 @@
     <!-- Список чатов -->
     <aside class="chat-sidebar">
         <h2>Чаты</h2>
-        <ul class="chat-list">
-            <li class="chat-item online">
-                <img src="/images/avatar1.jpg" alt="User" class="avatar" />
-                <span class="name">Андрей</span>
-                <span class="status-indicator"></span>
-            </li>
-            <li class="chat-item">
-                <img src="/images/avatar2.jpg" alt="User" class="avatar" />
-                <span class="name">Екатерина</span>
-                <span class="status-indicator"></span>
-            </li>
-        </ul>
+        @if (chat.AnotherChats != null && chat.AnotherChats.Count != 0)
+        {
+            <ul class="chat-list">
+                @foreach (var element in chat.AnotherChats)
+                {
+                    <li class="chat-item online">
+                        <span class="name">@element.ChatName</span>
+                        <span class="status-indicator"></span>
+                    </li>
+                }
+            </ul>
+        }
     </aside>
 
     <!-- Окно чата -->

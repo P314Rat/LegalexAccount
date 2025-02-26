@@ -58,8 +58,4 @@
     <Content Update="Views\**\*.cshtml" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Chat\" />
-  </ItemGroup>
-
 </Project>
