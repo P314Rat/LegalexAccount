@@ -1,0 +1,55 @@
+{
+  "profiles": {
+    "LegalexAccount.Presentation": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7179;http://localhost:5032",
+      "LegalexAccount.Presentation (Staging)": {
+        "commandName": "Project",
+        "launchBrowser": false,
+        "applicationUrl": "https://staging.LegalexAccount.by",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Staging"
+        }
+      },
+      "LegalexAccount.Presentation (Production)": {
+        "commandName": "Project",
+        "launchBrowser": false,
+        "applicationUrl": "https://LegalexAccount.by",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Production"
+        }
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_HTTPS_PORTS": "8081",
+        "ASPNETCORE_HTTP_PORTS": "8080"
+      },
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:14558",
+      "sslPort": 44357
+    }
+  }
+}

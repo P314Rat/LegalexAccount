@@ -1,0 +1,59 @@
+﻿using Domain.Core.UserAggregate;
+using Infrastructure.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
+
+
+namespace Infrastructure.Repositories
+{
+    public class PersonRepository : IRepository<Person, Guid>, IUserRepository<Person>
+    {
+        private readonly ApplicationDbContext _dbContext;
+
+
+        public PersonRepository(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public IQueryable<Person> AsQueryable()
+        {
+            return _dbContext.Individuals.AsQueryable();
+        }
+
+        public async Task CreateAsync(Person item)
+        {
+            await _dbContext.Individuals.AddAsync(item);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public Task DeleteByEmailAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Person?> GetByEmailAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Person?> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsExistsAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Person item)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

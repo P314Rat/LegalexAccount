@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Static/Styles/_Header.css",
+    "inputFile": "Views/Shared/_Header.scss"
+  },
+  {
+    "outputFile": "Static/Styles/_Login.css",
+    "inputFile": "Views/Shared/_Login.scss"
+  }
+]
