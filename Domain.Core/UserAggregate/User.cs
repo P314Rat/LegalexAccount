@@ -1,4 +1,7 @@
-﻿namespace Domain.Core.UserAggregate
+﻿using Domain.Core.ChatAggregate;
+
+
+namespace Domain.Core.UserAggregate
 {
     public abstract class User : BaseEntity<Guid>
     {
@@ -9,5 +12,6 @@
         public string? PhoneNumber { get; set; }
         public required string PasswordHash { get; set; }
         public required string PasswordSalt { get; set; }
+        public List<Chat>? Chats { get; set; }
     }
 }

@@ -6,5 +6,13 @@
   {
     "outputFile": "Static/Styles/_Login.css",
     "inputFile": "Views/Shared/_Login.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Clients.css",
+    "inputFile": "Views/Home/Clients.scss"
+  },
+  {
+    "outputFile": "Static/Styles/_FunctionalPanel.css",
+    "inputFile": "Views/Shared/_FunctionalPanel.scss"
   }
 ]

@@ -5,7 +5,7 @@ namespace Domain.Core.OrderAggregate
 {
     public class Order : BaseEntity<int>
     {
-        public required DateTime CreatedAt { get; set; }
+        public required DateTime CreatedAt { get; set; } // Дата
         public required ClientType ClientType { get; set; }
         public required ServiceType Service { get; set; }
         public required string Name { get; set; }

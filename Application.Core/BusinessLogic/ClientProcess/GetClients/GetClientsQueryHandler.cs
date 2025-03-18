@@ -1,4 +1,4 @@
-﻿using Application.Core.DTO;
+﻿using Application.Core.DTO.UserObject;
 using AutoMapper;
 using Domain.Core.UserAggregate;
 using Infrastructure;

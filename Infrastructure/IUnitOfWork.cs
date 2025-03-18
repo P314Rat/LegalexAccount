@@ -18,6 +18,7 @@ namespace Infrastructure
         IRepository<Order, int> Orders { get; }
         IRepository<Case, int> Cases { get; }
         IRepository<Chat, Guid> Chats { get; }
+        IRepository<Message, Guid> Messages { get; }
         IRepository<PasswordResetToken, int> PasswordResetTokens { get; }
     }
 }

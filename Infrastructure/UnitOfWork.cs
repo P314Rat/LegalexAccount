@@ -19,6 +19,7 @@ namespace Infrastructure
         private readonly OrderRepository _orderRepository;
         private readonly CaseRepository _caseRepository;
         private readonly ChatRepository _chatRepository;
+        private readonly MessageRepository _messageRepository;
         private readonly PasswordResetTokenRepository _passwordResetTokenRepository;
 
         public IUserRepository<User> Users { get => _userRepository; }
@@ -30,7 +31,7 @@ namespace Infrastructure
         public IRepository<Case, int> Cases { get => _caseRepository; }
         public IRepository<Chat, Guid> Chats { get => _chatRepository; }
         public IRepository<PasswordResetToken, int> PasswordResetTokens { get => _passwordResetTokenRepository; }
-
+        public IRepository<Message, Guid> Messages { get => _messageRepository; }
 
         public UnitOfWork(ApplicationDbContext dbContext)
         {
@@ -42,6 +43,7 @@ namespace Infrastructure
             _orderRepository = new(dbContext);
             _caseRepository = new(dbContext);
             _chatRepository = new(dbContext);
+            _messageRepository = new(dbContext);
             _passwordResetTokenRepository = new(dbContext);
         }
 

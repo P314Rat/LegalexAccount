@@ -1,31 +1,31 @@
-﻿using Application.Core.DTO;
+﻿using Application.Core.DTO.UserObject;
+using AutoMapper;
 using Infrastructure;
 using MediatR;
 
 
 namespace Application.Core.BusinessLogic.ProfileProcess.GetShortProfile
 {
-    public class GetShortProfileQueryHandler : IRequestHandler<GetShortProfileQuery, ShortProfileDTO?>
+    public class GetShortProfileQueryHandler : IRequestHandler<GetShortProfileQuery, UserDTO?>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
 
-        public GetShortProfileQueryHandler(IUnitOfWork unitOfWork)
+        public GetShortProfileQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task<ShortProfileDTO?> Handle(GetShortProfileQuery request, CancellationToken cancellationToken)
+        public async Task<UserDTO?> Handle(GetShortProfileQuery request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
-            var profile = user != null ? new ShortProfileDTO
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
-            } : null;
 
-            return profile;
+            if (user == null)
+                return null;
+
+            return _mapper.Map<UserDTO>(user);
         }
     }
 }

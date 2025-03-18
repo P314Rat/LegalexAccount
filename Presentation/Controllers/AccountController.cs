@@ -1,5 +1,5 @@
 ﻿using Application.Core.BusinessLogic.Authorization.Login;
-using Application.Core.DTO;
+using Application.Core.DTO.LoginObject;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;

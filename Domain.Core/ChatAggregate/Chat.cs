@@ -7,6 +7,5 @@ namespace Domain.Core.ChatAggregate
     {
         public required string Name { get; set; }
         public required List<User> Members { get; set; }
-        public List<Message>? Messages { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Application.Core.DTO
+﻿namespace Application.Core.DTO.UserObject
 {
     public class PersonDTO : ClientDTO
     {

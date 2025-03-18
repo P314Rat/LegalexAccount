@@ -1,4 +1,4 @@
-﻿using Application.Core.DTO;
+﻿using Application.Core.DTO.LoginObject;
 using MediatR;
 using Utilities.Types;
 

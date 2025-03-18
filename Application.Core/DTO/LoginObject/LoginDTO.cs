@@ -1,4 +1,4 @@
-﻿namespace Application.Core.DTO
+﻿namespace Application.Core.DTO.LoginObject
 {
     public class LoginDTO
     {

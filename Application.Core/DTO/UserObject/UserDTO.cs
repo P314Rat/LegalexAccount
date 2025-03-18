@@ -1,6 +1,6 @@
-﻿namespace Application.Core.DTO
+﻿namespace Application.Core.DTO.UserObject
 {
-    public abstract class UserDTO
+    public class UserDTO
     {
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }

@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ViewModels;
 using System.Data;
 
 
@@ -57,11 +58,11 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> Clients(int currentPage = 1)
         {
-            ViewData["ProfileModel"] = _shortProfileModel;
+            ViewData["ShortProfile"] = _shortProfileModel;
             ViewData["CurrentPage"] = currentPage;
 
             var clients = (await _mediator.Send(new GetClientsQuery()))
-                .OfType<ClientDTO>()
+                .Select(x => _mapper.Map<ClientProfileViewModel>(x))
                 .ToList();
 
             return View(clients);
