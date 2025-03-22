@@ -3,8 +3,12 @@ using Domain.Core.CaseAggregate;
 using Domain.Core.ChatAggregate;
 using Domain.Core.OrderAggregate;
 using Domain.Core.UserAggregate;
-using Infrastructure.Repositories;
+using Infrastructure.Repositories.AccountAggregate;
+using Infrastructure.Repositories.CaseAggregate;
+using Infrastructure.Repositories.ChatAggregate;
 using Infrastructure.Repositories.Contracts;
+using Infrastructure.Repositories.OrderAggregate;
+using Infrastructure.Repositories.UserAggregate;
 
 
 namespace Infrastructure
@@ -12,21 +16,21 @@ namespace Infrastructure
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly UserRepository _userRepository;
-        private readonly SpecialistRepository _specialistRepository;
         private readonly ClientRepository _clientRepository;
-        private readonly PersonRepository _personRepository;
+        private readonly SpecialistRepository _specialistRepository;
         private readonly LegalRepository _legalRepository;
+        private readonly PersonRepository _personRepository;
         private readonly OrderRepository _orderRepository;
         private readonly CaseRepository _caseRepository;
         private readonly ChatRepository _chatRepository;
         private readonly MessageRepository _messageRepository;
         private readonly PasswordResetTokenRepository _passwordResetTokenRepository;
 
-        public IUserRepository<User> Users { get => _userRepository; }
-        public IRepository<Specialist, Guid> Specialists { get => _specialistRepository; }
-        public IRepository<Client, Guid> Clients { get => _clientRepository; }
-        public IRepository<Person, Guid> Individuals { get => _personRepository; }
-        public IRepository<Legal, Guid> LegalEntities { get => _legalRepository; }
+        public IUserRepository<User, Guid> Users { get => _userRepository; }
+        public IUserRepository<Specialist, Guid> Specialists { get => _specialistRepository; }
+        public IUserRepository<Client, Guid> Clients { get => _clientRepository; }
+        public IUserRepository<Person, Guid> Individuals { get => _personRepository; }
+        public IUserRepository<Legal, Guid> LegalEntities { get => _legalRepository; }
         public IRepository<Order, int> Orders { get => _orderRepository; }
         public IRepository<Case, int> Cases { get => _caseRepository; }
         public IRepository<Chat, Guid> Chats { get => _chatRepository; }

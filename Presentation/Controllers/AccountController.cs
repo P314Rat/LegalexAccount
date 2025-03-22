@@ -45,23 +45,23 @@ namespace Presentation.Controllers
             return PartialView("_ForgotPassword");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> ResetPassword(string token)
-        //{
-        //    var isTokenValid = await _mediator.Send(new ResetTokenValidationQuery(token));
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(string token)
+        {
+            var isTokenValid = await _mediator.Send(new ResetTokenValidationQuery(token));
 
-        //    if (!isTokenValid)
-        //        return Content("Токен истек или не существует.");
+            if (!isTokenValid)
+                return Content("Токен истек или не существует.");
 
-        //    var email = await _mediator.Send(new GetEmailByTokenQuery(token));
+            var email = await _mediator.Send(new GetEmailByTokenQuery(token));
 
-        //    var model = new ResetPasswordViewModel
-        //    {
-        //        Email = email
-        //    };
+            var model = new ResetPasswordViewModel
+            {
+                Email = email
+            };
 
-        //    return PartialView("_ResetPassword", model);
-        //}
+            return PartialView("_ResetPassword", model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)

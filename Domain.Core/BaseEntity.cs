@@ -2,6 +2,6 @@
 {
     public abstract class BaseEntity<TId>
     {
-        public TId Id { get; set; }
+        public required TId Id { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Application.Core.Services
 {
     public static class ServiceRegistrator
     {
-        public static void AddApplicationDbContext(this IServiceCollection services, string connectionString)
+        public static void AddApplicationDbContext(this IServiceCollection services, string? connectionString)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {

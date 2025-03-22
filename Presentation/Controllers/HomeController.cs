@@ -1,6 +1,5 @@
 ﻿using Application.Core.BusinessLogic.ClientProcess.GetClients;
 using Application.Core.BusinessLogic.SpecialistProcess.GetSpecialists;
-using Application.Core.DTO;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

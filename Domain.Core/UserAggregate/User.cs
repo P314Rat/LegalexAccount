@@ -1,4 +1,5 @@
-﻿using Domain.Core.ChatAggregate;
+﻿using Domain.Core.CaseAggregate;
+using Domain.Core.ChatAggregate;
 
 
 namespace Domain.Core.UserAggregate
@@ -12,6 +13,7 @@ namespace Domain.Core.UserAggregate
         public string? PhoneNumber { get; set; }
         public required string PasswordHash { get; set; }
         public required string PasswordSalt { get; set; }
+        public List<Case>? Cases { get; set; }
         public List<Chat>? Chats { get; set; }
     }
 }

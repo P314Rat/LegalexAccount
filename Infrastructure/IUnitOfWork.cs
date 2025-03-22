@@ -10,11 +10,11 @@ namespace Infrastructure
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository<User> Users { get; }
-        IRepository<Specialist, Guid> Specialists { get; }
-        IRepository<Client, Guid> Clients { get; }
-        IRepository<Person, Guid> Individuals { get; }
-        IRepository<Legal, Guid> LegalEntities { get; }
+        IUserRepository<User, Guid> Users { get; }
+        IUserRepository<Client, Guid> Clients { get; }
+        IUserRepository<Specialist, Guid> Specialists { get; }
+        IUserRepository<Legal, Guid> LegalEntities { get; }
+        IUserRepository<Person, Guid> Individuals { get; }
         IRepository<Order, int> Orders { get; }
         IRepository<Case, int> Cases { get; }
         IRepository<Chat, Guid> Chats { get; }

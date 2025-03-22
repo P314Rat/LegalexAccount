@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
 
 
 namespace Presentation.Controllers
 {
-    public class SpecialistController : Controller
+    public class SpecialistController : BaseController
     {
-        public IActionResult Index()
+        public SpecialistController(IMediator mediator, IHttpContextAccessor httpContextAccessor) : base(mediator, httpContextAccessor)
         {
-            return View();
         }
     }
 }

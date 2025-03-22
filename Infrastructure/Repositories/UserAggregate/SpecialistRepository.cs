@@ -1,40 +1,40 @@
-﻿using Domain.Core.ChatAggregate;
+﻿using Domain.Core.UserAggregate;
 using Infrastructure.Repositories.Contracts;
 
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.UserAggregate
 {
-    public class MessageRepository : IRepository<Message, Guid>
+    public class SpecialistRepository : IUserRepository<Specialist, Guid>
     {
         private readonly ApplicationDbContext _dbContext;
 
 
-        public MessageRepository(ApplicationDbContext dbContext)
+        public SpecialistRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public IQueryable<Message?> AsQueryable()
+        public Task CreateAsync(Specialist item)
         {
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(Message item)
+        public Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteByIdAsync(Guid id)
+        public Task<Specialist?> GetAsync(string email)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Message?> GetByIdAsync(Guid id)
+        public Task<Specialist?> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Message item)
+        public Task UpdateAsync(Specialist item)
         {
             throw new NotImplementedException();
         }

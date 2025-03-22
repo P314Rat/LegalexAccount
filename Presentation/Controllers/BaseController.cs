@@ -33,8 +33,8 @@ namespace Presentation.Controllers
             if (shortProfileDTO == null)
                 throw new Exception("Authorization is wrong.");
 
-            _shortProfileModel.FirstName = shortProfileDTO.FirstName ?? string.Empty;
-            _shortProfileModel.LastName = shortProfileDTO.LastName ?? string.Empty;
+            _shortProfileModel.FirstName = shortProfileDTO.FirstName ?? throw new Exception("Authorization is wrong.");
+            _shortProfileModel.LastName = shortProfileDTO.LastName ?? throw new Exception("Authorization is wrong.");
             _shortProfileModel.Email = email;
         }
     }

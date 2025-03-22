@@ -1,11 +1,10 @@
-﻿using Domain.Core.UserAggregate;
+﻿using Domain.Core;
 
 
 namespace Infrastructure.Repositories.Contracts
 {
-    public interface IUserRepository<T> where T : User
+    public interface IUserRepository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : BaseEntity<TId>
     {
-        Task<T?> GetByEmailAsync(string email);
-        Task<bool> IsExistsAsync(string email);
+        Task<TEntity?> GetAsync(string email);
     }
 }

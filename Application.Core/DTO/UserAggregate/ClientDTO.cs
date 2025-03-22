@@ -1,6 +1,6 @@
 ﻿using Application.Core.DTO.CaseObject;
 
-namespace Application.Core.DTO.UserObject
+namespace Application.Core.DTO.UserAggreagate
 {
     public class ClientDTO : UserDTO
     {

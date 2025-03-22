@@ -1,40 +1,40 @@
-﻿using Domain.Core.ChatAggregate;
+﻿using Domain.Core.UserAggregate;
 using Infrastructure.Repositories.Contracts;
 
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Repositories.UserAggregate
 {
-    class ChatRepository : IRepository<Chat, Guid>
+    public class UserRepository : IUserRepository<User, Guid>
     {
         private readonly ApplicationDbContext _dbContext;
 
 
-        public ChatRepository(ApplicationDbContext dbContext)
+        public UserRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public IQueryable<Chat?> AsQueryable()
+        public Task CreateAsync(User item)
         {
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(Chat item)
+        public Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteByIdAsync(Guid id)
+        public Task<User?> GetAsync(string email)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Chat?> GetByIdAsync(Guid id)
+        public Task<User?> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Chat item)
+        public Task UpdateAsync(User item)
         {
             throw new NotImplementedException();
         }

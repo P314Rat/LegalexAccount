@@ -1,4 +1,4 @@
-﻿namespace Application.Core.DTO.UserObject
+﻿namespace Application.Core.DTO.UserAggreagate
 {
     public class UserDTO
     {

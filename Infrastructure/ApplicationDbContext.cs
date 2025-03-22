@@ -11,15 +11,15 @@ namespace Infrastructure
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Specialist> Specialists { get; set; }
         public DbSet<Client> Clients { get; set; }
-        public DbSet<Person> Individuals { get; set; }
+        public DbSet<Specialist> Specialists { get; set; }
         public DbSet<Legal> LegalEntities { get; set; }
+        public DbSet<Person> Individuals { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Case> Cases { get; set; }
-        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
-        public DbSet<Message> Messages { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
