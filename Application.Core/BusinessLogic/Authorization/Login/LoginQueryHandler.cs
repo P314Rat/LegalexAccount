@@ -1,7 +1,7 @@
-﻿using Application.Core.Services.Static;
-using Domain.Core.UserAggregate;
+﻿using Domain.Core.UserAggregate;
 using Infrastructure;
 using MediatR;
+using Utilities.StaticServices;
 using Utilities.Types;
 
 

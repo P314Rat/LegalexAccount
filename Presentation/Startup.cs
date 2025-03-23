@@ -20,12 +20,10 @@ namespace Presentation
         {
             services.AddApplicationDbContext(Configuration["ConnectionStrings:DefaultConnection"]);
             services.AddUnitOfWork();
-            services.AddMailService(Configuration.GetSection("MailSettings"));
             services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAutoMapper(Assembly.GetAssembly(typeof(Program)), Assembly.GetAssembly(typeof(ApplicationDbContext)));
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(ServiceRegistrator).Assembly));
-            services.AddHandlerValidator();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -64,9 +62,8 @@ namespace Presentation
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Clients}/{id?}");
+                    pattern: "{controller=Home}/{action=Orders}/{id?}");
                 endpoints.MapControllers();
-                //endpoints.MapHub<PresenceHub>("/presence");
             });
         }
     }

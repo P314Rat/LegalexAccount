@@ -2,7 +2,7 @@
 using System.Text;
 
 
-namespace Application.Core.Services.Static
+namespace Utilities.StaticServices
 {
     public static class GenerateDataService
     {
