@@ -8,11 +8,15 @@
     "inputFile": "Views/Shared/_Login.scss"
   },
   {
-    "outputFile": "Static/Styles/Clients.css",
-    "inputFile": "Views/Home/Clients.scss"
-  },
-  {
     "outputFile": "Static/Styles/_FunctionalPanel.css",
     "inputFile": "Views/Shared/_FunctionalPanel.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Orders.css",
+    "inputFile": "Views/Home/Orders.scss"
+  },
+  {
+    "outputFile": "Static/Styles/EditProfile.css",
+    "inputFile": "Views/Home/EditProfile.scss"
   }
 ]

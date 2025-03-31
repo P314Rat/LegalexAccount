@@ -22,7 +22,14 @@ namespace Presentation
             services.AddUnitOfWork();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(Program)), Assembly.GetAssembly(typeof(ApplicationDbContext)));
+
+            var assembliesToScan = new[]
+            {
+                Assembly.Load("Application.Core"),
+                Assembly.Load("Presentation")
+            };
+
+            services.AddAutoMapper(assembliesToScan);
             services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(ServiceRegistrator).Assembly));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

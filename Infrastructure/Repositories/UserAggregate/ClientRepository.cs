@@ -34,6 +34,11 @@ namespace Infrastructure.Repositories.UserAggregate
             throw new NotImplementedException();
         }
 
+        public Task<List<Client>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task UpdateAsync(Client item)
         {
             throw new NotImplementedException();

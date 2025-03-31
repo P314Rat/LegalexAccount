@@ -1,4 +1,4 @@
-﻿using Application.Core.DTO.LoginObject;
+﻿using Application.Core.DTO;
 using AutoMapper;
 using Presentation.ViewModels;
 
@@ -9,7 +9,7 @@ namespace Presentation.Mappings
     {
         public LoginMappingProfile()
         {
-            CreateMap<LoginViewModel, LoginDTO>();
+            CreateMap<LoginViewModel, LoginDTO>().ReverseMap();
         }
     }
 }

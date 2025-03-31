@@ -1,10 +1,10 @@
-﻿using Application.Core.DTO.UserObject;
+﻿using Application.Core.DTO;
 using MediatR;
 
 
 namespace Application.Core.BusinessLogic.ProfileProcess.GetShortProfile
 {
-    public class GetShortProfileQuery : IRequest<UserDTO?>
+    public class GetShortProfileQuery : IRequest<ProfileDTO?>
     {
         public string Email { get; set; }
 

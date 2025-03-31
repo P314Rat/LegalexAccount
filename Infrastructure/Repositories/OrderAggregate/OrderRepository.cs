@@ -1,5 +1,6 @@
 ﻿using Domain.Core.OrderAggregate;
 using Infrastructure.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Infrastructure.Repositories.OrderAggregate
@@ -27,6 +28,13 @@ namespace Infrastructure.Repositories.OrderAggregate
         public Task<Order?> GetAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Order>> GetAsync()
+        {
+            var result =  await _dbContext.Orders.ToListAsync();
+
+            return result;
         }
 
         public Task UpdateAsync(Order item)

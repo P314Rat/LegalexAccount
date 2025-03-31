@@ -19,15 +19,15 @@ namespace Application.Core.BusinessLogic.Authorization.Login
 
         public async Task<UserRole> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email);
+            var user = await _unitOfWork.Users.GetAsync(request.Email);
 
             if (user == null)
-                throw new Exception("Неверный Email");
+                throw new Exception("Invalid Email");
 
             var hashedPassword = GenerateDataService.GenerateHash(request.Password, user.PasswordSalt);
 
             if (user.PasswordHash != hashedPassword)
-                throw new Exception("Неверный Password");
+                throw new Exception("Invalid Password");
 
             var userRole = user switch
             {

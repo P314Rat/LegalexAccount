@@ -1,4 +1,5 @@
-﻿using Domain.Core.AccountAggregate;
+﻿using AutoMapper;
+using Domain.Core.AccountAggregate;
 using Domain.Core.CaseAggregate;
 using Domain.Core.ChatAggregate;
 using Domain.Core.OrderAggregate;
@@ -37,9 +38,9 @@ namespace Infrastructure
         public IRepository<PasswordResetToken, int> PasswordResetTokens { get => _passwordResetTokenRepository; }
         public IRepository<Message, Guid> Messages { get => _messageRepository; }
 
-        public UnitOfWork(ApplicationDbContext dbContext)
+        public UnitOfWork(ApplicationDbContext dbContext, IMapper mapper)
         {
-            _userRepository = new(dbContext);
+            _userRepository = new(dbContext, mapper);
             _specialistRepository = new(dbContext);
             _clientRepository = new(dbContext);
             _personRepository = new(dbContext);

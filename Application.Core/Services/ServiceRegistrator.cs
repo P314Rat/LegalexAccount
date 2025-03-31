@@ -23,37 +23,37 @@ namespace Application.Core.Services
             if (dbContext.Database.GetPendingMigrations().Any())
             {
                 dbContext.Database.Migrate();
+            }
 
-                if (!dbContext.Specialists.Any())
-                {
-                    var salt1 = GenerateDataService.GenerateSalt(32);
-                    var salt2 = GenerateDataService.GenerateSalt(32);
+            if (!dbContext.Specialists.Any())
+            {
+                var salt1 = GenerateDataService.GenerateSalt(32);
+                var salt2 = GenerateDataService.GenerateSalt(32);
 
-                    dbContext.Specialists.AddRange(
-                        new Specialist
-                        {
-                            Status = SpecialistStatus.Free,
-                            Role = SpecialistType.Technical,
-                            Email = "support@legalex.by",
-                            PasswordHash = GenerateDataService.GenerateHash("1234dev!", salt1),
-                            PasswordSalt = salt1,
-                            FirstName = "Тимофей",
-                            LastName = "Липницкий",
-                        },
-                        new Specialist
-                        {
-                            Status = SpecialistStatus.Free,
-                            Role = SpecialistType.Director,
-                            Email = "vv95@bk.ru",
-                            PasswordHash = GenerateDataService.GenerateHash("Peredovaya15!", salt2),
-                            PasswordSalt = salt2,
-                            FirstName = "Владислав",
-                            LastName = "Власенков",
-                        }
-                    );
+                dbContext.Specialists.AddRange(
+                    new Specialist
+                    {
+                        Status = SpecialistStatus.Free,
+                        Role = SpecialistType.Technical,
+                        Email = "support@legalex.by",
+                        PasswordHash = GenerateDataService.GenerateHash("1234dev!", salt1),
+                        PasswordSalt = salt1,
+                        FirstName = "Тимофей",
+                        LastName = "Липницкий",
+                    },
+                    new Specialist
+                    {
+                        Status = SpecialistStatus.Free,
+                        Role = SpecialistType.Director,
+                        Email = "vv95@bk.ru",
+                        PasswordHash = GenerateDataService.GenerateHash("Peredovaya15!", salt2),
+                        PasswordSalt = salt2,
+                        FirstName = "Владислав",
+                        LastName = "Власенков",
+                    }
+                );
 
-                    dbContext.SaveChanges();
-                }
+                dbContext.SaveChanges();
             }
         }
 

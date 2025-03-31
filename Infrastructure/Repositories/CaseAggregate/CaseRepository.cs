@@ -29,6 +29,11 @@ namespace Infrastructure.Repositories.CaseAggregate
             throw new NotImplementedException();
         }
 
+        public Task<List<Case>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task UpdateAsync(Case item)
         {
             throw new NotImplementedException();

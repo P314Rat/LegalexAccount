@@ -8,6 +8,7 @@ namespace Domain.Core.OrderAggregate
         public required DateTime CreatedAt { get; set; } // Дата
         public required ClientType ClientType { get; set; }
         public required ServiceType Service { get; set; }
+        public required string ClientName { get; set; }
         public required string Contact { get; set; }
         public required string Description { get; set; }
     }

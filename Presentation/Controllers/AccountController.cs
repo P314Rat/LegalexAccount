@@ -1,5 +1,5 @@
 ﻿using Application.Core.BusinessLogic.Authorization.Login;
-using Application.Core.DTO.LoginObject;
+using Application.Core.DTO;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -39,29 +39,29 @@ namespace Presentation.Controllers
             return Redirect("Login");
         }
 
-        [HttpGet]
-        public IActionResult ForgotPassword()
-        {
-            return PartialView("_ForgotPassword");
-        }
+        //[HttpGet]
+        //public IActionResult ForgotPassword()
+        //{
+        //    return PartialView("_ForgotPassword");
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> ResetPassword(string token)
-        {
-            var isTokenValid = await _mediator.Send(new ResetTokenValidationQuery(token));
+        //[HttpGet]
+        //public async Task<IActionResult> ResetPassword(string token)
+        //{
+        //    var isTokenValid = await _mediator.Send(new ResetTokenValidationQuery(token));
 
-            if (!isTokenValid)
-                return Content("Токен истек или не существует.");
+        //    if (!isTokenValid)
+        //        return Content("Токен истек или не существует.");
 
-            var email = await _mediator.Send(new GetEmailByTokenQuery(token));
+        //    var email = await _mediator.Send(new GetEmailByTokenQuery(token));
 
-            var model = new ResetPasswordViewModel
-            {
-                Email = email
-            };
+        //    var model = new ResetPasswordViewModel
+        //    {
+        //        Email = email
+        //    };
 
-            return PartialView("_ResetPassword", model);
-        }
+        //    return PartialView("_ResetPassword", model);
+        //}
 
         [HttpPost]
         public async Task<IActionResult> LoginAsync(LoginViewModel model)
@@ -82,9 +82,9 @@ namespace Presentation.Controllers
 
                 return RedirectToAction("Orders", "Home");
             }
-            catch (Exception ex)
+            catch
             {
-                ModelState.AddModelError("Email", ex.Message);
+                ModelState.AddModelError("Email", "Неверные данные для входа");
             }
 
             return PartialView("_Login", model);

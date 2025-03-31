@@ -1,5 +1,7 @@
-﻿using Domain.Core.UserAggregate;
+﻿using AutoMapper;
+using Domain.Core.UserAggregate;
 using Infrastructure.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Infrastructure.Repositories.UserAggregate
@@ -7,11 +9,13 @@ namespace Infrastructure.Repositories.UserAggregate
     public class UserRepository : IUserRepository<User, Guid>
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
 
 
-        public UserRepository(ApplicationDbContext dbContext)
+        public UserRepository(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public Task CreateAsync(User item)
@@ -24,9 +28,11 @@ namespace Infrastructure.Repositories.UserAggregate
             throw new NotImplementedException();
         }
 
-        public Task<User?> GetAsync(string email)
+        public async Task<User?> GetAsync(string email)
         {
-            throw new NotImplementedException();
+            var result = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
+
+            return result;
         }
 
         public Task<User?> GetAsync(Guid id)
@@ -34,9 +40,21 @@ namespace Infrastructure.Repositories.UserAggregate
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(User item)
+        public Task<List<User>> GetAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task UpdateAsync(User item)
+        {
+            var oldUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == item.Email);
+
+            if (oldUser == null)
+                throw new Exception("User was not found");
+
+            _mapper.Map(item, oldUser);
+            _dbContext.Users.Update(item);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

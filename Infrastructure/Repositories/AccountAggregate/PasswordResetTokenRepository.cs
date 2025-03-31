@@ -29,6 +29,11 @@ namespace Infrastructure.Repositories.AccountAggregate
             throw new NotImplementedException();
         }
 
+        public Task<List<PasswordResetToken>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task UpdateAsync(PasswordResetToken item)
         {
             throw new NotImplementedException();

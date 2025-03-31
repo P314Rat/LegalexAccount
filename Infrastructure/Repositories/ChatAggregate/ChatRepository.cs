@@ -29,6 +29,11 @@ namespace Infrastructure.Repositories.ChatAggregate
             throw new NotImplementedException();
         }
 
+        public Task<List<Chat>> GetAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task UpdateAsync(Chat item)
         {
             throw new NotImplementedException();
