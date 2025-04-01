@@ -90,7 +90,13 @@ main {
 
 /* Validation styles */
 .text-validation {
+    font-size: 16px;
     color: #d72b2b;
+}
+
+.input-validation-error {
+    border: 2px solid red; /* Красная рамка при ошибке */
+    background-color: #ffeeee; /* Легкий розовый фон */
 }
 
 @keyframes spin {

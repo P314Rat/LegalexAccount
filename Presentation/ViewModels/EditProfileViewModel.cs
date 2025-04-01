@@ -3,21 +3,49 @@
 
 namespace Presentation.ViewModels
 {
-    public class EditProfileViewModel
+    public class EditProfileViewModel : IValidatableObject
     {
+        [Required(ErrorMessage = "Это необходимое поле")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Неверный формат электронной почты")]
         public string Email { get; set; } = string.Empty;
+        public bool IsEmailChangeRequested { get; set; }
+
+
+        [Required(ErrorMessage = "Это необходимое поле")]
         public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string SurName { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Это необходимое поле")]
+        public string? LastName { get; set; }
+        public string? SurName { get; set; }
+        [Phone(ErrorMessage = "Неверный формат телефонного номера")]
+        public string? PhoneNumber { get; set; }
+
+
         [DataType(DataType.Password)]
-        public string OldPassword { get; set; } = string.Empty;
+        public string? OldPassword { get; set; }
         [DataType(DataType.Password)]
-        [MinLength(8, ErrorMessage = "Пароль должен содержать минимум 8 символов.")]
-        [MaxLength(32, ErrorMessage = "Пароль не должен превышать 32 символа.")]
-        public string NewPassword { get; set; } = string.Empty;
+        public string? NewPassword { get; set; }
         [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage = "Пароли не совпадают.")]
-        public string RepeatPassword { get; set; } = string.Empty;
+        public string? RepeatPassword { get; set; }
+        public bool IsPasswordChangeRequested { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+
+            if (IsPasswordChangeRequested)
+            {
+                if (string.IsNullOrWhiteSpace(OldPassword))
+                    errors.Add(new ValidationResult("Введите текущий пароль", [nameof(OldPassword)]));
+
+                if (string.IsNullOrWhiteSpace(NewPassword) || NewPassword.Length < 8 || NewPassword.Length > 32)
+                    errors.Add(new ValidationResult("Пароль должен содержать от 8 до 32 символов", [nameof(NewPassword)]));
+
+                if (NewPassword != RepeatPassword)
+                    errors.Add(new ValidationResult("Пароли не совпадают.", [nameof(RepeatPassword)]));
+            }
+
+            return errors;
+        }
     }
 }

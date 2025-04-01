@@ -121,7 +121,7 @@ namespace Presentation.Controllers
             ViewData["ShortProfile"] = _shortProfileModel;
 
             if (!ModelState.IsValid)
-                return View("EditProfile", model);
+                return View("EditProfile", model); 
 
             try
             {
