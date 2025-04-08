@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Specifications\AccountAggregate\" />
+    <Folder Include="Specifications\ChatAggregate\" />
+  </ItemGroup>
+
 </Project>

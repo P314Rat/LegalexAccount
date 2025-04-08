@@ -1,5 +1,6 @@
 ﻿using Domain.Core.UserAggregate;
-using Infrastructure;
+using Infrastructure.Contracts;
+using Infrastructure.Specifications.UserAggregate;
 using MediatR;
 using Utilities.StaticServices;
 using Utilities.Types;
@@ -19,16 +20,9 @@ namespace Application.Core.BusinessLogic.Authorization.Login
 
         public async Task<UserRole> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetAsync(request.Email);
-
-            if (user == null)
-                throw new Exception("Invalid Email");
-
-            var hashedPassword = GenerateDataService.GenerateHash(request.Password, user.PasswordSalt);
-
-            if (user.PasswordHash != hashedPassword)
-                throw new Exception("Invalid Password");
-
+            var user = (await _unitOfWork.Repository<User, Guid>()
+                .GetAsync(new UserByEmailSpecification(request.Model.Email))).FirstOrDefault();
+            var hashedPassword = GenerateDataService.GenerateHash(request.Model.Password, user.PasswordSalt);
             var userRole = user switch
             {
                 Specialist => (UserRole)((Specialist)user).Role,

@@ -18,5 +18,9 @@
   {
     "outputFile": "Static/Styles/EditProfile.css",
     "inputFile": "Views/Home/EditProfile.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Cases.css",
+    "inputFile": "Views/Home/Cases.scss"
   }
 ]

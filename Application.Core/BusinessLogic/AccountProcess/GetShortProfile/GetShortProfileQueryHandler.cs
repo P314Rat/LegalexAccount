@@ -1,13 +1,13 @@
 ﻿using Application.Core.DTO;
 using AutoMapper;
 using Domain.Core.UserAggregate;
-using Infrastructure;
+using Infrastructure.Specifications.UserAggregate;
 using MediatR;
 
 
 namespace Application.Core.BusinessLogic.ProfileProcess.GetShortProfile
 {
-    public class GetShortProfileQueryHandler : IRequestHandler<GetShortProfileQuery, ProfileDTO?>
+    public class GetShortProfileQueryHandler : IRequestHandler<GetShortProfileQuery, ProfileDTO>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,12 +19,10 @@ namespace Application.Core.BusinessLogic.ProfileProcess.GetShortProfile
             _mapper = mapper;
         }
 
-        public async Task<ProfileDTO?> Handle(GetShortProfileQuery request, CancellationToken cancellationToken)
+        public async Task<ProfileDTO> Handle(GetShortProfileQuery request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetAsync(request.Email);
-
-            if (user == null)
-                return null;
+            var user = (await _unitOfWork.Repository<User, Guid>()
+                .GetAsync(new UserByEmailSpecification(request.Email)))?.First();
 
             return _mapper.Map<ProfileDTO>(user);
         }

@@ -1,12 +1,17 @@
 ﻿using Application.Core.BusinessLogic.AccountProcess.EditProfile;
+using Application.Core.BusinessLogic.CaseProcess.GetCase;
 using Application.Core.BusinessLogic.OrderProcess.GetOrders;
 using Application.Core.BusinessLogic.ProfileProcess.GetShortProfile;
 using Application.Core.DTO;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Presentation.ViewModels;
+using System.Security.Claims;
+using Utilities.Types;
 
 
 namespace Presentation.Controllers
@@ -15,87 +20,62 @@ namespace Presentation.Controllers
     public class HomeController : BaseController
     {
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public HomeController(IMediator mediator, IMapper mapper, IHttpContextAccessor httpContextAccessor)
             : base(mediator, httpContextAccessor)
         {
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
+        [Authorize(Roles = "Director, Technical, Specialist")]
         [HttpGet]
         public async Task<IActionResult> Orders(int currentPage = 1)
         {
             ViewData["ShortProfile"] = _shortProfileModel;
-            ViewData["CurrentPage"] = currentPage;
+
+            const int ordersPerPage = 7;
+            var skip = (currentPage - 1) * ordersPerPage;
 
             try
             {
-                var ordersModel = (await _mediator.Send(new GetOrdersQuery())).Select(_mapper.Map<OrderViewModel>).ToList();
+                var tempResult = await _mediator.Send(new GetOrdersQuery(skip, ordersPerPage));
+                var pagesNumber = (int)Math.Ceiling(tempResult.TotalCount / (double)ordersPerPage);
+                var viewModels = tempResult.Items.Select(_mapper.Map<OrderViewModel>);
+                var result = PagedResult<OrderViewModel>.Create(viewModels, tempResult.TotalCount, tempResult.PageSize, tempResult.CurrentPage);
 
-                return View(ordersModel);
+                return View(result);
             }
             catch
             {
-                return View(new List<OrderViewModel>());
+                return BadRequest();
             }
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Cases(int currentPage = 1)
-        //{
-        //    ViewData["ProfileModel"] = _shortProfileModel; //Vanya
-        //    ViewData["CurrentPage"] = currentPage;
+        [HttpGet]
+        public async Task<IActionResult> Cases(int currentPage = 1)
+        {
+            ViewData["ShortProfile"] = _shortProfileModel;
+            ViewData["CurrentPage"] = currentPage;
 
-        //    var cases = (await _mediator.Send(new GetCasesRequest()))
-        //        .Select(x => x.ToViewModel())
-        //        .ToList();
+            //try
+            //{
+            //    var roleClaim = Enum.Parse<UserRole>(_httpContextAccessor.HttpContext?.User?.Claims
+            //                    .First(c => c.Type == ClaimTypes.Role).Value ?? "N/A");
+            //    var emailClaim = _httpContextAccessor.HttpContext?.User?.Claims
+            //                        .First(c => c.Type == ClaimTypes.Name).Value;
+            //    var cases = (await _mediator.Send(new GetCasesQuery(roleClaim, emailClaim)));
+            //    return View(cases);
+            //}
+            //catch
+            //{
+            //    return View(new List<CaseViewModel>());
+            //}
 
-        //    return View(cases);
-        //}
+            return View(new List<CaseViewModel>());
+        }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Clients(int currentPage = 1)
-        //{
-        //    ViewData["ShortProfile"] = _shortProfileModel;
-        //    ViewData["CurrentPage"] = currentPage;
-
-        //    var clients = (await _mediator.Send(new GetClientsQuery()))
-        //        .Select(x => _mapper.Map<ClientProfileViewModel>(x))
-        //        .ToList();
-
-        //    return View(clients);
-        //}
-
-        //[HttpGet]
-        //public IActionResult Calendar()
-        //{
-        //    ViewData["ProfileModel"] = _shortProfileModel;
-
-        //    return View();
-        //}
-
-        //[Authorize(Roles = "Director, Technical, Specialist")]
-        //[HttpGet]
-        //public async Task<IActionResult> Employees()
-        //{
-        //    var response = (await _mediator.Send(new GetSpecialistsQuery()))
-        //        ?.Where(x => x.Email != _shortProfileModel?.Email)
-        //        .ToList();
-
-        //    ViewData["ProfileModel"] = _shortProfileModel;
-
-        //    return View(response);
-        //}
-
-        //[HttpGet]
-        //public IActionResult Chats(string? email)
-        //{
-        //    ViewData["ProfileModel"] = _shortProfileModel;
-
-        //    return View(new ChatViewModel());
-        //}
-
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> EditProfile()
         {
@@ -121,7 +101,7 @@ namespace Presentation.Controllers
             ViewData["ShortProfile"] = _shortProfileModel;
 
             if (!ModelState.IsValid)
-                return View("EditProfile", model); 
+                return View("EditProfile", model);
 
             try
             {

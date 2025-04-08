@@ -3,15 +3,12 @@
 
 namespace Presentation.ViewModels
 {
-    public class EditProfileViewModel : IValidatableObject
+    public class EditProfileViewModel
     {
         [Required(ErrorMessage = "Это необходимое поле")]
         [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "Неверный формат электронной почты")]
         public string Email { get; set; } = string.Empty;
-        public bool IsEmailChangeRequested { get; set; }
-
-
         [Required(ErrorMessage = "Это необходимое поле")]
         public string FirstName { get; set; } = string.Empty;
         [Required(ErrorMessage = "Это необходимое поле")]

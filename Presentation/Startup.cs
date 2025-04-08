@@ -54,8 +54,7 @@ namespace Presentation
             }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
@@ -63,8 +62,38 @@ namespace Presentation
                     ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=172800");
                 }
             });
+
+            app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Перенаправление по роли
+            app.Use(async (context, next) =>
+            {
+                
+                if (context.Request.Path == "/")
+                {
+                    var user = context.User;
+
+                    if (user.Identity?.IsAuthenticated == true &&
+                        (user.IsInRole("Director") || user.IsInRole("Technical") || user.IsInRole("Specialist")))
+                    {
+                        context.Response.Redirect("/Home/Orders");
+                        return;
+                    }
+                    else
+                    {
+                        context.Response.Redirect("/Home/Cases");
+                        return;
+                    }
+                }
+
+                await next();
+            });
+
+            app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

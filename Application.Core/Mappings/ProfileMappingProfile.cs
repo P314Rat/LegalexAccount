@@ -9,7 +9,9 @@ namespace Application.Core.Mappings
     {
         public ProfileMappingProfile()
         {
-            CreateMap<ProfileDTO, User>().ReverseMap();
+            CreateMap<ProfileDTO, Specialist>().ReverseMap();
+            CreateMap<ProfileDTO, Legal>().ReverseMap();
+            CreateMap<ProfileDTO, Person>().ReverseMap();
         }
     }
 }

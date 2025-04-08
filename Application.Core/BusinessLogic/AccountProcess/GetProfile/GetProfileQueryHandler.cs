@@ -1,6 +1,7 @@
 ﻿using Application.Core.DTO;
 using AutoMapper;
-using Infrastructure;
+using Domain.Core.UserAggregate;
+using Infrastructure.Specifications.UserAggregate;
 using MediatR;
 
 
@@ -12,17 +13,18 @@ namespace Application.Core.BusinessLogic.AccountProcess.GetProfile
         private readonly IMapper _mapper;
 
 
-        public GetProfileQueryHandler(IUnitOfWork unitOfWork)
+        public GetProfileQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<ProfileDTO> Handle(GetProfileQuery request, CancellationToken cancellationToken)
         {
-            var user = await _unitOfWork.Users.GetAsync(request.Email);
-            var result = _mapper.Map<ProfileDTO>(user);
+            //var profile = _unitOfWork.Repository<User, Guid>()
+            //    .GetAsync(new UserByEmailSpecification(request.Email));
 
-            return result;
+            throw new NotImplementedException();
         }
     }
 }

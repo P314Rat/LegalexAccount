@@ -80,6 +80,11 @@ namespace Presentation.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
+                if (role == Utilities.Types.UserRole.Client)
+                {
+                    return RedirectToAction("Cases", "Home");
+                }
+
                 return RedirectToAction("Orders", "Home");
             }
             catch

@@ -1,11 +1,9 @@
 ﻿@using Utilities.Extensions
-@model List<OrderViewModel>
+@model PagedResult<OrderViewModel>
 @{
-    var orders = Model;
-    const int ordersNumber = 7;
-    var pagesRemainder = orders.Count % ordersNumber > 0 ? 1 : 0;
-    var pagesNumber = orders.Count / ordersNumber + pagesRemainder;
-    var currentPage = (int)ViewData["CurrentPage"];
+    var orders = Model.Items;
+    var currentPage = Model.CurrentPage;
+    var totalPages = Model.TotalPages;
 
     ViewData["Title"] = "Заявки";
     ViewData["Page"] = "Orders";
@@ -24,22 +22,18 @@
         <table>
             <thead>
                 <tr>
-                    <th>Принята</th>
+                    <th>Подана</th>
                     <th>Имя</th>
                     <th>Контакт</th>
                     <th>Описание</th>
                 </tr>
             </thead>
             <tbody>
-                @for (var i = 0; i < ordersNumber; i++)
+                @foreach (var currentModel in orders)
                 {
-                    var orderIndex = ordersNumber * (currentPage - 1) + i;
-
-                    if (orderIndex == orders.Count)
-                        break;
-
-                    var currentModel = orders[orderIndex];
-                    var description = currentModel.Description.Length <= 80 ? currentModel.Description : currentModel.Description.Substring(0, 80) + "...";
+                    var description = currentModel.Description.Length <= 80
+                    ? currentModel.Description
+                    : currentModel.Description.Substring(0, 80) + "...";
 
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
                         <td>@currentModel.CreatedAt.ToString("dd/MM/yyyy")</td>
@@ -47,20 +41,22 @@
                         <td>@currentModel.Contact</td>
                         <td>
                             @description
-                            <a class="panel" asp-controller="Order" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
+                            <div class="panel">
+                                <a class="inspect" asp-controller="Order" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
+                                <a class="remove" asp-controller="Order" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
 
-        @if (pagesNumber > 1)
+        @if (totalPages > 1)
         {
             <div class="pagination">
-
-                @for (var i = 0; i < pagesNumber; i++)
+                @for (var i = 1; i <= totalPages; i++)
                 {
-                    <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Orders" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
+                    <a class="@(currentPage == i ? "active" : "")" href="/Home/Orders?currentPage=@i">@i</a>
                 }
             </div>
         }
@@ -78,4 +74,4 @@ else
     <link rel="stylesheet" href="~/Styles/Orders.min.css?v=@DateTime.Now.Ticks">
 }
 
-<script src="~/Scripts/OrderManagement.js"></script>
+<script src="~/Scripts/Orders.js"></script>

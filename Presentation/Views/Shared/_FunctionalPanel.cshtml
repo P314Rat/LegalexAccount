@@ -12,11 +12,15 @@
             <div class="user-email">@Model.Email</div>
         </div>
         <div class="button-container">
-            <a class="@(page == "Orders" ? "button active" : "button")" asp-controller="Home" asp-action="Orders">Заявки</a>
-            @* <a class="@(page == "Cases" ? "button active" : "button")" asp-controller="Home" asp-action="Cases">Дела</a> *@
-            @* <a class="@(page == "Clients" ? "button active" : "button")" asp-controller="Home" asp-action="Clients">Клиенты</a> *@
+            @if (!User.IsInRole("Client"))
+            {
+                <a class="@(page == "Orders" ? "button active" : "button")" asp-controller="Home" asp-action="Orders">Заявки</a>
+            }
+
+            <a class="@(page == "Cases" ? "button active" : "button")" asp-controller="Home" asp-action="Cases">Дела</a>
+            <a class="@(page == "Clients" ? "button active" : "button")" asp-controller="Home" asp-action="Clients">Клиенты</a>
             @* <a class="@(page == "Calendar" ? "button active" : "button")" asp-controller="Home" asp-action="Calendar">Календарь</a> *@
-            @* <a class="@(page == "Specialists" ? "button active" : "button")" asp-controller="Home" asp-action="Employees">Сотрудники</a> *@
+            <a class="@(page == "Specialists" ? "button active" : "button")" asp-controller="Home" asp-action="Employees">Сотрудники</a>
             @* <a class="@(page == "Chats" ? "button active" : "button")" asp-controller="Home" asp-action="Chats">Чаты</a> *@
         </div>
     </div>

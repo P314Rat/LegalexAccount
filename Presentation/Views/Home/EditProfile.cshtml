@@ -1,36 +1,68 @@
-﻿@model EditProfileViewModel
-@{
-    var profile = Model;
-
+﻿@{
     ViewData["Title"] = "Профиль";
 }
 
 
-<div class="edit-card">
-    <form id="creation-form" asp-controller="Home" asp-action="EditProfile" method="post" asp-antiforgery="true">
-        <div class="sender-info">
-            <p>Имя:</p><div class="dotted_cursor"></div><input name="FirstName" asp-for=FirstName value="@profile?.FirstName">
-        </div>
-        <span class="text-validation" asp-validation-for="FirstName"></span>
-        <div class="sender-info">
-            <p>Фамилия:</p><div class="dotted_cursor"></div><input name="LastName" asp-for=LastName value="@profile?.LastName">
-        </div>
-        <span class="text-validation" asp-validation-for="LastName"></span>
-        <div class="sender-info">
-            <p class="sender-info">Отчество:</p><div class="dotted_cursor"></div><input name="SurName" asp-for=SurName value="@profile?.SurName">
-        </div>
+<div class="edit-profile">
+    @* <form id="change-email" asp-controller="Home" asp-action="EditProfile" method="post" asp-antiforgery="true">
         <div class="sender-info">
             <p class="sender-info">Email:</p><div class="dotted_cursor"></div><input name="Email" asp-for=Email value="@profile?.Email">
         </div>
         <span class="text-validation" asp-validation-for="Email"></span>
-        <div class="sender-info">
-            <p class="sender-info">Телефон:</p><div class="dotted_cursor"></div><input name="PhoneNumber" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+        <div class="button-container">
+            <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
         </div>
+    </form> *@
+
+    @* <form id="creation-form" asp-controller="Home" asp-action="EditProfile" method="post" asp-antiforgery="true">
+        <label>Основная информация</label>
+        <div class="info-container">
+            <div class="sender-info">
+                <p>Фамилия:</p><input name="LastName" asp-for=LastName value="@profile?.LastName">
+            </div>
+            <span class="text-validation" asp-validation-for="LastName"></span>
+            <div class="sender-info">
+                <p>Имя:</p><input name="FirstName" asp-for=FirstName value="@profile?.FirstName">
+            </div>
+            <span class="text-validation" asp-validation-for="FirstName"></span>
+            <div class="sender-info">
+                <p class="sender-info">Отчество:</p><input name="SurName" asp-for=SurName value="@profile?.SurName">
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Телефон:</p><div class="dotted_cursor"></div><input name="PhoneNumber" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+            </div>
+
+        </div>
+
+        @if (User.IsInRole("Client"))
+        {
+            <label>Основная информация</label>
+            <div class="info-container">
+                <div class="sender-info">
+                    <p>Полное наименование организации:</p><input name="LastName" asp-for=LastName value="@profile?.LastName">
+                </div>
+                <span class="text-validation" asp-validation-for="LastName"></span>
+                <div class="sender-info">
+                    <p>Имя:</p><input name="FirstName" asp-for=FirstName value="@profile?.FirstName">
+                </div>
+                <span class="text-validation" asp-validation-for="FirstName"></span>
+                <div class="sender-info">
+                    <p class="sender-info">Отчество:</p><input name="SurName" asp-for=SurName value="@profile?.SurName">
+                </div>
+                <div class="sender-info">
+                    <p class="sender-info">Телефон:</p><input name="PhoneNumber" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+                </div>
+                <div class="sender-info">
+                    <p class="sender-info">Email:</p><input name="Email" asp-for=Email value="@profile?.Email">
+                </div>
+                <span class="text-validation" asp-validation-for="Email"></span>
+            </div>
+        }
 
         <div class="checkbox-container">
             <p>Сменить пароль</p><input id="checkbox" type="checkbox" name="IsPasswordChangeRequested" asp-for=IsPasswordChangeRequested onchange="togglePasswordFields(this)">
         </div>
-        <div class="password-section text-disabled">
+        <div class="info-container password-section text-disabled">
             <div class="sender-info">
                 <p class="sender-info">Старый пароль:</p>
                 <div class="pass-container">
@@ -56,7 +88,7 @@
     </form>
     <div class="button-container">
         <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
-    </div>
+    </div> *@
 </div>
 
 @await Html.PartialAsync("_ModelValidation")

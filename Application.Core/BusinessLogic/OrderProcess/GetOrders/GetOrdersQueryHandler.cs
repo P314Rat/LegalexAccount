@@ -1,12 +1,14 @@
 ﻿using Application.Core.DTO;
 using AutoMapper;
-using Infrastructure;
+using Domain.Core.OrderAggregate;
+using Infrastructure.Specifications.OrderAggregate;
 using MediatR;
+using Utilities.Types;
 
 
 namespace Application.Core.BusinessLogic.OrderProcess.GetOrders
 {
-    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, List<OrderDTO>>
+    public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, PagedResult<OrderDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -18,10 +20,13 @@ namespace Application.Core.BusinessLogic.OrderProcess.GetOrders
             _mapper = mapper;
         }
 
-        public async Task<List<OrderDTO>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResult<OrderDTO>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _unitOfWork.Orders.GetAsync();
-            var result = orders.Select(_mapper.Map<OrderDTO>).ToList();
+            var totalOrdersCount = await _unitOfWork.Repository<Order, int>().CountAsync();
+            var orders = (await _unitOfWork.Repository<Order, int>()
+                .GetAsync(new OrderSpecification(request.Skip, request.Take)))
+                .Select(_mapper.Map<OrderDTO>);
+            var result = PagedResult<OrderDTO>.Create(orders, totalOrdersCount, request.Take, request.Skip / request.Take + 1);
 
             return result;
         }
