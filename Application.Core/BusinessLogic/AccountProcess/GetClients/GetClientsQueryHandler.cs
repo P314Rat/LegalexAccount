@@ -26,9 +26,6 @@ namespace Application.Core.BusinessLogic.AccountProcess.GetClients
             var clients = (await _unitOfWork.Repository<Client, Guid>()
                 .GetAsync(new ClientSpecification(request.Skip, request.Take)))
                 .Select(_mapper.Map<ProfileDTO>);
-
-            var test = clients.ToList();
-
             var result = PagedResult<ProfileDTO>.Create(clients, totalClientsCount, request.Take, request.Skip / request.Take + 1);
 
             return result;

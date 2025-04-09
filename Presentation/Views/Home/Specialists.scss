@@ -1,29 +1,12 @@
-﻿.clients {
+﻿.specialists {
     position: relative;
     width: 100%;
     height: 100%;
     padding: 1rem 0;
 
-    .header-panel {
-        display: flex;
-        justify-content: space-between;
+    h2 {
+        font-weight: 600;
         margin-bottom: 2rem;
-
-        h2 {
-            font-weight: 600;
-        }
-
-        .create-client {
-            padding: .5rem 2rem;
-            color: white;
-            background-color: rgba(23, 103, 179, 0.8);
-            border-radius: 5px;
-            text-decoration: none;
-
-            &:hover {
-                background-color: rgba(23, 103, 179, 0.5);
-            }
-        }
     }
 
     table {
@@ -45,6 +28,12 @@
             background-color: rgba(23, 103, 179, 0.8);
             border-top: 1px solid #ddd;
             overflow: auto;
+        }
+
+        thead {
+            tr th:last-child {
+                width: 28rem;
+            }
         }
 
         tr th:first-child, tr td:first-child {
@@ -72,6 +61,7 @@
                 background-color: #dbdbdb;
             }
         }
+
 
         tbody tr.m-panel td {
             position: relative;
@@ -189,41 +179,5 @@
         bottom: 1rem;
         left: 1rem;
         font-weight: 600;
-    }
-
-    .loader {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.25);
-        backdrop-filter: blur(5px);
-
-
-        &-animation {
-            height: 6rem;
-            width: 6rem;
-            border-radius: 50%;
-            border-width: 8px;
-            border-style: solid;
-            border-color: #4282bf;
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
-
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        }
     }
 }

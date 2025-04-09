@@ -68,8 +68,8 @@
             .panel {
                 position: absolute;
                 top: calc(50% - 1rem);
-                right: -5.5rem;
-                width: 4.5rem;
+                right: -5.25rem;
+                width: 4.15rem;
                 height: 2rem;
                 animation: appearing .5s;
                 display: flex;
@@ -81,6 +81,7 @@
 
                 .remove {
                     background-image: url('/Images/remove.svg');
+                    background-position: -3px 3px;
                 }
 
                 a {
@@ -107,7 +108,7 @@
 
                 100% {
                     opacity: 1;
-                    right: -5.5rem;
+                    right: -5.25rem;
                 }
             }
         }

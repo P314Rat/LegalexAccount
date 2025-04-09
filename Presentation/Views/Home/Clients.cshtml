@@ -42,6 +42,7 @@
                             @client?.Type?.GetDisplayName()
                             <div class="panel">
                                 <a class="inspect" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client?.Email"></a>
+                                <a class="chat" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client?.Email"></a>
                                 <a class="remove" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client?.Email"></a>
                             </div>
                         </td>

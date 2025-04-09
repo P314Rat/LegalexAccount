@@ -1,0 +1,74 @@
+﻿@using Utilities.Extensions
+@model PagedResult<SpecialistViewModel>
+@{
+    var specialists = Model.Items;
+    var currentPage = Model.CurrentPage;
+    var totalPages = Model.TotalPages;
+
+    ViewData["Title"] = "Специалисты";
+    ViewData["Page"] = "Specialists";
+}
+
+
+<div class="specialists">
+    <h2>Специалисты</h2>
+
+    @if (specialists.Count == 0)
+    {
+        <span>У вас нет специалистов.</span>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Email</th>
+                    <th>Тип</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var specialist in specialists)
+                {
+                    <tr class="with-management-panel" onclick="CallManagementPanel(this)">
+                        <td>@specialist.FirstName</td>
+                        <td>@specialist.LastName</td>
+                        <td>@specialist.Email</td>
+                        <td>
+                            @specialist?.Type.GetDisplayName()
+                            <div class="panel">
+                                <a class="inspect" asp-controller="Client" asp-action="ClientCard" asp-route-email="@specialist?.Email"></a>
+                                <a class="chat" asp-controller="Client" asp-action="ClientCard" asp-route-email="@specialist?.Email"></a>
+                                <a class="remove" asp-controller="Client" asp-action="ClientCard" asp-route-email="@specialist?.Email"></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (totalPages > 1)
+        {
+            <div class="pagination">
+                @for (var i = 1; i <= totalPages; i++)
+                {
+                    <a class="@(currentPage == i ? "active" : "")" href="/Home/Specialists?currentPage=@i">@i</a>
+                }
+            </div>
+        }
+
+        <span class="hint">* Нажмите на специалиста, чтобы узнать подробности.</span>
+    }
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Specialists.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Specialists.min.css?v=@DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/Specialists.js"></script>
