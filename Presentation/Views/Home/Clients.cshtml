@@ -1,7 +1,7 @@
 ﻿@using Utilities.Types
 @model PagedResult<ClientViewModel>
 @{
-    var profiles = Model.Items;
+    var clients = Model.Items;
     var currentPage = Model.CurrentPage;
     var totalPages = Model.TotalPages;
 
@@ -16,7 +16,7 @@
         <a class="create-client" asp-controller="Client" asp-action="CreateClient">Создать клиента</a>
     </div>
 
-    @if (profiles.Count == 0)
+    @if (clients.Count == 0)
     {
         <span>У вас нет клиентов.</span>
     }
@@ -25,20 +25,25 @@
         <table>
             <thead>
                 <tr>
+                    <th>Организация</th>
                     <th>Имя</th>
                     <th>Фамилия</th>
                     <th>Тип клиента</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var client in profiles)
+                @foreach (var client in clients)
                 {
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
-                        <td>Имя</td>
-                        <td>Фамилия</td>
+                        <td>@client.OrganizationName</td>
+                        <td>@client.FirstName</td>
+                        <td>@client.LastName</td>
                         <td>
-                            Тип клиента
-                            <a class="panel" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client.Email"></a>
+                            @client?.Type?.GetDisplayName()
+                            <div class="panel">
+                                <a class="inspect" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client?.Email"></a>
+                                <a class="remove" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client?.Email"></a>
+                            </div>
                         </td>
                     </tr>
                 }

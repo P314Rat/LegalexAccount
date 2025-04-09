@@ -53,7 +53,10 @@
                         </td>
                         <td>
                             @(isLegalModel ? ClientType.Legal.GetDisplayName() : ClientType.Person.GetDisplayName())
-                            <a class="panel" asp-controller="Client" asp-action="ClientCard" asp-route-email="@currentModel.Email"></a>
+                            <div class="panel">
+                                <a class="inspect" asp-controller="Client" asp-action="ClientCard" asp-route-email="@currentModel.Email"></a>
+                                <a class="remove" asp-controller="Client" asp-action="ClientCard" asp-route-email="@currentModel.Email"></a>
+                            </div>
                         </td>
                     </tr>
                 }

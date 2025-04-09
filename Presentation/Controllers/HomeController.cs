@@ -1,4 +1,5 @@
 ﻿using Application.Core.BusinessLogic.AccountProcess.EditProfile;
+using Application.Core.BusinessLogic.AccountProcess.GetClients;
 using Application.Core.BusinessLogic.OrderProcess.GetOrders;
 using Application.Core.BusinessLogic.ProfileProcess.GetShortProfile;
 using Application.Core.DTO;
@@ -17,6 +18,7 @@ namespace Presentation.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+
 
         public HomeController(IMediator mediator, IMapper mapper, IHttpContextAccessor httpContextAccessor)
             : base(mediator, httpContextAccessor)
@@ -60,10 +62,10 @@ namespace Presentation.Controllers
 
             try
             {
-                var tempResult = await _mediator.Send(new GetOrdersQuery(skip, clientsPerPage));
+                var tempResult = await _mediator.Send(new GetClientsQuery(skip, clientsPerPage));
                 var pagesNumber = (int)Math.Ceiling(tempResult.TotalCount / (double)clientsPerPage);
-                var viewModels = tempResult.Items.Select(_mapper.Map<OrderViewModel>);
-                var result = PagedResult<OrderViewModel>.Create(viewModels, tempResult.TotalCount, tempResult.PageSize, tempResult.CurrentPage);
+                var viewModels = tempResult.Items.Select(_mapper.Map<ClientViewModel>);
+                var result = PagedResult<ClientViewModel>.Create(viewModels, tempResult.TotalCount, tempResult.PageSize, tempResult.CurrentPage);
 
                 return View(result);
             }

@@ -1,9 +1,13 @@
-﻿namespace Presentation.ViewModels
+﻿using Utilities.Types;
+
+namespace Presentation.ViewModels
 {
     public class ClientViewModel
     {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+        public ClientType? Type { get; set; }
+        public string? OrganizationName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Email { get; set; }
     }
 }

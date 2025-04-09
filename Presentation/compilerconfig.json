@@ -26,5 +26,9 @@
   {
     "outputFile": "Static/Styles/Calendar.css",
     "inputFile": "Views/Home/Calendar.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Clients.css",
+    "inputFile": "Views/Home/Clients.scss"
   }
 ]

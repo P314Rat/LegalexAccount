@@ -7,13 +7,13 @@ using MediatR;
 
 namespace Application.Core.BusinessLogic.AccountProcess.GetProfile
 {
-    public class GetProfileQueryHandler : IRequestHandler<GetProfileQuery, ProfileDTO>
+    public class GetProfilesQueryHandler : IRequestHandler<GetProfileQuery, ProfileDTO>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
 
-        public GetProfileQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetProfilesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
