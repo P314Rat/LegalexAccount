@@ -1,0 +1,71 @@
+﻿@using Utilities.Types
+@model PagedResult<ClientViewModel>
+@{
+    var profiles = Model.Items;
+    var currentPage = Model.CurrentPage;
+    var totalPages = Model.TotalPages;
+
+    ViewData["Title"] = "Клиенты";
+    ViewData["Page"] = "Clients";
+}
+
+
+<div class="clients">
+    <div class="header-panel">
+        <h2>Клиенты</h2>
+        <a class="create-client" asp-controller="Client" asp-action="CreateClient">Создать клиента</a>
+    </div>
+
+    @if (profiles.Count == 0)
+    {
+        <span>У вас нет клиентов.</span>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Тип клиента</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var client in profiles)
+                {
+                    <tr class="with-management-panel" onclick="CallManagementPanel(this)">
+                        <td>Имя</td>
+                        <td>Фамилия</td>
+                        <td>
+                            Тип клиента
+                            <a class="panel" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client.Email"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (totalPages > 1)
+        {
+            <div class="pagination">
+                @for (var i = 1; i <= totalPages; i++)
+                {
+                    <a class="@(currentPage == i ? "active" : "")" href="/Home/Clients?currentPage=@i">@i</a>
+                }
+            </div>
+        }
+
+        <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
+    }
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Clients.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Clients.min.css?v=@DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/Clients.js"></script>

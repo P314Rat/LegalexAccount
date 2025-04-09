@@ -123,16 +123,16 @@ main {
     backdrop-filter: blur(5px);
 }
 
-.loader .loader-animation {
-    height: 6rem;
-    width: 6rem;
-    border-radius: 50%;
-    border-width: 8px;
-    border-style: solid;
-    border-color: #4282bf;
-    border-top-color: transparent;
-    animation: spin 1s linear infinite;
-}
+    .loader .loader-animation {
+        height: 6rem;
+        width: 6rem;
+        border-radius: 50%;
+        border-width: 8px;
+        border-style: solid;
+        border-color: #4282bf;
+        border-top-color: transparent;
+        animation: spin 1s linear infinite;
+    }
 
 /* ============================= */
 /* RESPONSIVE DESIGN */
@@ -167,6 +167,88 @@ main {
         max-width: 1280px;
     }
 }
+
+/* Стили для FullCalendar */
+.fc {
+    font-family: Arial, sans-serif; /* Шрифт, который используется на сайте */
+    background-color: #f9f9f9; /* Фон календаря */
+}
+
+.fc-button-active {
+    background-color: #2d3e50 !important; /* Цвет фона для заголовка */
+}
+
+.fc-today-button {
+    background-color: #2d3e50 !important; /* Цвет фона для заголовка */
+}
+
+    .fc-today-button:hover {
+        background-color: #0b3962 !important;
+    }
+/* Стиль заголовка месяца/недели/дня */
+.fc-header-toolbar {
+    background-color: rgba(23, 103, 179, 0.8); /* Цвет фона для заголовка */
+    color: white; /* Белый текст */
+    border-radius: 5px 5px 0 0;
+}
+
+.fc-prev-button, .fc-next-button {
+    border-color: #1767b2 !important;
+}
+
+.fc-button {
+    border: none !important;
+    background-color: rgba(23, 103, 179, 0.8);
+    color: white;
+}
+
+    .fc-button:hover {
+        background-color: rgba(23, 103, 179, 0.5) !important;
+    }
+
+    .fc-button.fc-button-primary {
+        background-color: rgba(23, 103, 179, 0.7);
+    }
+
+/* Стили для дня */
+.fc-daygrid-day {
+    background-color: #fff; /* Белый фон для ячеек дней */
+    border: 1px solid #ccc;
+}
+
+    /* Стили для текущего дня */
+    .fc-daygrid-day.fc-day-today {
+        background-color: rgba(23, 103, 179, 0.1);
+        border: 1px solid #1767b3;
+    }
+
+/* Стили для событий */
+.fc-event {
+    background-color: #1767b3;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+    .fc-event:hover {
+        background-color: #0a56a1;
+    }
+
+/* Календарь в мобильной версии */
+@media (max-width: 768px) {
+    .fc-header-toolbar {
+        font-size: 0.9rem; /* Уменьшаем шрифт для маленьких экранов */
+    }
+
+    .fc-button {
+        padding: 0.4rem 1rem; /* Уменьшаем размер кнопок */
+    }
+
+    .fc-daygrid-day {
+        padding: 0.5rem; /* Уменьшаем размер ячеек */
+    }
+}
+
 
 /* Footer */
 footer {

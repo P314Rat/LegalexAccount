@@ -1,0 +1,16 @@
+﻿@charset "UTF-8";
+.calendar {
+  position: relative;
+  width: 100%; /* Ширина по умолчанию на 100% */
+  max-width: 1200px; /* Ограничиваем максимальную ширину */
+  max-height: 45rem; /* Максимальная высота */
+  height: 100%; /* Растягиваем по высоте */
+  margin: 0 auto; /* Центрируем */
+  padding: 1rem 0;
+  overflow: hidden; /* Если контент выходит за пределы, скрываем */
+}
+
+#calendar {
+  width: 100%;
+  height: 100%;
+}
