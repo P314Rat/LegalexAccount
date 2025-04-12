@@ -11,18 +11,24 @@ namespace Presentation.Mappings
         public ProfileMappingProfile()
         {
             CreateMap<ProfileDTO, ClientViewModel>()
-                .ForMember(dest => dest.Type,
-                    opt => opt.MapFrom(src =>
+                .ForMember(dst => dst.Type,
+                    opt => opt
+                    .MapFrom(src =>
                         !string.IsNullOrWhiteSpace(src.OrganizationName)
                             ? ClientType.Legal
                             : ClientType.Person))
+                .ForMember(dst => dst.Client,
+                        opt => opt
+                        .MapFrom(src => $"{src.FirstName} {src.LastName}")
+                        )
                 .ReverseMap();
             CreateMap<ProfileDTO, SpecialistViewModel>()
-                .ForMember(dest => dest.Type,
-                    opt => opt.MapFrom(src =>
-                        !string.IsNullOrWhiteSpace(src.OrganizationName)
-                            ? ClientType.Legal
-                            : ClientType.Person))
+                .ForMember(dst => dst.Type,
+                    opt => opt.MapFrom(src => src.Role))
+                .ForMember(dst => dst.Employee,
+                        opt => opt
+                        .MapFrom(src => $"{src.FirstName} {src.LastName}")
+                        )
                 .ReverseMap();
             CreateMap<EditProfileViewModel, ProfileDTO>().ReverseMap()
                 .ForAllMembers(opt => opt.NullSubstitute(string.Empty));

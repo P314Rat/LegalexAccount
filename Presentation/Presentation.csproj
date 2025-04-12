@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <Compile Remove="Hubs\**" />
+    <Compile Remove="Static\MessageTemplates\**" />
     <Content Remove="Hubs\**" />
+    <Content Remove="Static\MessageTemplates\**" />
     <EmbeddedResource Remove="Hubs\**" />
+    <EmbeddedResource Remove="Static\MessageTemplates\**" />
     <None Remove="Hubs\**" />
+    <None Remove="Static\MessageTemplates\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -91,10 +95,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Application.Core\Application.Core.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Static\MessageTemplates\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -26,8 +26,8 @@
             <thead>
                 <tr>
                     <th>Организация</th>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
+                    <th>Клиент</th>
+                    <th>Электронная почта</th>
                     <th>Тип клиента</th>
                 </tr>
             </thead>
@@ -36,10 +36,10 @@
                 {
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
                         <td>@client.OrganizationName</td>
-                        <td>@client.FirstName</td>
-                        <td>@client.LastName</td>
+                        <td>@client.Client</td>
+                        <td>@client.Email</td>
                         <td>
-                            @client?.Type?.GetDisplayName()
+                            @client?.Type.GetDisplayName()
                             <div class="panel">
                                 <a class="inspect" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client?.Email"></a>
                                 <a class="chat" asp-controller="Client" asp-action="ClientCard" asp-route-email="@client?.Email"></a>
