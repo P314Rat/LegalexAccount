@@ -23,7 +23,7 @@ namespace Application.Core.BusinessLogic.AccountProcess.GetSpecialists
 
         public async Task<PagedResult<ProfileDTO>> Handle(GetSpecialistsQuery request, CancellationToken cancellationToken)
         {
-            var totalSpecialistsCount = await _unitOfWork.Repository<Specialist, Guid>().CountAsync();
+            var totalSpecialistsCount = await _unitOfWork.Repository<Specialist, Guid>().CountAsync(new SpecialistSpecification(request.Skip, request.Take));
             var specialists = (await _unitOfWork.Repository<Specialist, Guid>()
                 .GetAsync(new SpecialistSpecification(request.Skip, request.Take)))
                 .Select(_mapper.Map<ProfileDTO>);

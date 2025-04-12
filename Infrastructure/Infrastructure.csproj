@@ -7,6 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Specifications\AccountAggregate\**" />
+    <Compile Remove="Specifications\ChatAggregate\**" />
+    <EmbeddedResource Remove="Specifications\AccountAggregate\**" />
+    <EmbeddedResource Remove="Specifications\ChatAggregate\**" />
+    <None Remove="Specifications\AccountAggregate\**" />
+    <None Remove="Specifications\ChatAggregate\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Azure.Identity" Version="1.13.2" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
@@ -21,11 +30,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Specifications\AccountAggregate\" />
-    <Folder Include="Specifications\ChatAggregate\" />
   </ItemGroup>
 
 </Project>

@@ -59,7 +59,7 @@
   position: absolute;
   top: calc(50% - 1rem);
   right: -5.25rem;
-  width: 4.15rem;
+  width: 4.25rem;
   height: 2rem;
   animation: appearing 0.5s;
   display: flex;
@@ -70,7 +70,7 @@
 }
 .orders table tbody tr.m-panel td .panel .remove {
   background-image: url("/Images/remove.svg");
-  background-position: -3px 3px;
+  background-position: -2px 3px;
 }
 .orders table tbody tr.m-panel td .panel a {
   position: relative;

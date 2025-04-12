@@ -1,7 +1,7 @@
-﻿using Domain.Core.OrderAggregate;
+﻿using Domain.Core.CaseAggregate;
+using Domain.Core.OrderAggregate;
 using Domain.Core.UserAggregate;
 using Infrastructure;
-using Infrastructure.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Utilities.StaticServices;
@@ -251,10 +251,102 @@ namespace Application.Core.Services
                         Contact = "+375295556677",
                         Description = "Проверка нотариального соглашения."
                     }
-                );
+                    );
 
                 dbContext.SaveChanges();
             }
+
+            if (!dbContext.Cases.Any())
+            {
+                var clients = dbContext.Clients.Take(4).ToList();
+
+                dbContext.Cases.AddRange(
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-10),
+                        EstimatedDaysToEnd = 15,
+                        Customer = clients[0],
+                        Description = "Согласование договора аренды",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-5),
+                        EstimatedDaysToEnd = 20,
+                        Customer = clients[1],
+                        Description = "Юридическая помощь при расторжении брака",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now,
+                        EstimatedDaysToEnd = 10,
+                        Customer = clients[2],
+                        Description = "Регистрация новой компании",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-3),
+                        EstimatedDaysToEnd = 5,
+                        Customer = clients[3],
+                        Description = "Подготовка искового заявления",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-20),
+                        EstimatedDaysToEnd = 30,
+                        Customer = clients[0],
+                        Description = "Анализ рисков сделки",
+                        IsArchived = true,
+                        ArchivedAt = DateTime.Now.AddDays(-5)
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-15),
+                        EstimatedDaysToEnd = 7,
+                        Customer = clients[1],
+                        Description = "Составление устава для юр. лица",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-7),
+                        EstimatedDaysToEnd = 14,
+                        Customer = clients[2],
+                        Description = "Налоговое консультирование",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-2),
+                        EstimatedDaysToEnd = 21,
+                        Customer = clients[3],
+                        Description = "Проверка юридической чистоты недвижимости",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now.AddDays(-1),
+                        EstimatedDaysToEnd = 10,
+                        Customer = clients[0],
+                        Description = "Сопровождение сделки купли-продажи",
+                        IsArchived = false
+                    },
+                    new Case
+                    {
+                        StartDate = DateTime.Now,
+                        EstimatedDaysToEnd = 25,
+                        Customer = clients[1],
+                        Description = "Юридическая защита в суде",
+                        IsArchived = false
+                    }
+                    );
+
+                dbContext.SaveChanges();
+            }
+
         }
 
         public static void AddUnitOfWork(this IServiceCollection services)

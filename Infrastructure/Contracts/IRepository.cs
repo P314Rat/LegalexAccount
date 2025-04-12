@@ -9,6 +9,6 @@ namespace Infrastructure.Contracts
         Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity> specification);
         Task UpdateAsync(TEntity updatedEntity, ISpecification<TEntity> specification);
         Task DeleteAsync(ISpecification<TEntity> specification);
-        Task<int> CountAsync();
+        Task<int> CountAsync(ISpecification<TEntity>? specification);
     }
 }

@@ -29,21 +29,21 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var currentModel in orders)
+                @foreach (var order in orders)
                 {
-                    var description = currentModel.Description.Length <= 80
-                    ? currentModel.Description
-                    : currentModel.Description.Substring(0, 80) + "...";
+                    var description = order.Description.Length <= 80
+                    ? order.Description
+                    : order.Description.Substring(0, 80) + "...";
 
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
-                        <td>@currentModel.CreatedAt.ToString("dd/MM/yyyy")</td>
-                        <td>@currentModel.ClientName</td>
-                        <td>@currentModel.Contact</td>
+                        <td>@order.CreatedAt.ToString("dd/MM/yyyy")</td>
+                        <td>@order.ClientName</td>
+                        <td>@order.Contact</td>
                         <td>
                             @description
                             <div class="panel">
-                                <a class="inspect" asp-controller="Order" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
-                                <a class="remove" asp-controller="Order" asp-action="OrderCard" asp-route-id="@currentModel.Id"></a>
+                                <a class="inspect" asp-controller="Order" asp-action="OrderCard" asp-route-id="@order.Id"></a>
+                                <a class="remove" asp-controller="Order" asp-action="OrderCard" asp-route-id="@order.Id"></a>
                             </div>
                         </td>
                     </tr>

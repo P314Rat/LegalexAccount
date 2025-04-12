@@ -1,10 +1,8 @@
-﻿@model List<CaseViewModel>
+﻿@model PagedResult<CaseViewModel>
 @{
-    var cases = Model;
-    const int casesNumber = 7;
-    var pagesRemainder = cases.Count % casesNumber > 0 ? 1 : 0;
-    var pagesNumber = cases.Count / casesNumber + pagesRemainder;
-    var currentPage = (int)ViewData["CurrentPage"];
+    var cases = Model.Items;
+    var currentPage = Model.CurrentPage;
+    var totalPages = Model.TotalPages;
 
     ViewData["Title"] = "Дела";
     ViewData["Page"] = "Cases";
@@ -19,52 +17,46 @@
 
     @if (cases.Count == 0)
     {
-        <span class="empty-page">У вас нет дел.</span>
+        <span>У вас нет дел.</span>
     }
     else
     {
         <table>
             <thead>
                 <tr>
-                    <th>Дата создания</th>
-                    <th>Оценка(дни)</th>
-                    <th>Описание</th>
+                    <th>Номер дела</th>
                     <th>Клиент</th>
+                    <th>Описание</th>
                 </tr>
             </thead>
             <tbody>
-                @for (var i = 0; i < casesNumber; i++)
+                @foreach (var _case in cases)
                 {
-                    var orderIndex = casesNumber * (currentPage - 1) + i;
-
-                    if (orderIndex == cases.Count)
-                        break;
-
-                    var currentModel = cases[orderIndex];
-                    var description = currentModel.Description.Length <= 80 ? currentModel.Description : currentModel.Description.Substring(0, 80) + "...";
+                    var description = _case.Description.Length <= 80
+                    ? _case.Description
+                    : _case.Description.Substring(0, 80) + "...";
 
                     <tr class="with-management-panel" onclick="CallManagementPanel(this)">
-                        <td>@currentModel.StartDate.ToString("dd.MM.yy")</td>
-                        <td>@currentModel.EstimatedDaysToEnd</td>
+                        <td>@_case.Id</td>
+                        <td>@_case.Customer</td>
                         <td>
-                            @currentModel.Description
-                        </td>
-                        <td>
-                            @currentModel.Customer.Text
-                            <a class="panel" asp-controller="Case" asp-action="CaseCard" asp-route-id="@currentModel.Id"></a>
+                            @description
+                            <div class="panel">
+                                <a class="inspect" asp-controller="Order" asp-action="OrderCard" asp-route-id="@_case.Id"></a>
+                                <a class="remove" asp-controller="Order" asp-action="OrderCard" asp-route-id="@_case.Id"></a>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
 
-        @if (pagesNumber > 1)
+        @if (totalPages > 1)
         {
             <div class="pagination">
-
-                @for (var i = 0; i < pagesNumber; i++)
+                @for (var i = 1; i <= totalPages; i++)
                 {
-                    <a class="@(currentPage == i + 1 ? "active" : "")" asp-controller="Home" asp-action="Orders" asp-route-currentPage="@(i + 1)">@(i + 1)</a>
+                    <a class="@(currentPage == i ? "active" : "")" asp-controller="Home" asp-action="Cases" asp-route-currentPage="@i">@i</a>
                 }
             </div>
         }

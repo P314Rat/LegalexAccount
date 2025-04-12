@@ -22,7 +22,7 @@ namespace Application.Core.BusinessLogic.AccountProcess.GetClients
 
         public async Task<PagedResult<ProfileDTO>> Handle(GetClientsQuery request, CancellationToken cancellationToken)
         {
-            var totalClientsCount = await _unitOfWork.Repository<Client, Guid>().CountAsync();
+            var totalClientsCount = await _unitOfWork.Repository<Client, Guid>().CountAsync(new ClientSpecification(request.Skip, request.Take));
             var clients = (await _unitOfWork.Repository<Client, Guid>()
                 .GetAsync(new ClientSpecification(request.Skip, request.Take)))
                 .Select(_mapper.Map<ProfileDTO>);

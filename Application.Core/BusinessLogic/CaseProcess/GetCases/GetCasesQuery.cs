@@ -1,21 +1,22 @@
 ﻿using Application.Core.DTO;
-using Domain.Core.CaseAggregate;
 using MediatR;
 using Utilities.Types;
 
 
 namespace Application.Core.BusinessLogic.CaseProcess.GetCase
 {
-    public class GetCasesQuery : IRequest<List<CaseDTO>>
+    public class GetCasesQuery : IRequest<PagedResult<CaseDTO>>
     {
-        public UserRole UserRole { get; set; }
         public string? CurrentUserEmail { get; set; }
+        public int Skip { get; }
+        public int Take { get; }
 
 
-        public GetCasesQuery(UserRole userRole, string? currentUserEmail)
+        public GetCasesQuery(int skip, int take, string? currentUserEmail)
         {
-            UserRole = userRole;
             CurrentUserEmail = currentUserEmail;
+            Skip = skip;
+            Take = take;
         }
     }
 }

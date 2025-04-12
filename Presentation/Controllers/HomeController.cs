@@ -1,6 +1,7 @@
 ﻿using Application.Core.BusinessLogic.AccountProcess.EditProfile;
 using Application.Core.BusinessLogic.AccountProcess.GetClients;
 using Application.Core.BusinessLogic.AccountProcess.GetSpecialists;
+using Application.Core.BusinessLogic.CaseProcess.GetCase;
 using Application.Core.BusinessLogic.OrderProcess.GetOrders;
 using Application.Core.BusinessLogic.ProfileProcess.GetShortProfile;
 using Application.Core.DTO;
@@ -9,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ViewModels;
+using System.Security.Claims;
 using Utilities.Types;
 
 
@@ -45,6 +47,38 @@ namespace Presentation.Controllers
                 var result = PagedResult<OrderViewModel>.Create(viewModels, tempResult.TotalCount, tempResult.PageSize, tempResult.CurrentPage);
 
                 return View(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Cases(int currentPage = 1)
+        {
+            ViewData["ShortProfile"] = _shortProfileModel;
+
+            const int casesPerPage = 7;
+            var skip = (currentPage - 1) * casesPerPage;
+            var clientEmail = GetClientEmailIfApplicable();
+
+            try
+            {
+                var query = new GetCasesQuery(skip, casesPerPage, clientEmail);
+                var tempResult = await _mediator.Send(query);
+
+                var testList = tempResult.Items;
+
+                var viewModels = tempResult.Items.Select(_mapper.Map<CaseViewModel>);
+                var pagedResult = PagedResult<CaseViewModel>.Create(
+                    viewModels,
+                    tempResult.TotalCount,
+                    tempResult.PageSize,
+                    tempResult.CurrentPage
+                );
+
+                return View(pagedResult);
             }
             catch
             {
@@ -145,6 +179,19 @@ namespace Presentation.Controllers
             }
 
             return Redirect("EditProfile");
+        }
+
+        private string? GetClientEmailIfApplicable()
+        {
+            var user = _httpContextAccessor?.HttpContext?.User;
+            var role = user?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (role == UserRole.Client.ToString())
+            {
+                return user?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            }
+
+            return null;
         }
     }
 }

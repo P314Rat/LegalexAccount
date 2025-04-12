@@ -85,7 +85,7 @@
 }
 .clients table tbody tr.m-panel td .panel .remove {
   background-image: url("/Images/remove.svg");
-  background-position: -3px 3px;
+  background-position: -2px 3px;
 }
 .clients table tbody tr.m-panel td .panel a {
   position: relative;

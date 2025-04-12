@@ -22,7 +22,7 @@ namespace Application.Core.BusinessLogic.OrderProcess.GetOrders
 
         public async Task<PagedResult<OrderDTO>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            var totalOrdersCount = await _unitOfWork.Repository<Order, int>().CountAsync();
+            var totalOrdersCount = await _unitOfWork.Repository<Order, int>().CountAsync(new OrderSpecification(request.Skip, request.Take));
             var orders = (await _unitOfWork.Repository<Order, int>()
                 .GetAsync(new OrderSpecification(request.Skip, request.Take)))
                 .Select(_mapper.Map<OrderDTO>);

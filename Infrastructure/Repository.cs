@@ -74,9 +74,9 @@ namespace Infrastructure
                 _dbSet.Remove(entity);
         }
 
-        public async Task<int> CountAsync()
+        public async Task<int> CountAsync(ISpecification<TEntity>? specification)
         {
-            return await _dbSet.AsNoTracking().CountAsync();
+            return await _dbSet.AsNoTracking().Where(specification.Criteria).CountAsync();
         }
     }
 }

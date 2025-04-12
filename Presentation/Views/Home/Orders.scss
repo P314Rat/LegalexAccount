@@ -69,7 +69,7 @@
                 position: absolute;
                 top: calc(50% - 1rem);
                 right: -5.25rem;
-                width: 4.15rem;
+                width: 4.25rem;
                 height: 2rem;
                 animation: appearing .5s;
                 display: flex;
@@ -81,7 +81,7 @@
 
                 .remove {
                     background-image: url('/Images/remove.svg');
-                    background-position: -3px 3px;
+                    background-position: -2px 3px;
                 }
 
                 a {
