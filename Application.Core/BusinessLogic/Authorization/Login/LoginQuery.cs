@@ -1,11 +1,10 @@
 ﻿using Application.Core.DTO;
 using MediatR;
-using Utilities.Types;
 
 
 namespace Application.Core.BusinessLogic.Authorization.Login
 {
-    public class LoginQuery : IRequest<UserRole>
+    public class LoginQuery : IRequest<IEnumerable<string>>
     {
         public LoginDTO Model { get; set; }
 

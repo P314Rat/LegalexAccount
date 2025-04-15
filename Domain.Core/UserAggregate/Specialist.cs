@@ -5,7 +5,7 @@ namespace Domain.Core.UserAggregate
 {
     public class Specialist : User
     {
-        public required SpecialistType Role { get; set; }
-        public required SpecialistStatus Status { get; set; }
+        public required SpecialistRole SpecialistRole { get; set; }
+        public SpecialistStatus Status { get; set; } 
     }
 }

@@ -25,6 +25,12 @@ namespace Application.Core.Services
             if (dbContext.Database.GetPendingMigrations().Any())
                 dbContext.Database.Migrate();
 
+            var userRoles = dbContext.UserRoles.ToDictionary(x => x.UserRoleId);
+            var clientRoles = dbContext.ClientRoles.ToDictionary(x => x.ClientRoleId);
+            var specialistRoles = dbContext.SpecialistRoles.ToDictionary(x => x.SpecialistRoleId);
+
+            var test = userRoles[Utilities.Types.UserRole.Client];
+
             if (!dbContext.Specialists.Any())
             {
                 var salt1 = GenerateDataService.GenerateSalt(32);
@@ -34,7 +40,8 @@ namespace Application.Core.Services
                     new Specialist
                     {
                         Status = SpecialistStatus.Free,
-                        Role = SpecialistType.Technical,
+                        Role = userRoles[Utilities.Types.UserRole.Specialist],
+                        SpecialistRole = specialistRoles[Utilities.Types.SpecialistRole.TechnicalSpecialist],
                         Email = "support@legalex.by",
                         FirstName = "Тимофей",
                         LastName = "Липницкий",
@@ -44,7 +51,8 @@ namespace Application.Core.Services
                     new Specialist
                     {
                         Status = SpecialistStatus.Free,
-                        Role = SpecialistType.Director,
+                        Role = userRoles[Utilities.Types.UserRole.Specialist],
+                        SpecialistRole = specialistRoles[Utilities.Types.SpecialistRole.Director],
                         Email = "vv95@bk.ru",
                         FirstName = "Владислав",
                         LastName = "Власенков",
@@ -66,6 +74,8 @@ namespace Application.Core.Services
                 dbContext.Clients.AddRange(
                     new Person
                     {
+                        Role = userRoles[Utilities.Types.UserRole.Client],
+                        ClientRole = clientRoles[Utilities.Types.ClientRole.Person],
                         Email = "ivan.petrov@example.com",
                         FirstName = "Иван",
                         LastName = "Петров",
@@ -81,6 +91,8 @@ namespace Application.Core.Services
                     },
                     new Person
                     {
+                        Role = userRoles[Utilities.Types.UserRole.Client],
+                        ClientRole = clientRoles[Utilities.Types.ClientRole.Person],
                         Email = "anna.ivanova@example.com",
                         FirstName = "Анна",
                         LastName = "Иванова",
@@ -94,6 +106,8 @@ namespace Application.Core.Services
                     },
                     new Legal
                     {
+                        Role = userRoles[Utilities.Types.UserRole.Client],
+                        ClientRole = clientRoles[Utilities.Types.ClientRole.Legal],
                         Email = "company1@example.com",
                         FirstName = "ООО",
                         LastName = "ТехноПроф",
@@ -111,6 +125,8 @@ namespace Application.Core.Services
                     },
                     new Legal
                     {
+                        Role = userRoles[Utilities.Types.UserRole.Client],
+                        ClientRole = clientRoles[Utilities.Types.ClientRole.Person],
                         Email = "company2@example.com",
                         FirstName = "ЗАО",
                         LastName = "СтройГарант",
@@ -137,7 +153,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Legal,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
                         Service = ServiceType.Mediation,
                         ClientName = "Иван Иванов",
                         Contact = "+375291112233",
@@ -146,7 +162,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         Service = ServiceType.ProtectionOfPersonalInformation,
                         ClientName = "ООО 'АльфаПром'",
                         Contact = "info@alfaprom.by",
@@ -155,8 +171,8 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
-                        Service = ServiceType.NonSelected,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
+                        Service = ServiceType.None,
                         ClientName = "Анна Сидорова",
                         Contact = "+375333334455",
                         Description = "Представительство в суде по делу о наследстве."
@@ -164,7 +180,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         Service = ServiceType.Finance,
                         ClientName = "Иван Иванов",
                         Contact = "+375291112233",
@@ -173,7 +189,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Legal,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
                         Service = ServiceType.OccupationalSafetyAndHealth,
                         ClientName = "ООО 'АльфаПром'",
                         Contact = "info@alfaprom.by",
@@ -182,7 +198,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         Service = ServiceType.Mediation,
                         ClientName = "Анна Сидорова",
                         Contact = "+375333334455",
@@ -191,7 +207,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         Service = ServiceType.ProtectionOfPersonalInformation,
                         ClientName = "Павел Корнеев",
                         Contact = "+375296660011",
@@ -200,7 +216,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         Service = ServiceType.Finance,
                         ClientName = "ЧУП 'БизнесЭксперт'",
                         Contact = "consult@bizexp.by",
@@ -209,8 +225,8 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Legal,
-                        Service = ServiceType.NonSelected,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
+                        Service = ServiceType.None,
                         ClientName = "Дмитрий Шевцов",
                         Contact = "+375291223344",
                         Description = "Требуется представление интересов в административном процессе."
@@ -218,7 +234,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         Service = ServiceType.HR,
                         ClientName = "ЗАО 'ЭнергияСвета'",
                         Contact = "legal@energosvet.by",
@@ -227,7 +243,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         Service = ServiceType.HRSupport,
                         ClientName = "Марина Лисовская",
                         Contact = "+375297775566",
@@ -236,8 +252,8 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Person,
-                        Service = ServiceType.NonSelected,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
+                        Service = ServiceType.None,
                         ClientName = "ООО 'ЛогистикПро'",
                         Contact = "law@logistikpro.by",
                         Description = "Нужен юрист для судебного разбирательства с контрагентом."
@@ -245,7 +261,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = ClientType.Legal,
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
                         Service = ServiceType.Legal,
                         ClientName = "Олег Смирнов",
                         Contact = "+375295556677",

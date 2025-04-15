@@ -71,21 +71,16 @@ namespace Presentation.Controllers
 
             try
             {
-                var role = await _mediator.Send(new LoginQuery(_mapper.Map<LoginDTO>(model)));
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, model.Email),
-                    new Claim(ClaimTypes.Role, role.ToString())
-                };
+                var roles = await _mediator.Send(new LoginQuery(_mapper.Map<LoginDTO>(model)));
+                var claims = roles
+                    .Select(x => new Claim(ClaimTypes.Role, x))
+                    .Append(new Claim(ClaimTypes.Name, model.Email))
+                    .ToList();
+
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                if (role == Utilities.Types.UserRole.Client)
-                {
-                    return RedirectToAction("Cases", "Home");
-                }
-
-                return RedirectToAction("Orders", "Home");
+                return RedirectToAction("Index", "Home");
             }
             catch
             {

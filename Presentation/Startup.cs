@@ -68,37 +68,13 @@ namespace Presentation
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Перенаправление по роли
-            app.Use(async (context, next) =>
-            {
-                
-                if (context.Request.Path == "/")
-                {
-                    var user = context.User;
-
-                    if (user.Identity?.IsAuthenticated == true &&
-                        (user.IsInRole("Director") || user.IsInRole("Technical") || user.IsInRole("Specialist")))
-                    {
-                        context.Response.Redirect("/Home/Orders");
-                        return;
-                    }
-                    else
-                    {
-                        context.Response.Redirect("/Home/Cases");
-                        return;
-                    }
-                }
-
-                await next();
-            });
-
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Orders}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllers();
             });
         }

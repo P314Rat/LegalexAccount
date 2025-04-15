@@ -5,13 +5,9 @@ namespace Utilities.Types
 {
     public enum UserRole
     {
-        [Display(Name = "Технический специалист")]
-        Technical = 0,
-        [Display(Name = "Директор")]
-        Director = 1,
         [Display(Name = "Специалист")]
-        Employee = 2,
+        Specialist,
         [Display(Name = "Клиент")]
-        Client = 3
+        Client
     }
 }

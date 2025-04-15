@@ -1,14 +1,14 @@
 ﻿using Domain.Core.UserAggregate;
-using Infrastructure.Contracts;
 using Infrastructure.Specifications.UserAggregate;
 using MediatR;
+using System.Linq;
+using Utilities.Extensions;
 using Utilities.StaticServices;
-using Utilities.Types;
 
 
 namespace Application.Core.BusinessLogic.Authorization.Login
 {
-    public class LoginQueryHandler : IRequestHandler<LoginQuery, UserRole>
+    public class LoginQueryHandler : IRequestHandler<LoginQuery, IEnumerable<string>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -18,19 +18,32 @@ namespace Application.Core.BusinessLogic.Authorization.Login
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UserRole> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<string>> Handle(LoginQuery request, CancellationToken cancellationToken)
         {
             var user = (await _unitOfWork.Repository<User, Guid>()
-                .GetAsync(new UserByEmailSpecification(request.Model.Email))).FirstOrDefault();
+                .GetAsync(new UserByEmailSpecification(request.Model.Email)))
+                .FirstOrDefault();
             var hashedPassword = GenerateDataService.GenerateHash(request.Model.Password, user.PasswordSalt);
-            var userRole = user switch
-            {
-                Specialist => (UserRole)((Specialist)user).Role,
-                Client => UserRole.Client,
-                _ => throw new InvalidOperationException("Unknown user type")
-            };
 
-            return userRole;
+            if (hashedPassword != user.PasswordHash)
+                throw new Exception("Неверные данные для входа");
+
+            List<string> roles = new List<string> { user.Role.Name };
+
+            switch (user)
+            {
+                case Specialist:
+                    roles.Add(((Specialist)user).SpecialistRole.Name);
+
+                    break;
+
+                case Client:
+                    roles.Add(((Client)user).ClientRole.Name);
+
+                    break;
+            }
+
+            return roles;
         }
     }
 }

@@ -1,16 +1,25 @@
-﻿using Utilities.Types;
+﻿using Domain.Core.CaseAggregate;
+using Domain.Core.ChatAggregate;
+using Utilities.Types;
 
 
 namespace Application.Core.DTO
 {
     public class ProfileDTO
     {
+        public UserRole? Role { get; set; }
         public string? Email { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? SurName { get; set; }
         public string? PhoneNumber { get; set; }
-        public string? Password { get; set; }
+        public string? PasswordHash { get; set; }
+        public string? PasswordSalt { get; set; }
+        public List<Case>? Cases { get; set; }
+        public List<Chat>? Chats { get; set; }
+        public SpecialistRole? SpecialistRole { get; set; }
+        public SpecialistStatus? Status { get; set; }
+        public ClientRole? ClientRole { get; set; }
         public string? OrganizationName { get; set; }
         public string? LegalAddress { get; set; }
         public string? PostalAddress { get; set; }
@@ -28,7 +37,5 @@ namespace Application.Core.DTO
         public string? TaxIdentificationNumber { get; set; }
         public string? RegistrationAddress { get; set; }
         public string? ResidentialAddress { get; set; }
-        public SpecialistType? Role { get; set; }
-        public SpecialistStatus? Status { get; set; }
     }
 }

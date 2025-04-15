@@ -15,15 +15,15 @@ namespace Presentation.Mappings
                     opt => opt
                     .MapFrom(src =>
                         !string.IsNullOrWhiteSpace(src.OrganizationName)
-                            ? ClientType.Legal
-                            : ClientType.Person))
+                            ? ClientRole.Legal
+                            : ClientRole.Person))
                 .ForMember(dst => dst.Client,
                         opt => opt
                         .MapFrom(src => $"{src.FirstName} {src.LastName}")
                         )
                 .ReverseMap();
             CreateMap<ProfileDTO, SpecialistViewModel>()
-                .ForMember(dst => dst.Type,
+                .ForMember(dst => dst.Role,
                     opt => opt.MapFrom(src => src.Role))
                 .ForMember(dst => dst.Employee,
                         opt => opt

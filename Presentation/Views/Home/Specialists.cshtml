@@ -34,7 +34,7 @@
                         <td>@specialist.Employee</td>
                         <td>@specialist.Email</td>
                         <td>
-                            @specialist?.Type.GetDisplayName()
+                            @specialist?.Role.GetDisplayName()
                             <div class="panel">
                                 <a class="inspect" asp-controller="Client" asp-action="ClientCard" asp-route-email="@specialist?.Email"></a>
                                 <a class="chat" asp-controller="Client" asp-action="ClientCard" asp-route-email="@specialist?.Email"></a>

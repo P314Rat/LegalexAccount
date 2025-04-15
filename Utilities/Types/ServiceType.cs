@@ -6,7 +6,7 @@ namespace Utilities.Types
     public enum ServiceType
     {
         [Display(Name = "Не выбран")]
-        NonSelected = 0,
+        None = 0,
         [Display(Name = "Юридические услуги")]
         Legal = 1,
         [Display(Name = "Антикризисное управление")]

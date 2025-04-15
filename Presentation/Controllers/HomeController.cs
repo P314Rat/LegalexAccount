@@ -30,6 +30,20 @@ namespace Presentation.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public IActionResult Index()
+        {
+            if (!User.Identity?.IsAuthenticated ?? true)
+                return RedirectToAction("Login", "Auth");
+
+            if (User.IsInRole("Client"))
+                return RedirectToAction("Cases");
+
+            if (User.IsInRole("Director") || User.IsInRole("Technical") || User.IsInRole("Specialist"))
+                return RedirectToAction("Orders");
+
+            return RedirectToAction("Login", "Auth");
+        }
+
         [Authorize(Roles = "Director, Technical, Specialist")]
         [HttpGet]
         public async Task<IActionResult> Orders(int currentPage = 1)

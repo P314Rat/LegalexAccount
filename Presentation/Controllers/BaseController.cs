@@ -22,20 +22,27 @@ namespace Presentation.Controllers
         {
             _mediator = mediator;
 
-            var email = httpContextAccessor.HttpContext?.User?.Claims
+            try
+            {
+                var email = httpContextAccessor.HttpContext?.User?.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
-            if (email == null)
-                throw new Exception("Authorization is wrong.");
+                if (email == null)
+                    throw new Exception("Authorization is wrong.");
 
-            var shortProfileDTO = _mediator.Send(new GetShortProfileQuery(email)).Result;
+                var shortProfileDTO = _mediator.Send(new GetShortProfileQuery(email)).Result;
 
-            if (shortProfileDTO == null)
-                throw new Exception("Authorization is wrong.");
+                if (shortProfileDTO == null)
+                    throw new Exception("Authorization is wrong.");
 
-            _shortProfileModel.FirstName = shortProfileDTO.FirstName ?? throw new Exception("Authorization is wrong.");
-            _shortProfileModel.LastName = shortProfileDTO.LastName ?? throw new Exception("Authorization is wrong.");
-            _shortProfileModel.Email = email;
+                _shortProfileModel.FirstName = shortProfileDTO.FirstName ?? throw new Exception("Authorization is wrong.");
+                _shortProfileModel.LastName = shortProfileDTO.LastName ?? throw new Exception("Authorization is wrong.");
+                _shortProfileModel.Email = email;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
     }
 }

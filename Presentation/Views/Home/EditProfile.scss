@@ -9,6 +9,57 @@
     flex-direction: column;
     justify-content: space-between;
 
+    .tab-container {
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
+        height: 3rem;
+
+        .tab {
+            position: relative;
+            display: flex;
+            gap: 2rem;
+
+            .rect {
+                display: inline-block;
+                text-decoration: none;
+                height: 100%;
+                align-content: center;
+                padding: 0 0.5rem;
+                box-shadow: -1px -2px 5px rgba(0, 0, 0, 0.2);
+                background-color: #b4b4b4;
+                border-radius: 10px 8px 0 0;
+                color: white;
+                z-index: 1;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .trian {
+                position: absolute;
+                width: 0;
+                height: 0;
+                right: -1.3rem;
+                border-right: 1.5rem solid transparent;
+                border-bottom: 3rem solid #b4b4b4;
+                border-radius: 14px 0 0 0;
+                z-index: 1;
+            }
+
+            .rect.active {
+                background-color: #4585c2;
+                z-index: 100;
+            }
+
+            .trian.active {
+                border-bottom-color: #4585c2;
+                z-index: 100;
+            }
+        }
+    }
+
     .sender-info {
         display: flex;
         justify-content: space-between;

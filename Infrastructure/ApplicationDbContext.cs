@@ -20,6 +20,9 @@ namespace Infrastructure
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<SpecialistRole> SpecialistRoles { get; set; }
+        public DbSet<ClientRole> ClientRoles { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -35,12 +38,46 @@ namespace Infrastructure
             modelBuilder.Entity<Person>().ToTable("Individuals").HasBaseType<Client>();
             modelBuilder.Entity<Legal>().ToTable("LegalEntities").HasBaseType<Client>();
 
+            // ================== Связь с  Roles ==================
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany()
+                .HasForeignKey("UserRoleId");
+
+            // ================== Заполнение Roles ==================
+            modelBuilder.Entity<UserRole>().HasData(
+                Enum.GetValues(typeof(Utilities.Types.UserRole))
+                    .Cast<Utilities.Types.UserRole>()
+                    .Select(x => new UserRole
+                    {
+                        UserRoleId = x,
+                        Name = x.ToString()
+                    })
+                );
+            modelBuilder.Entity<SpecialistRole>().HasData(
+                Enum.GetValues(typeof(Utilities.Types.SpecialistRole))
+                    .Cast<Utilities.Types.SpecialistRole>()
+                    .Select(x => new SpecialistRole
+                    {
+                        SpecialistRoleId = x,
+                        Name = x.ToString()
+                    })
+                );
+            modelBuilder.Entity<ClientRole>().HasData(
+                Enum.GetValues(typeof(Utilities.Types.ClientRole))
+                    .Cast<Utilities.Types.ClientRole>()
+                    .Select(x => new ClientRole
+                    {
+                        ClientRoleId = x,
+                        Name = x.ToString()
+                    })
+                );
+
             // ================== Ограничение удаления Client и Specialist ==================
             modelBuilder.Entity<Case>()
                 .HasOne(c => c.Customer)
                 .WithMany(c => c.Cases)
                 .OnDelete(DeleteBehavior.Restrict); // Нельзя удалить клиента, если есть дела
-
             modelBuilder.Entity<Case>()
                 .HasMany(c => c.Assignees)
                 .WithMany(s => s.Cases)

@@ -5,7 +5,7 @@ namespace Presentation.ViewModels
 {
     public class SpecialistViewModel
     {
-        public SpecialistType Type { get; set; }
+        public SpecialistRole Role { get; set; }
         public required string Employee { get; set; }
         public required string Email { get; set; }
     }
