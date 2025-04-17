@@ -9,7 +9,6 @@ namespace Infrastructure.Specifications.OrderAggregate
         private readonly int _skip;
         private readonly int _take;
 
-
         public OrderSpecification(int skip, int take)
         {
             _skip = skip;

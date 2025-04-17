@@ -1,0 +1,66 @@
+﻿@model OrderViewModel
+@{
+    var order = Model;
+    ViewData["Title"] = "Заявка";
+}
+
+<div class="order-card">
+    <h2>📝 Заявка от @order.CreatedAt.ToString("dd/MM/yyyy")</h2>
+
+    <div class="info-block">
+        <div class="field">
+            <span class="label">Имя отправителя:</span>
+            <span class="value">@order.ClientName</span>
+        </div>
+        <div class="field">
+            <span class="label">Тип отправителя:</span>
+            <span class="value">@order.ClientType.GetDisplayName()</span>
+        </div>
+        <div class="field">
+            <span class="label">Услуга:</span>
+            <span class="value">@order.Service.GetDisplayName()</span>
+        </div>
+        <div class="field">
+            <span class="label">Контакт:</span>
+            <span class="value">@order.Contact</span>
+        </div>
+    </div>
+
+    <div class="description-block">
+        <h3>📄 Описание</h3>
+        <p>
+            @order.Description
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            It has survived not only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+            Aldus PageMaker including versions of Lorem Ipsum.
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            It has survived not only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset
+            sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
+            Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+    </div>
+
+    <div class="actions">
+        <a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
+        <form asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" method="post" onsubmit="return confirm('Удалить эту заявку?');">
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    </div>
+</div>
+
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/OrderCard.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/OrderCard.min.css?v=@DateTime.Now.Ticks">
+}

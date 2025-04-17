@@ -34,5 +34,9 @@
   {
     "outputFile": "Static/Styles/Specialists.css",
     "inputFile": "Views/Home/Specialists.scss"
+  },
+  {
+    "outputFile": "Static/Styles/OrderCard.css",
+    "inputFile": "Views/Order/OrderCard.scss"
   }
 ]

@@ -5,6 +5,7 @@ namespace Application.Core.DTO
 {
     public class OrderDTO
     {
+        public int Id { get; set; }
         public DateTime? CreatedAt { get; set; } // Дата
         public ClientRole? ClientType { get; set; }
         public ServiceType? Service { get; set; }
