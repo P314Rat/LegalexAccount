@@ -79,6 +79,19 @@
                     background-image: url('/Images/inspect.svg');
                 }
 
+                button {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 5px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(173, 216, 230, 0.3);
+                    }
+                }
+
                 .remove {
                     background-image: url('/Images/remove.svg');
                     background-position: -2px 3px;
@@ -173,5 +186,9 @@
         bottom: 1rem;
         left: 1rem;
         font-weight: 600;
+    }
+
+    button {
+        padding: 0 !important;
     }
 }

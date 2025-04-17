@@ -43,7 +43,9 @@
                             @description
                             <div class="panel">
                                 <a class="inspect" asp-controller="Order" asp-action="OrderCard" asp-route-id="@order.Id"></a>
-                                <a class="remove" asp-controller="Order" asp-action="OrderCard" asp-route-id="@order.Id"></a>
+                                <form asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" method="post">
+                                    <button class="remove" type="submit"></button>
+                                </form>
                             </div>
                         </td>
                     </tr>
