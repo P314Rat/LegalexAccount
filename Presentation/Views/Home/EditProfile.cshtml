@@ -1,0 +1,157 @@
+﻿@{
+    ViewData["Title"] = "Профиль";
+}
+
+
+<div class="edit-profile">
+    <form asp-controller="Home" asp-action="EditProfile" method="post">
+        <div class="tab-container">
+            <div id="general" class="tab" onclick="selectTab(this)">
+                <div class="rect active">Основная информация</div>
+                <div class="trian active"></div>
+            </div>
+
+            @if (User.IsInRole(ClientRole.Legal.ToString()))
+            {
+                <div id="organization" class="tab" onclick="selectTab(this)">
+                    <div class="rect">Организация</div>
+                    <div class="trian"></div>
+                </div>
+                <div id="bank" class="tab" onclick="selectTab(this)">
+                    <div class="rect">Банковские реквизиты</div>
+                    <div class="trian"></div>
+                </div>
+            }
+
+            @if (User.IsInRole(ClientRole.Person.ToString()))
+            {
+                <div id="documents" class="tab" onclick="selectTab(this)">
+                    <div class="rect">Документы</div>
+                    <div class="trian"></div>
+                </div>
+            }
+
+            <div id="security" class="tab" onclick="selectTab(this)">
+                <div class="rect">Безопасность</div>
+                <div class="trian"></div>
+            </div>
+        </div>
+        <div id="general" class="content" style="display: block;">
+            @await Html.PartialAsync("~/Views/EditProfile/_General.cshtml")
+        </div>
+        <div id="organization" class="content" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_Organization.cshtml")
+        </div>
+        <div id="bank" class="content" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_BankAccount.cshtml")
+        </div>
+        <div id="documents" class="content" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_Documents.cshtml")
+        </div>
+        <div id="security" class="content" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_Security.cshtml")
+        </div>
+    </form>
+
+
+
+    @* <form id="change-email" asp-controller="Home" asp-action="EditProfile" method="post" asp-antiforgery="true">
+        <div class="sender-info">
+            <p class="sender-info">Email:</p><div class="dotted_cursor"></div><input name="Email" asp-for=Email value="@profile?.Email">
+        </div>
+        <span class="text-validation" asp-validation-for="Email"></span>
+        <div class="button-container">
+            <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
+        </div>
+    </form> *@
+
+    @* <form id="creation-form" asp-controller="Home" asp-action="EditProfile" method="post" asp-antiforgery="true">
+        <label>Основная информация</label>
+        <div class="info-container">
+            <div class="sender-info">
+                <p>Фамилия:</p><input name="LastName" asp-for=LastName value="@profile?.LastName">
+            </div>
+            <span class="text-validation" asp-validation-for="LastName"></span>
+            <div class="sender-info">
+                <p>Имя:</p><input name="FirstName" asp-for=FirstName value="@profile?.FirstName">
+            </div>
+            <span class="text-validation" asp-validation-for="FirstName"></span>
+            <div class="sender-info">
+                <p class="sender-info">Отчество:</p><input name="SurName" asp-for=SurName value="@profile?.SurName">
+            </div>
+            <div class="sender-info">
+                <p class="sender-info">Телефон:</p><div class="dotted_cursor"></div><input name="PhoneNumber" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+            </div>
+
+        </div>
+
+        @if (User.IsInRole("Client"))
+        {
+            <label>Основная информация</label>
+            <div class="info-container">
+                <div class="sender-info">
+                    <p>Полное наименование организации:</p><input name="LastName" asp-for=LastName value="@profile?.LastName">
+                </div>
+                <span class="text-validation" asp-validation-for="LastName"></span>
+                <div class="sender-info">
+                    <p>Имя:</p><input name="FirstName" asp-for=FirstName value="@profile?.FirstName">
+                </div>
+                <span class="text-validation" asp-validation-for="FirstName"></span>
+                <div class="sender-info">
+                    <p class="sender-info">Отчество:</p><input name="SurName" asp-for=SurName value="@profile?.SurName">
+                </div>
+                <div class="sender-info">
+                    <p class="sender-info">Телефон:</p><input name="PhoneNumber" asp-for=PhoneNumber value="@profile?.PhoneNumber">
+                </div>
+                <div class="sender-info">
+                    <p class="sender-info">Email:</p><input name="Email" asp-for=Email value="@profile?.Email">
+                </div>
+                <span class="text-validation" asp-validation-for="Email"></span>
+            </div>
+        }
+
+        <div class="checkbox-container">
+            <p>Сменить пароль</p><input id="checkbox" type="checkbox" name="IsPasswordChangeRequested" asp-for=IsPasswordChangeRequested onchange="togglePasswordFields(this)">
+        </div>
+        <div class="info-container password-section text-disabled">
+            <div class="sender-info">
+                <p class="sender-info">Старый пароль:</p>
+                <div class="pass-container">
+                    <input class="password-field" name="OldPassword" type="password" autocomplete="new-password" asp-for=OldPassword value="@profile?.OldPassword">
+                    <span class="text-validation" asp-validation-for="OldPassword"></span>
+                </div>
+            </div>
+            <div class="sender-info" style="display: flex;">
+                <p class="sender-info">Новый пароль:</p>
+                <div class="pass-container">
+                    <input class="password-field" name="NewPassword" asp-for=NewPassword>
+                    <span class="text-validation" asp-validation-for="NewPassword"></span>
+                </div>
+            </div>
+            <div class="sender-info" style="display: flex;">
+                <p class="sender-info">Подтвердите пароль:</p>
+                <div class="pass-container">
+                    <input class="password-field" name="RepeatPassword" asp-for=RepeatPassword value="@profile?.RepeatPassword">
+                    <span class="text-validation" asp-validation-for="RepeatPassword"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="button-container">
+        <button class="next-step" type="submit" form="creation-form" disabled>Сохранить изменения</button>
+    </div> *@
+</div>
+
+@await Html.PartialAsync("_ModelValidation")
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/EditProfile.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/EditProfile.min.css?v = @DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/SubmitValidationManager.js"></script>
+<script src="~/Scripts/EditProfile.js"></script>

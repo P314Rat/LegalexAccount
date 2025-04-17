@@ -1,0 +1,77 @@
+﻿@using Utilities.Extensions
+@model PagedResult<OrderViewModel>
+@{
+    var orders = Model.Items;
+    var currentPage = Model.CurrentPage;
+    var totalPages = Model.TotalPages;
+
+    ViewData["Title"] = "Заявки";
+    ViewData["Page"] = "Orders";
+}
+
+
+<div class="orders">
+    <h2>Заявки</h2>
+
+    @if (orders.Count == 0)
+    {
+        <span>У вас нет заявок.</span>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Подана</th>
+                    <th>Имя</th>
+                    <th>Контакт</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in orders)
+                {
+                    var description = order.Description.Length <= 80
+                    ? order.Description
+                    : order.Description.Substring(0, 80) + "...";
+
+                    <tr class="with-management-panel" onclick="CallManagementPanel(this)">
+                        <td>@order.CreatedAt.ToString("dd/MM/yyyy")</td>
+                        <td>@order.ClientName</td>
+                        <td>@order.Contact</td>
+                        <td>
+                            @description
+                            <div class="panel">
+                                <a class="inspect" asp-controller="Order" asp-action="OrderCard" asp-route-id="@order.Id"></a>
+                                <a class="remove" asp-controller="Order" asp-action="OrderCard" asp-route-id="@order.Id"></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (totalPages > 1)
+        {
+            <div class="pagination">
+                @for (var i = 1; i <= totalPages; i++)
+                {
+                    <a class="@(currentPage == i ? "active" : "")" href="/Home/Orders?currentPage=@i">@i</a>
+                }
+            </div>
+        }
+
+        <span class="hint">* Нажмите на заявку, чтобы узнать подробности.</span>
+    }
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Orders.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Orders.min.css?v=@DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/Orders.js"></script>

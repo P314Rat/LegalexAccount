@@ -1,0 +1,87 @@
+﻿.order-card {
+  margin: 0 4rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+}
+.order-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+.order-card .info-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+.order-card .info-block .field {
+  display: flex;
+  flex-direction: column;
+}
+.order-card .info-block .field .label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #666;
+}
+.order-card .info-block .field .value {
+  font-size: 1.1rem;
+  margin-top: 0.3rem;
+}
+.order-card .description-block {
+  margin-top: 8rem;
+}
+.order-card .description-block h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+.order-card .description-block p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-left: 4px solid #ccc;
+  border-radius: 0.5rem;
+  max-height: 12rem;
+  overflow: auto;
+}
+.order-card .actions {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.order-card .actions .create-case {
+  padding: 0.5rem 2rem;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.order-card .actions .create-case:hover {
+  background-color: rgba(23, 103, 179, 0.5);
+}
+.order-card .actions .btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+.order-card .actions .btn.btn-danger {
+  background-color: #e74c3c;
+  color: white;
+}
+.order-card .actions .btn.btn-danger:hover {
+  background-color: #c0392b;
+}
+.order-card .actions .btn.btn-secondary {
+  background-color: rgba(23, 103, 179, 0.8);
+  color: white;
+}
+.order-card .actions .btn.btn-secondary:hover {
+  background-color: rgba(23, 103, 179, 0.5);
+}

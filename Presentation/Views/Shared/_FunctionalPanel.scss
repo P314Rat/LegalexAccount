@@ -1,0 +1,107 @@
+﻿.functional-panel {
+    min-width: 20rem;
+    min-height: 45rem;
+    padding: 2rem 1rem;
+    background-color: white;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    .profile-icon {
+        position: relative;
+        width: 100%;
+        padding-top: 6.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img {
+            position: absolute; /* Абсолютное позиционирование */
+            left: 50%; /* Смещение на 50% от левой границы родителя */
+            top: 48px; /* Смещение на 50% от верхней границы родителя */
+            height: 96px; /* Высота 1.25rem */
+            width: 96px; /* Ширина 1.25rem */
+            transform: translate(-50%, -50%);
+        }
+
+        .user-email {
+            line-height: 28px;
+            font-size: 16px;
+            color: gray;
+        }
+    }
+
+    .button.active {
+        text-decoration: none;
+        border-color: #1767b3;
+        background-color: rgba(23, 103, 179, 0.5);
+    }
+
+    .button {
+        padding: .5rem 2rem;
+        border: 1px solid #1767b3;
+        border-radius: 5px;
+        background-color: rgba(23, 103, 179, 0.8);
+        color: white;
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: none;
+            border-color: #1767b3;
+            background-color: rgba(23, 103, 179, 0.5);
+        }
+    }
+
+    .button-container {
+        width: 100%;
+        padding: .5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .configuration-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+
+        .exit-button {
+            display: block;
+            text-align: center;
+            align-content: center;
+            background-color: #004288;
+            border: 1px solid #004288;
+            border-radius: 8px;
+            color: white;
+            width: 100%;
+
+            &:hover {
+                text-decoration: none;
+                background-color: #1767b3;
+                border-color: #1767b3;
+            }
+        }
+
+        .configuration-button {
+            width: 3rem;
+            height: 3rem;
+            background-size: 1.8rem;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('/Images/settings.svg');
+            background-color: #004288;
+            border: 1px solid #004288;
+            border-radius: 8px;
+
+            &:hover {
+                background-color: #1767b3;
+                border-color: #1767b3;
+            }
+        }
+    }
+}

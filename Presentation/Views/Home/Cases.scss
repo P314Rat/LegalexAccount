@@ -1,0 +1,194 @@
+﻿.cases {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0;
+
+    .header-panel {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+
+        h2 {
+            font-weight: 600;
+        }
+
+        .create-case {
+            padding: .5rem 2rem;
+            color: white;
+            background-color: rgba(23, 103, 179, 0.8);
+            border-radius: 5px;
+            text-decoration: none;
+
+            &:hover {
+                background-color: rgba(23, 103, 179, 0.5);
+            }
+        }
+    }
+
+    table {
+        width: 100%;
+        border: none;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border-collapse: separate; /* Используем separate для сохранения закругления */
+        border-spacing: 0; /* Убираем расстояние между ячейками */
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+        thead th {
+            font-weight: 500;
+            font-size: 16px;
+            text-align: left;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            background-color: rgba(23, 103, 179, 0.8);
+            border-top: 1px solid #ddd;
+            overflow: auto;
+        }
+
+        thead {
+            tr th:last-child {
+                width: 28rem;
+            }
+        }
+
+        tr th:first-child, tr td:first-child {
+            border-left: 1px solid #ddd;
+        }
+
+        tr th:last-child, tr td:last-child {
+            border-right: 1px solid #ddd;
+        }
+
+        thead tr th:first-child {
+            border-radius: 12px 0 0 0; /* Закругление углов */
+        }
+
+        thead tr th:last-child {
+            border-radius: 0 12px 0 0; /* Закругление углов */
+        }
+
+        tbody tr {
+            background-color: white;
+            max-height: 4rem;
+
+            &:hover {
+                cursor: pointer;
+                background-color: #dbdbdb;
+            }
+        }
+
+        tbody tr.m-panel td {
+            position: relative;
+
+            .panel {
+                position: absolute;
+                top: calc(50% - 1rem);
+                right: -5.25rem;
+                width: 4.25rem;
+                height: 2rem;
+                animation: appearing .5s;
+                display: flex;
+                justify-content: space-between;
+
+                .inspect {
+                    background-image: url('/Images/inspect.svg');
+                }
+
+                .remove {
+                    background-image: url('/Images/remove.svg');
+                    background-position: -2px 3px;
+                }
+
+                a {
+                    position: relative;
+                    display: block;
+                    border-radius: 5px;
+                    background-size: 2rem;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    height: 2rem;
+                    width: 2rem;
+
+                    &:hover {
+                        background-color: rgba(173, 216, 230, 0.3);
+                    }
+                }
+            }
+
+            @keyframes appearing {
+                0% {
+                    opacity: 0;
+                    right: -3.5rem;
+                }
+
+                100% {
+                    opacity: 1;
+                    right: -5.25rem;
+                }
+            }
+        }
+
+        tbody td {
+            text-align: left;
+            border: none;
+            padding: 1rem;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 12px; /* Закругление углов */
+        }
+
+        tbody tr:last-child td:last-child {
+            border-radius: 0 0 12px 0; /* Закругление углов */
+        }
+    }
+
+    .pagination {
+        display: inline-block;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+    .pagination {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        gap: .25rem;
+
+        a {
+            border-radius: 5px;
+        }
+
+        a {
+            &:hover:not(.active) {
+                background-color: #dbdbdb;
+            }
+        }
+
+        a.active {
+            background-color: rgba(23, 103, 179, 0.8);
+            color: white;
+        }
+    }
+
+    .hint {
+        display: block;
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        font-weight: 600;
+    }
+}

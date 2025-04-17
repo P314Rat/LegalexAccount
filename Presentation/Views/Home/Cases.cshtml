@@ -1,0 +1,77 @@
+﻿@model PagedResult<CaseViewModel>
+@{
+    var cases = Model.Items;
+    var currentPage = Model.CurrentPage;
+    var totalPages = Model.TotalPages;
+
+    ViewData["Title"] = "Дела";
+    ViewData["Page"] = "Cases";
+}
+
+
+<div class="cases">
+    <div class="header-panel">
+        <h2>Дела</h2>
+        <a class="create-case" asp-controller="Case" asp-action="CreateCase">Завести дело</a>
+    </div>
+
+    @if (cases.Count == 0)
+    {
+        <span>У вас нет дел.</span>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Номер дела</th>
+                    <th>Клиент</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var _case in cases)
+                {
+                    var description = _case.Description.Length <= 80
+                    ? _case.Description
+                    : _case.Description.Substring(0, 80) + "...";
+
+                    <tr class="with-management-panel" onclick="CallManagementPanel(this)">
+                        <td>@_case.Id</td>
+                        <td>@_case.Customer</td>
+                        <td>
+                            @description
+                            <div class="panel">
+                                <a class="inspect" asp-controller="Order" asp-action="OrderCard" asp-route-id="@_case.Id"></a>
+                                <a class="remove" asp-controller="Order" asp-action="OrderCard" asp-route-id="@_case.Id"></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (totalPages > 1)
+        {
+            <div class="pagination">
+                @for (var i = 1; i <= totalPages; i++)
+                {
+                    <a class="@(currentPage == i ? "active" : "")" asp-controller="Home" asp-action="Cases" asp-route-currentPage="@i">@i</a>
+                }
+            </div>
+        }
+
+        <span class="hint">* Для редактирования или получения подробной информации нажмите на строку.</span>
+    }
+</div>
+
+@if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    <link rel="stylesheet" href="~/Styles/Cases.css">
+}
+else
+{
+    <link rel="stylesheet" href="~/Styles/Cases.min.css?v = @DateTime.Now.Ticks">
+}
+
+<script src="~/Scripts/Cases.js"></script>
