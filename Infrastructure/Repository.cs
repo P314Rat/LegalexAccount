@@ -68,10 +68,13 @@ namespace Infrastructure
 
         public async Task DeleteAsync(ISpecification<TEntity> specification)
         {
-            var entity = await _dbSet.FirstOrDefaultAsync(specification.Criteria);
+            var archivableEntity = (await _dbSet.FirstOrDefaultAsync(specification.Criteria)) as IArchivable;
 
-            if (entity != null)
-                _dbSet.Remove(entity);
+            if (archivableEntity != null)
+            {
+                archivableEntity.IsArchived = true;
+                archivableEntity.ArchivedAt = DateTime.Now;
+            }
         }
 
         public async Task<int> CountAsync(ISpecification<TEntity>? specification)

@@ -17,8 +17,8 @@
             <span class="value">@order.ClientType.GetDisplayName()</span>
         </div>
         <div class="field">
-            <span class="label">Услуга:</span>
-            <span class="value">@order.Service.GetDisplayName()</span>
+            <span class="label">Тип услуги:</span>
+            <span class="value">@order.ServiceType.GetDisplayName()</span>
         </div>
         <div class="field">
             <span class="label">Контакт:</span>
@@ -48,8 +48,8 @@
     </div>
 
     <div class="actions">
-        <a href="javascript:history.back()" class="btn btn-secondary">Назад</a>
-        <form asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" method="post" onsubmit="return confirm('Удалить эту заявку?');">
+        <a asp-action="Orders" asp-controller="Home" class="btn btn-secondary">Назад</a>
+        <form asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" method="post">
             <button type="submit" class="btn btn-danger">Удалить</button>
         </form>
     </div>

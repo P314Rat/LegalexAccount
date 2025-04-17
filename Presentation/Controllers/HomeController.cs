@@ -62,9 +62,9 @@ namespace Presentation.Controllers
 
                 return View(result);
             }
-            catch
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Application.Core.BusinessLogic.OrderProcess.GetOrders;
+﻿using Application.Core.BusinessLogic.OrderProcess.DeleteProcess;
+using Application.Core.BusinessLogic.OrderProcess.GetOrders;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,18 +12,15 @@ namespace Presentation.Controllers
     [Authorize]
     public class OrderController : BaseController
     {
-        private readonly IMediator _mediator;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
 
 
         public OrderController(IMediator mediator, IHttpContextAccessor httpContextAccessor, IMapper mapper) : base(mediator, httpContextAccessor)
         {
-            _mediator = mediator;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
         }
 
+        [HttpGet]
         public async Task<IActionResult> OrderCard(int id)
         {
             ViewData["ShortProfile"] = _shortProfileModel;
@@ -38,6 +36,14 @@ namespace Presentation.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            await _mediator.Send(new DeleteOrderCommand(id));
+
+            return RedirectToAction("Orders", "Home");
         }
     }
 }

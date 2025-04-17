@@ -154,7 +154,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
-                        Service = ServiceType.Mediation,
+                        ServiceType = ServiceType.Mediation,
                         ClientName = "Иван Иванов",
                         Contact = "+375291112233",
                         Description = "Необходима консультация по жилищному вопросу."
@@ -163,7 +163,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.ProtectionOfPersonalInformation,
+                        ServiceType = ServiceType.ProtectionOfPersonalInformation,
                         ClientName = "ООО 'АльфаПром'",
                         Contact = "info@alfaprom.by",
                         Description = "Проверка договора аренды склада."
@@ -172,7 +172,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.None,
+                        ServiceType = ServiceType.None,
                         ClientName = "Анна Сидорова",
                         Contact = "+375333334455",
                         Description = "Представительство в суде по делу о наследстве."
@@ -181,7 +181,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.Finance,
+                        ServiceType = ServiceType.Finance,
                         ClientName = "Иван Иванов",
                         Contact = "+375291112233",
                         Description = "Необходима консультация по жилищному вопросу."
@@ -190,7 +190,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
-                        Service = ServiceType.OccupationalSafetyAndHealth,
+                        ServiceType = ServiceType.OccupationalSafetyAndHealth,
                         ClientName = "ООО 'АльфаПром'",
                         Contact = "info@alfaprom.by",
                         Description = "Проверка договора аренды склада."
@@ -199,7 +199,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.Mediation,
+                        ServiceType = ServiceType.Mediation,
                         ClientName = "Анна Сидорова",
                         Contact = "+375333334455",
                         Description = "Представительство в суде по делу о наследстве."
@@ -208,7 +208,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.ProtectionOfPersonalInformation,
+                        ServiceType = ServiceType.ProtectionOfPersonalInformation,
                         ClientName = "Павел Корнеев",
                         Contact = "+375296660011",
                         Description = "Проверка договора купли-продажи авто."
@@ -217,7 +217,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.Finance,
+                        ServiceType = ServiceType.Finance,
                         ClientName = "ЧУП 'БизнесЭксперт'",
                         Contact = "consult@bizexp.by",
                         Description = "Консультация по вопросам налогового планирования."
@@ -226,7 +226,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
-                        Service = ServiceType.None,
+                        ServiceType = ServiceType.None,
                         ClientName = "Дмитрий Шевцов",
                         Contact = "+375291223344",
                         Description = "Требуется представление интересов в административном процессе."
@@ -235,7 +235,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.HR,
+                        ServiceType = ServiceType.HR,
                         ClientName = "ЗАО 'ЭнергияСвета'",
                         Contact = "legal@energosvet.by",
                         Description = "Анализ контракта с подрядчиком."
@@ -244,7 +244,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.HRSupport,
+                        ServiceType = ServiceType.HRSupport,
                         ClientName = "Марина Лисовская",
                         Contact = "+375297775566",
                         Description = "Разъяснение по вопросам трудового законодательства."
@@ -253,7 +253,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Person],
-                        Service = ServiceType.None,
+                        ServiceType = ServiceType.None,
                         ClientName = "ООО 'ЛогистикПро'",
                         Contact = "law@logistikpro.by",
                         Description = "Нужен юрист для судебного разбирательства с контрагентом."
@@ -262,7 +262,7 @@ namespace Application.Core.Services
                     {
                         CreatedAt = DateTime.UtcNow,
                         ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
-                        Service = ServiceType.Legal,
+                        ServiceType = ServiceType.Legal,
                         ClientName = "Олег Смирнов",
                         Contact = "+375295556677",
                         Description = "Проверка нотариального соглашения."
