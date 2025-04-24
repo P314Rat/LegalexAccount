@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ViewModels;
+using Presentation.ViewModels.EditProfile;
 using System.Security.Claims;
 using Utilities.Types;
 
@@ -62,7 +63,7 @@ namespace Presentation.Controllers
 
                 return View(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -174,26 +175,26 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> EditProfile(EditProfileViewModel model)
-        {
-            ViewData["ShortProfile"] = _shortProfileModel;
+        //[Authorize]
+        //[HttpPost]
+        //public async Task<IActionResult> EditProfile(EditProfileViewModel model)
+        //{
+        //    ViewData["ShortProfile"] = _shortProfileModel;
 
-            if (!ModelState.IsValid)
-                return View("EditProfile", model);
+        //    if (!ModelState.IsValid)
+        //        return View("EditProfile", model);
 
-            try
-            {
-                await _mediator.Send(new EditProfileCommand(_mapper.Map<ProfileDTO>(model)));
-            }
-            catch
-            {
-                return View("EditProfile", model);
-            }
+        //    try
+        //    {
+        //        await _mediator.Send(new EditProfileCommand(_mapper.Map<ProfileDTO>(model)));
+        //    }
+        //    catch
+        //    {
+        //        return View("EditProfile", model);
+        //    }
 
-            return Redirect("EditProfile");
-        }
+        //    return Redirect("EditProfile");
+        //}
 
         private string? GetClientEmailIfApplicable()
         {

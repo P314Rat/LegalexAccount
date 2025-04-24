@@ -126,7 +126,7 @@ namespace Application.Core.Services
                     new Legal
                     {
                         Role = userRoles[Utilities.Types.UserRole.Client],
-                        ClientRole = clientRoles[Utilities.Types.ClientRole.Person],
+                        ClientRole = clientRoles[Utilities.Types.ClientRole.Legal],
                         Email = "company2@example.com",
                         FirstName = "ЗАО",
                         LastName = "СтройГарант",
@@ -216,7 +216,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
                         ServiceType = ServiceType.Finance,
                         ClientName = "ЧУП 'БизнесЭксперт'",
                         Contact = "consult@bizexp.by",
@@ -225,7 +225,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         ServiceType = ServiceType.None,
                         ClientName = "Дмитрий Шевцов",
                         Contact = "+375291223344",
@@ -234,7 +234,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
                         ServiceType = ServiceType.HR,
                         ClientName = "ЗАО 'ЭнергияСвета'",
                         Contact = "legal@energosvet.by",
@@ -252,7 +252,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
                         ServiceType = ServiceType.None,
                         ClientName = "ООО 'ЛогистикПро'",
                         Contact = "law@logistikpro.by",
@@ -261,7 +261,7 @@ namespace Application.Core.Services
                     new Order
                     {
                         CreatedAt = DateTime.UtcNow,
-                        ClientType = clientRoles[Utilities.Types.ClientRole.Legal],
+                        ClientType = clientRoles[Utilities.Types.ClientRole.Person],
                         ServiceType = ServiceType.Legal,
                         ClientName = "Олег Смирнов",
                         Contact = "+375295556677",

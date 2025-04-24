@@ -1,59 +1,58 @@
-﻿@{
+﻿@model EditProfileViewModel
+@{
     ViewData["Title"] = "Профиль";
 }
 
 
 <div class="edit-profile">
-    <form asp-controller="Home" asp-action="EditProfile" method="post">
-        <div class="tab-container">
-            <div id="general" class="tab" onclick="selectTab(this)">
-                <div class="rect active">Основная информация</div>
-                <div class="trian active"></div>
-            </div>
+    <div class="tab-container">
+        <div id="general" class="tab" onclick="selectTab(this)">
+            <div class="rect active">Основная информация</div>
+            <div class="trian active"></div>
+        </div>
 
-            @if (User.IsInRole(ClientRole.Legal.ToString()))
-            {
-                <div id="organization" class="tab" onclick="selectTab(this)">
-                    <div class="rect">Организация</div>
-                    <div class="trian"></div>
-                </div>
-                <div id="bank" class="tab" onclick="selectTab(this)">
-                    <div class="rect">Банковские реквизиты</div>
-                    <div class="trian"></div>
-                </div>
-            }
-
-            @if (User.IsInRole(ClientRole.Person.ToString()))
-            {
-                <div id="documents" class="tab" onclick="selectTab(this)">
-                    <div class="rect">Документы</div>
-                    <div class="trian"></div>
-                </div>
-            }
-
-            <div id="security" class="tab" onclick="selectTab(this)">
-                <div class="rect">Безопасность</div>
+        @if (User.IsInRole(ClientRole.Legal.ToString()))
+        {
+            <div id="organization" class="tab" onclick="selectTab(this)">
+                <div class="rect">Организация</div>
                 <div class="trian"></div>
             </div>
-        </div>
-        <div id="general" class="content" style="display: block;">
-            @await Html.PartialAsync("~/Views/EditProfile/_General.cshtml")
-        </div>
-        <div id="organization" class="content" style="display: none;">
-            @await Html.PartialAsync("~/Views/EditProfile/_Organization.cshtml")
-        </div>
-        <div id="bank" class="content" style="display: none;">
-            @await Html.PartialAsync("~/Views/EditProfile/_BankAccount.cshtml")
-        </div>
-        <div id="documents" class="content" style="display: none;">
-            @await Html.PartialAsync("~/Views/EditProfile/_Documents.cshtml")
-        </div>
-        <div id="security" class="content" style="display: none;">
-            @await Html.PartialAsync("~/Views/EditProfile/_Security.cshtml")
-        </div>
-    </form>
+            <div id="bank" class="tab" onclick="selectTab(this)">
+                <div class="rect">Банковские реквизиты</div>
+                <div class="trian"></div>
+            </div>
+        }
 
+        @if (User.IsInRole(ClientRole.Person.ToString()))
+        {
+            <div id="documents" class="tab" onclick="selectTab(this)">
+                <div class="rect">Документы</div>
+                <div class="trian"></div>
+            </div>
+        }
 
+        <div id="security" class="tab" onclick="selectTab(this)">
+            <div class="rect">Безопасность</div>
+            <div class="trian"></div>
+        </div>
+    </div>
+    <div class="content">
+        <div id="general" class="page" style="display: block;">
+            @await Html.PartialAsync("~/Views/EditProfile/_General.cshtml", Model.GeneralModel)
+        </div>
+        <div id="organization" class="page" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_Organization.cshtml", Model.OrganizationModel)
+        </div>
+        <div id="bank" class="page" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_BankAccount.cshtml", Model.BankAccountModel)
+        </div>
+        <div id="documents" class="page" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_Documents.cshtml", Model.DocumentsModel)
+        </div>
+        <div id="security" class="page" style="display: none;">
+            @await Html.PartialAsync("~/Views/EditProfile/_Security.cshtml", Model.SecurityModel)
+        </div>
+    </div>
 
     @* <form id="change-email" asp-controller="Home" asp-action="EditProfile" method="post" asp-antiforgery="true">
         <div class="sender-info">

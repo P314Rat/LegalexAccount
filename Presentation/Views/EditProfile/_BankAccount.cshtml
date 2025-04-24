@@ -1,1 +1,30 @@
-﻿<h2>Банковские реквизиты</h2>
+﻿@model BankAccountViewModel
+
+
+<form asp-controller="Profile" asp-action="UpdateBankAccount" method="post">
+    <div class="info-container">
+        <div class="sender-info">
+            <p>Расчётный счёт</p>
+            <input type="text" asp-for="BankAccountNumber" value="@Model.BankAccountNumber">
+        </div>
+
+        <div class="sender-info">
+            <p>Название банка</p>
+            <input type="text" asp-for="BankName" value="@Model.BankName">
+        </div>
+
+        <div class="sender-info">
+            <p>Адрес банка</p>
+            <input type="text" asp-for="BankAddress" value="@Model.BankAddress">
+        </div>
+
+        <div class="sender-info">
+            <p>БИК (банковский код)</p>
+            <input type="text" asp-for="BankIdenticationCode" value="@Model.BankIdenticationCode">
+        </div>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn btn-save">Сохранить</button>
+    </div>
+</form>

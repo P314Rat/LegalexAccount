@@ -1,1 +1,30 @@
-﻿<h2>Основная информация</h2>
+﻿@model GeneralViewModel
+
+
+<form asp-controller="Profile" asp-action="UpdateGeneral" method="post">
+    <div class="info-container">
+        <div class="sender-info">
+            <p>Имя</p>
+            <input type="text" asp-for=FirstName value=@Model.FirstName>
+        </div>
+
+        <div class="sender-info">
+            <p>Фамилия</p>
+            <input type="text" asp-for="LastName" value=@Model.LastName>
+        </div>
+
+        <div class="sender-info">
+            <p>Отчество</p>
+            <input type="text" asp-for="SurName" value=@Model.SurName>
+        </div>
+
+        <div class="sender-info">
+            <p>Телефонный номер</p>
+            <input type="tel" asp-for="PhoneNumber">
+        </div>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn btn-save">Сохранить</button>
+    </div>
+</form>

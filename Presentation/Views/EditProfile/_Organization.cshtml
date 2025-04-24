@@ -1,1 +1,40 @@
-﻿<h2>Организация</h2>
+﻿@model OrganizationViewModel
+
+
+<form asp-controller="Profile" asp-action="UpdateOrganization" method="post">
+    <div class="info-container">
+        <div class="sender-info">
+            <p>Наименование организации</p>
+            <input type="text" asp-for="OrganizationName" value="@Model.OrganizationName">
+        </div>
+
+        <div class="sender-info">
+            <p>Юридический адрес</p>
+            <input type="text" asp-for="LegalAddress" value="@Model.LegalAddress">
+        </div>
+
+        <div class="sender-info">
+            <p>Почтовый адрес</p>
+            <input type="text" asp-for="PostalAddress" value="@Model.PostalAddress">
+        </div>
+
+        <div class="sender-info">
+            <p>УНП / Идентификатор</p>
+            <input type="text" asp-for="LegalID" value="@Model.LegalID">
+        </div>
+
+        <div class="sender-info">
+            <p>Должность</p>
+            <input type="text" asp-for="PositionHeld" value="@Model.PositionHeld">
+        </div>
+
+        <div class="sender-info">
+            <p>Основание полномочий</p>
+            <input type="text" asp-for="Powers" value="@Model.Powers">
+        </div>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn btn-save">Сохранить</button>
+    </div>
+</form>

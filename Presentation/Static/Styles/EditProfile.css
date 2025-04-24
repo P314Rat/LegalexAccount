@@ -7,7 +7,6 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 .edit-profile .tab-container {
   display: flex;
@@ -52,6 +51,9 @@
 .edit-profile .tab-container .tab .trian.active {
   border-bottom-color: #4585c2;
   z-index: 100;
+}
+.edit-profile .content {
+  padding: 1rem 0;
 }
 .edit-profile .sender-info {
   display: flex;
@@ -99,7 +101,8 @@
   border-radius: 5px;
   margin-top: 0.5rem;
   padding: 1rem 2rem;
-  width: 50%;
+  max-width: 40rem;
+  overflow: auto;
 }
 .edit-profile .pass-container {
   display: flex;
@@ -109,44 +112,40 @@
 .edit-profile .text-disabled {
   color: #7e7e7e;
 }
-.edit-profile .button-container {
-  position: fixed;
-  width: 4rem;
-  height: 4rem;
-  bottom: 8rem;
-  right: 12rem;
+.edit-profile .actions {
+  margin-top: 2.5rem;
   display: flex;
   justify-content: space-between;
 }
-.edit-profile .button-container .back {
+.edit-profile .actions .create-case {
   padding: 0.5rem 2rem;
-  color: white;
-  background-color: rgba(23, 103, 179, 0.8);
   border-radius: 5px;
   text-decoration: none;
-  left: 2rem;
-  bottom: 2.5rem;
 }
-.edit-profile .button-container .back:hover {
+.edit-profile .actions .create-case:hover {
   background-color: rgba(23, 103, 179, 0.5);
 }
-.edit-profile .button-container .next-step {
-  position: absolute;
-  bottom: 3rem;
-  right: 2.5rem;
-  padding: 0.5rem 2rem;
-  color: white;
-  background-color: rgba(23, 103, 179, 0.8);
-  border-radius: 5px;
+.edit-profile .actions .btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
   text-decoration: none;
+  display: inline-block;
 }
-.edit-profile .button-container .next-step:disabled {
-  background-color: grey;
-  cursor: not-allowed;
+.edit-profile .actions .btn.btn-back {
+  background-color: rgba(23, 103, 179, 0.8);
+  color: white;
 }
-.edit-profile .button-container .next-step:disabled:hover {
-  background-color: grey;
+.edit-profile .actions .btn.btn-back:hover {
+  background-color: rgba(23, 103, 179, 0.5);
 }
-.edit-profile .button-container .next-step:hover {
+.edit-profile .actions .btn.btn-save {
+  background-color: rgba(23, 103, 179, 0.8);
+  color: white;
+}
+.edit-profile .actions .btn.btn-save:hover {
   background-color: rgba(23, 103, 179, 0.5);
 }

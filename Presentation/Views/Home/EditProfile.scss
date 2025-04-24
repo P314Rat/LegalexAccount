@@ -7,7 +7,6 @@
     overflow: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     .tab-container {
         display: flex;
@@ -58,6 +57,10 @@
                 z-index: 100;
             }
         }
+    }
+
+    .content {
+        padding: 1rem 0;
     }
 
     .sender-info {
@@ -111,7 +114,8 @@
         border-radius: 5px;
         margin-top: 0.5rem;
         padding: 1rem 2rem;
-        width: 50%;
+        max-width: 40rem;
+        overflow: auto;
     }
 
     .pass-container {
@@ -124,51 +128,47 @@
         color: #7e7e7e;
     }
 
-    .button-container {
-        position: fixed;
-        width: 4rem;
-        height: 4rem;
-        bottom: 8rem;
-        right: 12rem;
+    .actions {
+        margin-top: 2.5rem;
         display: flex;
         justify-content: space-between;
 
-        .back {
+        .create-case {
             padding: .5rem 2rem;
-            color: white;
-            background-color: rgba(23, 103, 179, 0.8);
             border-radius: 5px;
             text-decoration: none;
-            left: 2rem;
-            bottom: 2.5rem;
 
             &:hover {
                 background-color: rgba(23, 103, 179, 0.5);
             }
         }
 
-
-        .next-step {
-            position: absolute;
-            bottom: 3rem;
-            right: 2.5rem;
-            padding: .5rem 2rem;
-            color: white;
-            background-color: rgba(23, 103, 179, 0.8);
-            border-radius: 5px;
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
             text-decoration: none;
+            display: inline-block;
 
-            &:disabled {
-                background-color: grey;
-                cursor: not-allowed;
+            &.btn-back {
+                background-color: rgba(23, 103, 179, 0.8);
+                color: white;
 
                 &:hover {
-                    background-color: grey;
+                    background-color: rgba(23, 103, 179, 0.5);
                 }
             }
 
-            &:hover {
-                background-color: rgba(23, 103, 179, 0.5);
+            &.btn-save {
+                background-color: rgba(23, 103, 179, 0.8);
+                color: white;
+
+                &:hover {
+                    background-color: rgba(23, 103, 179, 0.5);
+                }
             }
         }
     }

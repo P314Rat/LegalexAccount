@@ -42,7 +42,7 @@ var pages = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     tabs = Array.from(document.getElementsByClassName("tab"));
-    pages = Array.from(document.getElementsByClassName("content"));
+    pages = Array.from(document.getElementsByClassName("page"));
 });
 
 function selectTab(tab) {

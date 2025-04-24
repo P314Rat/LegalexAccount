@@ -1,1 +1,29 @@
-﻿<h2>Безопасность</h2>
+﻿@model SecurityViewModel
+
+<form asp-controller="Profile" asp-action="UpdateSecurity" method="post">
+    <div class="info-container">
+        <div class="sender-info">
+            <p>Email</p>
+            <input type="email" asp-for="Email" value="@Model.Email">
+        </div>
+
+        <div class="sender-info">
+            <p>Старый пароль</p>
+            <input type="password" asp-for="OldPassword">
+        </div>
+
+        <div class="sender-info">
+            <p>Новый пароль</p>
+            <input type="password" asp-for="NewPassword">
+        </div>
+
+        <div class="sender-info">
+            <p>Подтверждение пароля</p>
+            <input type="password" asp-for="ConfirmPassword">
+        </div>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn btn-save">Сохранить</button>
+    </div>
+</form>
