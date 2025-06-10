@@ -4,12 +4,12 @@ using MediatR;
 
 namespace Application.Core.BusinessLogic.AccountProcess.EditProfile
 {
-    public class EditProfileCommand : IRequest
+    public class EditGeneralCommand : IRequest
     {
         public ProfileDTO Profile { get; set; }
 
 
-        public EditProfileCommand(ProfileDTO profile)
+        public EditGeneralCommand(ProfileDTO profile)
         {
             Profile = profile;
         }

@@ -9,9 +9,15 @@ namespace Application.Core.Mappings
     {
         public ProfileMappingProfile()
         {
-            CreateMap<ProfileDTO, Specialist>();
-            CreateMap<ProfileDTO, Legal>();
-            CreateMap<ProfileDTO, Person>();
+            CreateMap<ProfileDTO, Specialist>()
+                .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ProfileDTO, Legal>()
+                .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ProfileDTO, Person>()
+                .ForAllMembers(opt => opt
+                .Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<Specialist, ProfileDTO>()
                 .ForMember(dst => dst.Role, opt => opt.MapFrom(src => Enum.Parse(typeof(Utilities.Types.UserRole), src.Role.Name)))

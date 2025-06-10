@@ -39,14 +39,16 @@ namespace Presentation.Mappings
                 .ForMember(dest => dest.OrganizationModel, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.BankAccountModel, opt => opt.MapFrom(src => src))
                 .ForMember(dest => dest.DocumentsModel, opt => opt.MapFrom(src => src))
-                .ForMember(dest => dest.SecurityModel, opt => opt.MapFrom(src => src));
+                .ForMember(dest => dest.SecurityModel, opt => opt.MapFrom(src => src))
+                .ReverseMap();
 
             // Маппинг для каждого ViewModel из DTO
             CreateMap<ProfileDTO, GeneralViewModel>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.SurName, opt => opt.MapFrom(src => src.SurName))
-                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber));
+                .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+                .ReverseMap();
 
             CreateMap<ProfileDTO, OrganizationViewModel>()
                 .ForMember(dest => dest.OrganizationName, opt => opt.MapFrom(src => src.OrganizationName))
@@ -54,13 +56,15 @@ namespace Presentation.Mappings
                 .ForMember(dest => dest.PostalAddress, opt => opt.MapFrom(src => src.PostalAddress))
                 .ForMember(dest => dest.LegalID, opt => opt.MapFrom(src => src.LegalID))
                 .ForMember(dest => dest.PositionHeld, opt => opt.MapFrom(src => src.PositionHeld))
-                .ForMember(dest => dest.Powers, opt => opt.MapFrom(src => src.Powers));
+                .ForMember(dest => dest.Powers, opt => opt.MapFrom(src => src.Powers))
+                .ReverseMap();
 
             CreateMap<ProfileDTO, BankAccountViewModel>()
                 .ForMember(dest => dest.BankAccountNumber, opt => opt.MapFrom(src => src.BankAccountNumber))
                 .ForMember(dest => dest.BankName, opt => opt.MapFrom(src => src.BankName))
                 .ForMember(dest => dest.BankAddress, opt => opt.MapFrom(src => src.BankAddress))
-                .ForMember(dest => dest.BankIdenticationCode, opt => opt.MapFrom(src => src.BankIdenticationCode));
+                .ForMember(dest => dest.BankIdenticationCode, opt => opt.MapFrom(src => src.BankIdenticationCode))
+                .ReverseMap();
 
             CreateMap<ProfileDTO, DocumentsViewModel>()
                 .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
@@ -69,10 +73,12 @@ namespace Presentation.Mappings
                 .ForMember(dest => dest.IssueDate, opt => opt.MapFrom(src => src.IssueDate))
                 .ForMember(dest => dest.TaxIdentificationNumber, opt => opt.MapFrom(src => src.TaxIdentificationNumber))
                 .ForMember(dest => dest.RegistrationAddress, opt => opt.MapFrom(src => src.RegistrationAddress))
-                .ForMember(dest => dest.ResidentialAddress, opt => opt.MapFrom(src => src.ResidentialAddress));
+                .ForMember(dest => dest.ResidentialAddress, opt => opt.MapFrom(src => src.ResidentialAddress))
+                .ReverseMap();
 
             CreateMap<ProfileDTO, SecurityViewModel>()
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ReverseMap();
         }
     }
 }

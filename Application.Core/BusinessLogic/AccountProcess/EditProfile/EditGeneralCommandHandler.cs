@@ -1,26 +1,27 @@
 ﻿using AutoMapper;
 using Domain.Core.UserAggregate;
 using Infrastructure.Contracts;
+using Infrastructure.Specifications.UserAggregate;
 using MediatR;
 
 
 namespace Application.Core.BusinessLogic.AccountProcess.EditProfile
 {
-    public class EditProfileCommandHandler : IRequestHandler<EditProfileCommand>
+    public class EditGeneralCommandHandler : IRequestHandler<EditGeneralCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
 
-        public EditProfileCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public EditGeneralCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task Handle(EditProfileCommand command, CancellationToken cancellationToken)
+        public async Task Handle(EditGeneralCommand command, CancellationToken cancellationToken)
         {
-            //_mapper.Map(profile, command.Profile);
+            //var profile = command.Profile;
 
             //User result = profile switch
             //{
@@ -30,7 +31,7 @@ namespace Application.Core.BusinessLogic.AccountProcess.EditProfile
             //    _ => throw new InvalidCastException()
             //};
 
-            //await _unitOfWork.Users.UpdateAsync(result);
+            //await _unitOfWork.Repository<User, Guid>().UpdateAsync(user, new UserByEmailSpecification(profile.Email));
 
             throw new NotImplementedException();
         }

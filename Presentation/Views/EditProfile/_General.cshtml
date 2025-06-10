@@ -4,6 +4,11 @@
 <form asp-controller="Profile" asp-action="UpdateGeneral" method="post">
     <div class="info-container">
         <div class="sender-info">
+            <p>Email</p>
+            <span>@Model.Email</span>
+        </div>
+
+        <div class="sender-info">
             <p>Имя</p>
             <input type="text" asp-for=FirstName value=@Model.FirstName>
         </div>

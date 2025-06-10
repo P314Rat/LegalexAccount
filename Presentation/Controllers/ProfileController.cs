@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using Application.Core.BusinessLogic.AccountProcess.EditProfile;
+using Application.Core.DTO;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.ViewModels.EditProfile;
@@ -9,13 +12,21 @@ namespace Presentation.Controllers
     [Authorize]
     public class ProfileController : BaseController
     {
-        public ProfileController(IMediator mediator, IHttpContextAccessor httpContextAccessor) : base(mediator, httpContextAccessor)
+        private readonly IMapper _mapper;
+
+
+        public ProfileController(IMediator mediator, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(mediator, httpContextAccessor)
         {
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public IActionResult UpdateGeneral(GeneralViewModel model)
+        public async Task<IActionResult> UpdateGeneral(GeneralViewModel model)
         {
+            model.Email = User.Identity.Name;
+            var profile = _mapper.Map<ProfileDTO>(model);
+            await _mediator.Send(new EditGeneralCommand(profile));
+
             return Ok();
         }
 
