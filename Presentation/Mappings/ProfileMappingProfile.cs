@@ -25,7 +25,7 @@ namespace Presentation.Mappings
                 .ReverseMap();
             CreateMap<ProfileDTO, SpecialistViewModel>()
                 .ForMember(dst => dst.Role,
-                    opt => opt.MapFrom(src => src.Role))
+                    opt => opt.MapFrom(src => src.SpecialistRole))
                 .ForMember(dst => dst.Employee,
                         opt => opt
                         .MapFrom(src => $"{src.FirstName} {src.LastName}")

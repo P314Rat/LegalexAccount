@@ -27,9 +27,6 @@ namespace Application.Core.BusinessLogic.AccountProcess.GetSpecialists
             var specialists = (await _unitOfWork.Repository<Specialist, Guid>()
                 .GetAsync(new SpecialistSpecification(request.Skip, request.Take)))
                 .Select(_mapper.Map<ProfileDTO>);
-
-            var testList = specialists.ToList();
-
             var result = PagedResult<ProfileDTO>.Create(specialists, totalSpecialistsCount, request.Take, request.Skip / request.Take + 1);
 
             return result;
