@@ -38,5 +38,9 @@
   {
     "outputFile": "Static/Styles/OrderCard.css",
     "inputFile": "Views/Order/OrderCard.scss"
+  },
+  {
+    "outputFile": "Static/Styles/Tasks.css",
+    "inputFile": "Views/Home/Tasks.scss"
   }
 ]

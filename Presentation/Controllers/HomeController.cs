@@ -158,6 +158,14 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
+        public IActionResult Tasks()
+        {
+            ViewData["ShortProfile"] = _shortProfileModel;
+
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> EditProfile()
         {
             ViewData["ShortProfile"] = _shortProfileModel;
